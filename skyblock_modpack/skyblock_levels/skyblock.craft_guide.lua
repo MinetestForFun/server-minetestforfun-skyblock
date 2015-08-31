@@ -11,6 +11,7 @@ skyblock.craft_guide = {}
 local group_placeholder = {}
 group_placeholder['group:wood'] = 'default:wood'
 group_placeholder['group:tree'] = 'default:tree'
+group_placeholder['group:flora'] = 'flowers:tulip'
 group_placeholder['group:stick'] = 'default:stick'
 group_placeholder['group:stone'] = 'default:cobble' -- 'default:stone'  point people to the cheaper cobble
 group_placeholder['group:sand'] = 'default:sand'
