@@ -1,2 +1,5 @@
 # server-minetestforfun-skyblock
-create readme
+
+#### useful links
+
+https://github.com/cornernote/minetest-skyblock
