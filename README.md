@@ -1,4 +1,4 @@
-# Skyblock for Minetest
+# Skyblock version of MinetestForFun team
 
 [![home](https://img.shields.io/badge/skyblock-home-blue.svg?style=flat-square)](https://cornernote.github.io/minetest-skyblock/)
 [![chat](https://img.shields.io/badge/gitter-join%20chat-blue.svg?style=flat-square)](https://gitter.im/cornernote/minetest-skyblock)
