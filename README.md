@@ -1,4 +1,5 @@
-#### Skyblock server version of MinetestForFun Team
+Skyblock server version of MinetestForFun Team
+===================
 
 [![home](https://img.shields.io/badge/skyblock-home-blue.svg?style=flat-square)](https://cornernote.github.io/minetest-skyblock/)
 [![chat](https://img.shields.io/badge/gitter-join%20chat-blue.svg?style=flat-square)](https://gitter.im/cornernote/minetest-skyblock)
