@@ -202,7 +202,7 @@ local function on_place(v, is_craftitem)
 		end
 	end
 end
-for _,v in ipairs({'doors:door_wood','doors:door_glass','doors:door_steel','doors:door_obsidian_glass'}) do
+for _,v in ipairs({'doors:door_wood','doors:door_glass','doors:door_steel','doors:door_obsidian_glass','default:sign_wall'}) do
 	on_place(v,1);
 end
 for _,v in ipairs({'default:cactus', 'farming:seed_wheat', 'farming:seed_cotton'}) do
@@ -277,12 +277,12 @@ local function bucket_water_on_use(itemstack, user, pointed_thing)
 		-- begin anti-grief change
 		local player_name = user:get_player_name()
 		local spawn = skyblock.get_spawn(player_name)
-		local range = skyblock.start_gap/3 -- how far from spawn you can use water
+		local range = tonumber(minetest.setting_get("bucket_use_range")) or false -- how far from spawn you can use water
 		local pos = pointed_thing.under
-		if spawn==nil 
+		if range and (spawn==nil
 			or (pos.x-spawn.x > range or pos.x-spawn.x < range*-1) 
-			or (pos.y-spawn.y > range/2 or pos.y-spawn.y < range*-1/2) 
-			or (pos.z-spawn.z > range or pos.z-spawn.z < range*-1) then
+			-- or (pos.y-spawn.y > range/2 or pos.y-spawn.y < range*-1/2) 
+			or (pos.z-spawn.z > range or pos.z-spawn.z < range*-1)) then
 			minetest.chat_send_player(player_name, 'Cannot use bucket so far from your home.')
 			return
 		end
@@ -319,9 +319,11 @@ local function bucket_lava_on_use(itemstack, user, pointed_thing)
 		-- begin anti-grief change
 		local player_name = user:get_player_name()
 		local spawn = skyblock.get_spawn(player_name)
-		local range = skyblock.start_gap/3 -- how far from spawn you can use lava
+		local range = tonumber(minetest.setting_get("bucket_use_range")) or false -- how far from spawn you can use lava
 		local pos = pointed_thing.under
-		if spawn==nil or (pos.x-spawn.x > range or pos.x-spawn.x < range*-1) or (pos.z-spawn.z > range or pos.z-spawn.z < range*-1) then
+		if range and (spawn==nil
+			or (pos.x-spawn.x > range or pos.x-spawn.x < range*-1)
+			or (pos.z-spawn.z > range or pos.z-spawn.z < range*-1)) then
 			--if (pos.y-spawn.y > range/2 or pos.y-spawn.y < range*-1/2) then
 				minetest.chat_send_player(player_name, 'Cannot use bucket so far from your home.')
 				return
