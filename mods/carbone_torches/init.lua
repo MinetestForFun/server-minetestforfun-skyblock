@@ -32,6 +32,6 @@ minetest.register_node(":default:torch", {
 		wall_bottom = {-0.25, -0.5   , -0.25, 0.25, 0.0625, 0.25},
 		wall_side   = {-0.25, -0.5  , -0.25, -0.5, 0.0625, 0.25},
 	},
-	groups = {unbreakable=1, flammable = 1, attached_node = 1, hot = 2},
+	groups = {flammable = 1, attached_node = 1, hot = 2, choppy = 2, dig_immediate = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
