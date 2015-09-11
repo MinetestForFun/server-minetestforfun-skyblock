@@ -18,7 +18,7 @@ minetest.register_chatcommand('level', {
 	privs = {level = true},
 	params = "<player_name> <level>",
 	func = function(name, param)
-		local found, _, player_name, level = param:find("^([^%s]+)%s+(.+)$")
+		local found, _, player_name, level = param:find("^([^%s]+)$")
 		if not player_name then
 			player_name = name
 		end
