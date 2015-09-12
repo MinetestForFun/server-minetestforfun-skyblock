@@ -47,6 +47,8 @@ end)
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	-- restart
 	if formname=='skyblock_restart' and fields.restart then
+		skyblock.feats.reset(player:get_player_name())
+		minetest.chat_send_player(player:get_player_name(), "Your feats have been reset")
 		player:set_hp(0)
 	end
 end)
