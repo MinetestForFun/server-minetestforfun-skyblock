@@ -276,7 +276,7 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
+--[[minetest.register_craft({
 	output = 'default:sword_wood',
 	recipe = {
 		{'group:wood'},
@@ -328,7 +328,7 @@ minetest.register_craft({
 		{'default:diamond'},
 		{'group:stick'},
 	}
-})
+})]]
 
 minetest.register_craft({
 	output = 'default:rail 24',

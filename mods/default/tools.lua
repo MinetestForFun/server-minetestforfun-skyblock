@@ -256,7 +256,7 @@ minetest.register_tool("default:axe_diamond", {
 
 --
 -- Swords
---
+--[[
 
 minetest.register_tool("default:sword_wood", {
 	description = "Wooden Sword",
@@ -329,4 +329,4 @@ minetest.register_tool("default:sword_diamond", {
 		},
 		damage_groups = {fleshy=8},
 	}
-})
+})]]
