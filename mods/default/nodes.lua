@@ -352,6 +352,7 @@ minetest.register_node("default:clay", {
 	tiles = {"default_clay.png"},
 	groups = {crumbly = 3},
 	drop = 'default:clay_lump 4',
+	stack_max = 200, --/MFF(17/09/2015)
 	sounds = default.node_sound_dirt_defaults(),
 })
 
