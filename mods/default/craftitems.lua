@@ -91,6 +91,7 @@ minetest.register_craftitem("default:coal_lump", {
 	description = "Coal Lump",
 	inventory_image = "default_coal_lump.png",
 	groups = {coal = 1}
+	stack_max = 99,
 })
 
 minetest.register_craftitem("default:iron_lump", {
