@@ -1,0 +1,3 @@
+[submodule "mods/mff_hud"]
+	path = mods/mff_hud
+	url = https://github.com/MinetestForFun/mff_hud.git
