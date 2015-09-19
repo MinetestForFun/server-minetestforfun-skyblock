@@ -248,8 +248,12 @@ local function bucket_on_use(itemstack, user, pointed_thing)
 	if pointed_thing.type ~= 'node' then
 		return
 	end
+	-- Check if protected
+	if minetest.is_protected(pointed_thing.under, user:get_player_name()) then
+		return
+	end
 	-- Check if pointing to a liquid source
-	local n = minetest.env:get_node(pointed_thing.under)
+	local n = minetest.get_node(pointed_thing.under)
 	local liquid = bucket.liquids[n.name]
 	if liquid ~= nil and liquid.source == n.name and liquid.itemname ~= nil then
 		
@@ -270,6 +274,10 @@ minetest.override_item('bucket:bucket_empty', {
 local function bucket_water_on_use(itemstack, user, pointed_thing)
 	-- Must be pointing to node
 	if pointed_thing.type ~= 'node' then
+		return
+	end
+	-- Check if protected
+	if minetest.is_protected(pointed_thing.under, user:get_player_name()) then
 		return
 	end
 	-- Check if pointing to a liquid
@@ -312,6 +320,10 @@ minetest.override_item('bucket:bucket_water', {
 local function bucket_lava_on_use(itemstack, user, pointed_thing)
 	-- Must be pointing to node
 	if pointed_thing.type ~= 'node' then
+		return
+	end
+	-- Check if protected
+	if minetest.is_protected(pointed_thing.under, user:get_player_name()) then
 		return
 	end
 	-- Check if pointing to a liquid
