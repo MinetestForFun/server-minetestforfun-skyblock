@@ -103,7 +103,7 @@ end
 minetest.register_abm({
 	nodenames = {"default:lava_flowing"},
 	neighbors = {"group:water"},
-	interval = 1,
+	interval = 10,
 	chance = 2,
 	action = function(...)
 		default.cool_lava_flowing(...)
@@ -113,7 +113,7 @@ minetest.register_abm({
 minetest.register_abm({
 	nodenames = {"default:lava_source"},
 	neighbors = {"group:water"},
-	interval = 1,
+	interval = 10,
 	chance = 2,
 	action = function(...)
 		default.cool_lava_source(...)

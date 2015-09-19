@@ -281,7 +281,7 @@ local function bucket_water_on_use(itemstack, user, pointed_thing)
 		return
 	end
 	-- Check if pointing to a liquid
-	local n = minetest.env:get_node(pointed_thing.under)
+	local n = minetest.get_node(pointed_thing.under)
 	if bucket.liquids[n.name] == nil then
 		-- Not a liquid
 
@@ -327,7 +327,7 @@ local function bucket_lava_on_use(itemstack, user, pointed_thing)
 		return
 	end
 	-- Check if pointing to a liquid
-	local n = minetest.env:get_node(pointed_thing.under)
+	local n = minetest.get_node(pointed_thing.under)
 	if bucket.liquids[n.name] == nil then
 		-- Not a liquid
 
