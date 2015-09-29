@@ -20,7 +20,7 @@ group_placeholder['group:wood_slab'] = 'stairs:slab_wood'
 group_placeholder['group:wool'] = 'wool:white'
 
 -- handle the standard dye color groups
-if( dyelocal and dyelocal.dyes ) then
+if( rawget(_G, "dyelocal") and dyelocal.dyes ) then
 	for i,d in ipairs( dyelocal.dyes ) do
 		for k,v in pairs(d[3]) do
 			if( k ~= 'dye' ) then
