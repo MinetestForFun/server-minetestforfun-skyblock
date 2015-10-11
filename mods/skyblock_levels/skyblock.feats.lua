@@ -384,7 +384,7 @@ for _, material in pairs({"wood", "stone", "steel", "bronze", "mese", "diamond"}
 	local old_use = minetest.registered_items["farming:hoe_" .. material].on_use
 	minetest.override_item("farming:hoe_" .. material, {
 		on_use = function(itemstack, user, pointed_thing)
-			if not minetest.is_protected(pointed_thing.above, user:get_player_name()) then
+			if pointed_thing.above and not minetest.is_protected(pointed_thing.above, user:get_player_name()) then
 				old_use(itemstack, user, pointed_thing)
 			end
 		end
