@@ -19,5 +19,5 @@ minetest.register_on_joinplayer(function(player)
 		minetest.chat_send_player(player:get_player_name(), "You have lost FLY and FAST")
 	end
 
-	minetest.set_player_privs(player:get_player_name(), n)
+	minetest.set_player_privs(player:get_player_name(), u)
 end)
