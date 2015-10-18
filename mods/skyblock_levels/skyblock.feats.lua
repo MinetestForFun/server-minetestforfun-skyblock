@@ -115,7 +115,7 @@ function skyblock.feats.add(level,player_name,feat)
 		if rewarded then
 			minetest.chat_send_all(player_name..' completed the quest "'..feat..'" on level '..level)
 			irc:say(player_name .. ' completed the quest "' .. feat .. '" on level ' .. level)
-			for _, ref in pairs({minetest.get_connected_players()}) do
+			for _, ref in pairs(minetest.get_connected_players()) do
 				if not ref:get_player_name() == player_name then
 					minetest.sound_play("skyblock_finish_other", {
 						to_player = ref:get_player_name(),
