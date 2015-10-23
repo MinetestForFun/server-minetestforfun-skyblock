@@ -33,7 +33,7 @@ minetest.register_node("craft_guide:sign_wall", {
 	allow_metadata_inventory_take = craft_guide.allow_metadata_inventory_take,
 })
 
--- craft pc
+--[[ craft pc
 minetest.register_node("craft_guide:lcd_pc", {
 	description = "Craft PC",
 	drawtype = "nodebox",
@@ -71,7 +71,7 @@ minetest.register_node("craft_guide:lcd_pc", {
 	allow_metadata_inventory_move = craft_guide.allow_metadata_inventory_move,
 	allow_metadata_inventory_put = craft_guide.allow_metadata_inventory_put,
 	allow_metadata_inventory_take = craft_guide.allow_metadata_inventory_take,
-})
+})]]--
 
 -- craft sign
 minetest.register_node("craft_guide:sign_wall_locked", {
@@ -95,7 +95,7 @@ minetest.register_node("craft_guide:sign_wall_locked", {
 	allow_metadata_inventory_take = craft_guide.allow_metadata_inventory_take,
 })
 
--- craft pc
+--[[ craft pc
 minetest.register_node("craft_guide:lcd_pc_locked", {
 	description = "Craft PC (locked)",
 	drawtype = "nodebox",
@@ -133,4 +133,4 @@ minetest.register_node("craft_guide:lcd_pc_locked", {
 	allow_metadata_inventory_move = craft_guide.allow_metadata_inventory_move,
 	allow_metadata_inventory_put = craft_guide.allow_metadata_inventory_put,
 	allow_metadata_inventory_take = craft_guide.allow_metadata_inventory_take,
-})
+})]]

@@ -15,14 +15,14 @@ REGISTER CRAFTS
 minetest.register_craft({
 	output = 'craft_guide:sign_wall',
 	recipe = {
-		{'group:stick', 'group:stick'},
-		{'group:stick', 'group:stick'},
-		{'group:stick', ''},
+		{'group:stick', 'group:stick', 'group:stick'},
+		{'group:stick', 'default:book', 'group:stick'},
+		{'', 'default:fence_wood', ''},
 	}
 })
 
 
--- craft pc
+--[[ craft pc
 minetest.register_craft({
 	output = 'craft_guide:lcd_pc',
 	recipe = {
@@ -30,7 +30,7 @@ minetest.register_craft({
 		{'default:glass'},
 		{'stairs:slab_stone'},
 	}
-})
+})]]
 
 -- craft sign
 minetest.register_craft({
@@ -43,7 +43,7 @@ minetest.register_craft({
 })
 
 
--- craft pc
+--[[ craft pc
 minetest.register_craft({
 	type = 'shapeless',
 	output = 'craft_guide:lcd_pc_locked',
@@ -61,4 +61,4 @@ minetest.register_craft({
 		{'stairs:slab_stone'},
 	}
 })
-
+]]
