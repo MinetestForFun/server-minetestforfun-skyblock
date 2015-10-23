@@ -190,7 +190,8 @@ minetest.register_craft({
 	output = 'default:ice',
 	recipe = {
 		{'bucket:bucket_water'},
-	}
+	},
+	replacements = {{"bucket:bucket_water", "bucket:bucket_empty"}}
 })
 
 -- ice from snowblock
