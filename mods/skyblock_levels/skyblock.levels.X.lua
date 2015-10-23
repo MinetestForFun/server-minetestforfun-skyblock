@@ -14,26 +14,22 @@ License: GPLv3
 not a real level, just ideas and leftover code
 	
 feats:
-* place_cactus
-* place_papyrus
-* dig_flower
-* place_bookshelf
-* collect_water
-* place_water_infinite
-* place_sand
-* place_desert_sand
-* place_stone
-* place_cobble
-* place_mossycobble
-* place_steelblock
-* dig_stone_with_copper
-* dig_stone
-* place_glass
+* place_copperblock	x4	default:cactus
+* dig_cactus		x20	default:papyrus
+* dig_papyrus		x40
+* dig_flower		x50
+* place_obsidian	x5	default:snow 9
+* collect_river_water
+* place_snow
+* place_rails			default:diamond 1
+* place_locked_chest	x2	default:axe_bronze
+* place_protectors	x4	protector_door_wood
+* place_straw		x10	
+* place_stonebrick	x40	farming:seed_wheat
+* place_yellowwool	x10
+* dig_stone_with_diamond	<lava source placed>
+* place_lavasource
 
-rewards:
-* default:lava_source
-* default:desert_stone 50
-* default:brick 50
 
 
 	{
