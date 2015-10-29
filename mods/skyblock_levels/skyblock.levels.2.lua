@@ -164,7 +164,7 @@ skyblock.levels[level].reward_feat = function(player_name, feat)
 		local pos = skyblock.get_spawn(player_name)
 		local y_up = 1
 		while 1 == 1 do
-			node = minetest.get_node({x=pos.x, y=pos.y+y_up, z=pos.z}).name
+			local node = minetest.get_node({x=pos.x, y=pos.y+y_up, z=pos.z}).name
 			if node ~= "air" then
 				if node ~= "ignore" then
 					break
@@ -173,8 +173,10 @@ skyblock.levels[level].reward_feat = function(player_name, feat)
 					pos = minetest.get_player_by_name(player_name):getpos()
 					y_up = -1 -- Will get back to 0
 				end
+				y_up = y_up + 1
+			else
+				break
 			end
-			y_up = y_up + 1
 		end
 		minetest.set_node({x=pos.x,y=pos.y+y_up,z=pos.z}, {name='default:water_source'})
 		return true
