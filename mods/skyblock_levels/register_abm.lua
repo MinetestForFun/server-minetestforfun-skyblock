@@ -28,25 +28,33 @@ minetest.register_abm({
 		end
 
 		if minetest.env:get_node(pos).name == 'air' then
-			local rand = math.random(1,8);
-			local node
-			if rand==1 then
-				node = 'default:junglegrass'
-			elseif rand==2 then
-				node = 'default:grass_1'
-			elseif rand==3 then
-				node = 'flowers:dandelion_white'
-			elseif rand==4 then
-				node = 'flowers:dandelion_yellow'
-			elseif rand==5 then
-				node = 'flowers:geranium'
-			elseif rand==6 then
-				node = 'flowers:rose'
-			elseif rand==7 then
-				node = 'flowers:tulip'
-			elseif rand==8 then
-				node = 'flowers:viola'
-			end
+			-- MFF Edit | gravgun | 2015-Nov-01
+			local nodes = {
+				'default:junglegrass',
+				'default:grass_1',
+				'flowers:dandelion_white',
+				'flowers:dandelion_yellow',
+				'flowers:geranium',
+				'flowers:rose',
+				'flowers:tulip',
+				'flowers:viola',
+				-- MFF Add: Support farming redo's plants that don't grow otherwise
+				'farming:tomato_7',
+				'farming:rhubarb_3',
+				'farming:raspberry_4',
+				'farming:pumpkin_8',
+				'farming:potato_3',
+				'farming:melon_8',
+				'farming:grapebush',
+				'farming:cucumber_4',
+				'farming:corn_7',
+				'farming:coffee_5',
+				'farming:carrot_7',
+				'farming:blueberry_4',
+				'farming:beanbush'
+				
+			}
+			local node = nodes[math.random(1,#nodes+1)]
 			minetest.env:set_node(pos, {name=node})
 		end
 	end
