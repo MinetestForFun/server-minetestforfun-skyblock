@@ -72,12 +72,58 @@ minetest.override_item('default:sapling', {
 		-- check if we have space to make a tree
 		for dy=1,4 do
 			pos.y = pos.y+dy
-			if minetest.env:get_node(pos).name ~= 'air' and minetest.env:get_node(pos).name ~= 'default:leaves' then
+			if minetest.env:get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
 				return
 			end
 			pos.y = pos.y-dy
 		end
 		-- add the tree
 		default.grow_tree(pos, math.random(1, 4) == 1)
-	end,
+	end
+})
+
+minetest.override_item('default:junglesapling', {
+	after_place_node = function(pos)
+		-- check if node under belongs to the soil group
+		pos.y = pos.y - 1
+		local node_under = minetest.get_node(pos)
+		pos.y = pos.y + 1
+		if minetest.get_item_group(node_under.name, "soil") == 0 then
+			return
+		end
+
+		-- check if we have space to make a tree
+		for dy=1,8 do
+			pos.y = pos.y+dy
+			if minetest.env:get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+				return
+			end
+			pos.y = pos.y-dy
+		end
+		-- add the tree
+		default.grow_jungle_tree(pos)
+	end
+})
+
+minetest.override_item('default:pine_sapling', {
+	after_place_node = function(pos)
+		-- check if node under belongs to the soil group
+		pos.y = pos.y - 1
+		local node_under = minetest.get_node(pos)
+		pos.y = pos.y + 1
+		if minetest.get_item_group(node_under.name, "soil") == 0 then
+			return
+		end
+
+		-- check if we have space to make a tree
+		for dy=1,9 do
+			pos.y = pos.y+dy
+			if minetest.env:get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+				return
+			end
+			pos.y = pos.y-dy
+		end
+		-- add the tree
+		default.grow_pine_tree(pos)
+	end
 })
