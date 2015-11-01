@@ -4,3 +4,6 @@
 [submodule "mods/irc_modpack"]
 	path = mods/irc_modpack
 	url = https://github.com/MinetestForFun/irc_modpack.git
+[submodule "mods/farming"]
+	path = mods/farming
+	url = https://github.com/tenplus1/farming.git
