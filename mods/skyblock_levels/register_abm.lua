@@ -54,7 +54,7 @@ minetest.register_abm({
 				'farming:beanbush'
 				
 			}
-			local node = nodes[math.random(1,#nodes+1)]
+			local node = nodes[math.random(1,#nodes)]
 			minetest.env:set_node(pos, {name=node})
 		end
 	end
