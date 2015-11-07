@@ -13,9 +13,6 @@ default.gui_bg = "bgcolor[#080808BB;true]"
 default.gui_bg_img = "background[5,5;1,1;gui_formbg.png;true]"
 default.gui_slots = "listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF]"
 
-minetest.register_on_joinplayer(function(player)
-	player:hud_set_hotbar_itemcount(16)
-end)
 
 function default.get_hotbar_bg(x,y)
 	local out = ""
