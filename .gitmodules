@@ -7,3 +7,6 @@
 [submodule "mods/farming"]
 	path = mods/farming
 	url = https://github.com/tenplus1/farming.git
+[submodule "mods/travelpoints"]
+	path = mods/travelpoints
+	url = https://github.com/RacsoRhodes/travelpoints.git
