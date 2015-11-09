@@ -9,7 +9,7 @@ Skyblock server version of MinetestForFun Team
 [![license](https://img.shields.io/badge/license-GPL3-brightgreen.svg?style=flat-square)](https://github.com/cornernote/minetest-skyblock/blob/master/LICENSE.md)
 
 
-![SkyBlock](https://cloud.githubusercontent.com/assets/51875/9219481/4c7248b6-411a-11e5-81f1-5e4726a1fa99.png)
+![SkyBlock](http://i.imgur.com/BJ68ysS.png)
 
 
 ## Description
