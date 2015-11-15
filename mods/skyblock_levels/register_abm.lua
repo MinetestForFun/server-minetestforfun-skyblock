@@ -8,6 +8,20 @@ License: GPLv3
 
 ]]--
 
+skyblock.flora = {
+	'default:junglegrass',
+	'default:grass_1',
+	'flowers:dandelion_white',
+	'flowers:dandelion_yellow',
+	'flowers:geranium',
+	'flowers:rose',
+	'flowers:tulip',
+	'flowers:viola'
+}
+
+function skyblock.register_flora(node)
+	table.insert(skyblock.flora, node)
+end
 
 -- flora spawns on dirt_with_grass
 minetest.register_abm({
@@ -28,33 +42,7 @@ minetest.register_abm({
 		end
 
 		if minetest.env:get_node(pos).name == 'air' then
-			-- MFF Edit | gravgun | 2015-Nov-01
-			local nodes = {
-				'default:junglegrass',
-				'default:grass_1',
-				'flowers:dandelion_white',
-				'flowers:dandelion_yellow',
-				'flowers:geranium',
-				'flowers:rose',
-				'flowers:tulip',
-				'flowers:viola',
-				-- MFF Add: Support farming redo's plants that don't grow otherwise
-				'farming:tomato_7',
-				'farming:rhubarb_3',
-				'farming:raspberry_4',
-				'farming:pumpkin_8',
-				'farming:potato_3',
-				'farming:melon_8',
-				'farming:grapebush',
-				'farming:cucumber_4',
-				'farming:corn_7',
-				'farming:coffee_5',
-				'farming:carrot_7',
-				'farming:blueberry_4',
-				'farming:beanbush'
-				
-			}
-			local node = nodes[math.random(1,#nodes)]
+			local node = skyblock.flora[math.random(1,#skyblock.flora)]
 			minetest.env:set_node(pos, {name=node})
 		end
 	end
