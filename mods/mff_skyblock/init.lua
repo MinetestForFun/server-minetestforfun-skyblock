@@ -14,6 +14,6 @@ local flora = {
 	'farming:beanbush' 
 }
 
-for _, node in ipairs(flora)
+for _, node in ipairs(flora) do
 	skyblock.register_flora(node)
 end
