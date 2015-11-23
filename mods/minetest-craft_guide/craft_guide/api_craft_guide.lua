@@ -1279,7 +1279,7 @@ craft_guide.update_recipe = function(meta, player, stack, alternate)
 					end
 					k=k+1
 					local isbase=0
-					if name==nil or name=="" or count==0 or string.sub(name,1,6)=="group:" then
+					if name==nil or (type(name)~="table" and (name=="" or count==0 or string.sub(name,1,6)=="group:")) then
 						isbase=1
 					elseif j>1 or k>1 then
 						for ii=1,999,1 do
