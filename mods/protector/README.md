@@ -25,3 +25,26 @@ Released under WTFPL
       disable pvp around spawn area with the radius you entered
 1.2 - Shift and click support added with Minetest 0.4.13 to quickly copy stacks
       to and from protected chest
+1.3 - Moved protector on_place into node itself, protector zone display changed
+      from 10 to 5 seconds, general code tidy
+1.4 - Changed protector recipes to give single item instead of 4, added + button
+      to interface, tweaked and tidied code, added admin command /delprot to remove
+      protectors in bulk from banned/old players
+1.5 - Added much requested protected trapdoor
+
+Usage: (requires server privelage)
+
+list names to remove
+
+	/delprot
+
+remove specific user names
+
+	/delprot name1 name2
+
+remove all names from list
+
+	/delprot -
+
+Whenever a player is near any protectors with name1 or name2 then it will be
+replaced by an air block.
