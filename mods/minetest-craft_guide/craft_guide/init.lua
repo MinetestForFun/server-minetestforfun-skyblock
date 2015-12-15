@@ -11,9 +11,9 @@ MAIN LOADER
 ]]--
 
 -- load api
-dofile(minetest.get_modpath("craft_guide").."/api_craft_guide.lua")
+--dofile(minetest.get_modpath("craft_guide").."/api_craft_guide.lua")
 
--- override minetest.register_craft
+--[[ override minetest.register_craft
 local minetest_register_craft = minetest.register_craft
 minetest.register_craft = function (options) 
 	minetest_register_craft(options) 
@@ -63,11 +63,11 @@ minetest.after(1, function()
 			end
 		end
 	end
-end)
+end)]]
 
 -- register entities
 dofile(minetest.get_modpath("craft_guide").."/register_node.lua")
-dofile(minetest.get_modpath("craft_guide").."/register_craft.lua")
+--dofile(minetest.get_modpath("craft_guide").."/register_craft.lua")
 
 -- log that we started
 minetest.log("action", "[MOD]"..minetest.get_current_modname().." -- loaded from "..minetest.get_modpath(minetest.get_current_modname()))

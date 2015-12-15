@@ -26,11 +26,11 @@ minetest.register_node("craft_guide:sign_wall", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	on_construct = craft_guide.on_construct,
-	on_receive_fields = craft_guide.on_receive_fields,
-	allow_metadata_inventory_move = craft_guide.allow_metadata_inventory_move,
-	allow_metadata_inventory_put = craft_guide.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = craft_guide.allow_metadata_inventory_take,
+--	on_construct = craft_guide.on_construct,
+--	on_receive_fields = craft_guide.on_receive_fields,
+	allow_metadata_inventory_move = function() return 0 end,
+	allow_metadata_inventory_put = function() return 0 end,
+	allow_metadata_inventory_take = function() return 0 end,
 })
 
 --[[ craft pc
@@ -88,11 +88,11 @@ minetest.register_node("craft_guide:sign_wall_locked", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	on_construct = craft_guide.on_construct,
-	on_receive_fields = craft_guide.on_receive_fields,
-	allow_metadata_inventory_move = craft_guide.allow_metadata_inventory_move,
-	allow_metadata_inventory_put = craft_guide.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = craft_guide.allow_metadata_inventory_take,
+--	on_construct = craft_guide.on_construct,
+--	on_receive_fields = craft_guide.on_receive_fields,
+	allow_metadata_inventory_move = function() return 0 end,
+	allow_metadata_inventory_put = function() return 0 end,
+	allow_metadata_inventory_take = function() return 0 end,
 })
 
 --[[ craft pc
