@@ -69,5 +69,15 @@ end)]]
 dofile(minetest.get_modpath("craft_guide").."/register_node.lua")
 --dofile(minetest.get_modpath("craft_guide").."/register_craft.lua")
 
+minetest.register_abm({
+	nodenames = {"craft_guide:sign_wall", "craft_guide:sign_wall_locked"},
+	interval = 1,
+	chance = 1,
+	action = function(pos)
+		minetest.set_node(pos, {name = "default:sign_wall"})
+		minetest.get_meta(pos):set_string("text", "This used to be a craft guide")
+	end,
+})
+
 -- log that we started
 minetest.log("action", "[MOD]"..minetest.get_current_modname().." -- loaded from "..minetest.get_modpath(minetest.get_current_modname()))
