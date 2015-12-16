@@ -230,7 +230,7 @@ function cc_guide.do_work(name)
 			if i > 1 then
 				answer = answer .. ","
 			end
-			answer = answer .. item
+			answer = answer .. item:gsub(',', ' ')
 		end
 
 		answer = answer .. ";" .. context["selected_item"] .. ";]"
