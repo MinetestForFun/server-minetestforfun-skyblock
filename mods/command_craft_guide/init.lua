@@ -270,8 +270,8 @@ minetest.register_chatcommand("craft", {
 		end
 
 		-- Case 1 : ItemString
-		if minetest.registered_items[param] and minetest.get_all_craft_recipes(minetest.registered_items[param].name) then
-			local recipes = minetest.get_all_craft_recipes(minetest.registered_items[param].name) -- Just in case we receive an alias
+		if param:find(":") and minetest.registered_items[param] and minetest.get_all_craft_recipes(minetest.registered_items[param].name) then
+			local recipes = minetest.get_all_craft_recipes(minetest.registered_items[param].name)
 
 			local context = cc_guide.create_context(name, "show")
 			context["itemstring"] = minetest.registered_items[param].name
