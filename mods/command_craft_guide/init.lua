@@ -250,7 +250,23 @@ minetest.register_chatcommand("craft", {
 		if not minetest.get_player_by_name(name) then
 			return false, "You need to be in the game to use that command"
 		elseif param == "" then
-			return false, "Please give a parameter to the command to search/query"
+			-- Listing everything
+			local context = cc_guide.create_context(name, "list")
+			local list = {}
+
+			for item, def in pairs(minetest.registered_items) do
+				if minetest.get_all_craft_recipes(minetest.registered_items[item].name) 
+					and item ~= "" and minetest.get_item_group(item, "not_in_creative_inventory") == 0 then
+					table.insert(list, string.format("%s (%s)", item, minetest.registered_items[item].description))
+				end
+			end
+			context["query"] = "anything"
+			context["size"] = table.getn(list)
+			context["list"] = list
+			context["selected_item"] = 1
+			cc_guide.do_work(name)
+
+			return true, "Open your inventory to see the item list"
 		end
 
 		-- Case 1 : ItemString
@@ -331,6 +347,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 						for key, item in pairs(items) do
 							items[key] = string.format("%s (%s)", item, minetest.registered_items[item].description)
 						end
+						context["query"] = key:split('.')[2]
 						context["list"] = items
 						context["selected_item"] = 1
 						cc_guide.do_work(name)
