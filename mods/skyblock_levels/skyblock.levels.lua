@@ -90,6 +90,10 @@ function skyblock.levels.get_inventory_formspec(level,player_name,inventory)
 		..'label[7,5.5; Inventory]'
 		..'background[6.9,5.4;8.2,4.8;inventory.png]'
 		..'list[current_player;main;7,6;8,4;]'
+
+		-- Our Addons
+		..'button[7,0;2,0.5;sethome;Set home]'
+		..'button[9,0;2,0.5;gohome;Go home]'
 	return formspec
 end
 

@@ -50,6 +50,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		skyblock.feats.reset(player:get_player_name())
 		minetest.chat_send_player(player:get_player_name(), "Your feats have been reset")
 		player:set_hp(0)
+	elseif formname == '' then -- That's the main inventory
+		if fields.gohome then
+			sethome.go_home(player:get_player_name())
+		elseif fields.sethome then
+			sethome.set_home(player:get_player_name())
+		end
 	end
 end)
 
