@@ -55,30 +55,18 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			sethome.go_home(player:get_player_name())
 		elseif fields.sethome then
 			sethome.set_home(player:get_player_name())
-		elseif fields.report then
+		elseif fields.report then -- mod report
 			minetest.show_formspec(player:get_player_name(), "report:form", "field[text;Text about what to report:;")
 		end
-	elseif formname == "report:form" and fields.text and fields.text ~= "" then
+	elseif formname == "report:form" and fields.text and fields.text ~= "" then -- mod report
 		-- Copied from src/builtin/game/chatcommands.lua (with little tweaks)
 		if not fields.text or fields.text == "" then
 			return
 		end
 		local name = player:get_player_name()
-		local cmd_def = core.chatcommands["report"]
-		if not cmd_def then
-			return
-		end
-		local has_privs, missing_privs = core.check_player_privs(name, cmd_def.privs)
-		if has_privs then
-			core.set_last_run_mod(cmd_def.mod_origin)
-			local success, message = cmd_def.func(name, fields.text)
-			if message then
-				core.chat_send_player(name, message)
-			end
-		else
-			core.chat_send_player(name, "You don't have permission"
-					.. " to run this command (missing privileges: "
-					.. table.concat(missing_privs, ", ") .. ")")
+		local success, message = action_timers.wrapper(name, "report", "report_" .. name, 600, report.send, {name, fields.text})
+		if message then
+			core.chat_send_player(name, message)
 		end
 		return true -- Handled fields reception
 	end
