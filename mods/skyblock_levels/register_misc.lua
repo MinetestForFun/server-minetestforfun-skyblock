@@ -57,6 +57,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			sethome.set_home(player:get_player_name())
 		elseif fields.report then -- mod report
 			minetest.show_formspec(player:get_player_name(), "report:form", "field[text;Text about what to report:;")
+		elseif fields.spawn then
+			spawn.spawn(player:get_player_name())
 		end
 	elseif formname == "report:form" and fields.text and fields.text ~= "" then -- mod report
 		-- Copied from src/builtin/game/chatcommands.lua (with little tweaks)

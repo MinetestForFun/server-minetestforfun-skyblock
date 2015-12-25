@@ -95,6 +95,7 @@ function skyblock.levels.get_inventory_formspec(level,player_name,inventory)
 		..'button[7,0;2,0.5;sethome;Set home]'
 		..'button[9,0;2,0.5;gohome;Go home]'
 		..'button[11,0;2,0.5;report;Report]'
+		..'button[7,0.7;2,0.5;spawn;Spawn]'
 	return formspec
 end
 
