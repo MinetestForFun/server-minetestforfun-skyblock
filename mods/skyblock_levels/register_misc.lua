@@ -59,6 +59,39 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			minetest.show_formspec(player:get_player_name(), "report:form", "field[text;Text about what to report:;")
 		elseif fields.spawn then
 			spawn.spawn(player:get_player_name())
+		elseif fields.craft_max then
+			local inv = player:get_inventory()
+			if inv:is_empty("craftpreview") then
+				return
+			end
+			local stack = inv:get_stack("craftpreview", 1)
+			local cgrid = inv:get_list("craft")
+			local count = 65535
+			for _, st in pairs(cgrid) do
+				if st:get_count() > 0 then
+					count = math.min(count, st:get_count())
+				end
+			end
+			minetest.chat_send_player(player:get_player_name(), "Crafting " .. stack:get_name() .. " up to " .. count .. " times...")
+			for _, st in pairs(cgrid) do
+				if st:get_count() > 0 then
+					st:set_count(st:get_count() - count)
+					if st:get_count() > 0 then
+						if inv:room_for_item("main", st) then
+							inv:add_item("main", st)
+						else
+							minetest.add_item(player:getpos(), st)
+						end
+					end
+				end
+			end
+			stack:set_count(stack:get_count() * count)
+			inv:set_list("craft", {[1] = "", [9] = ""})
+			if inv:room_for_item("main", stack) then
+				inv:add_item("main", stack)
+			else
+				minetest.add_item(player:getpos(), stack)
+			end
 		end
 	elseif formname == "report:form" and fields.text and fields.text ~= "" then -- mod report
 		-- Copied from src/builtin/game/chatcommands.lua (with little tweaks)
