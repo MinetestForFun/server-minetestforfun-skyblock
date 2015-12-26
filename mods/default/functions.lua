@@ -369,3 +369,19 @@ minetest.register_abm({
 		minetest.set_node(pos, {name = "default:mossycobble"})
 	end
 })
+
+--
+-- Treecapacitor
+--
+
+minetest.register_on_dignode(function(pos, oldnode, digger)
+	if minetest.get_item_group(oldnode.name, "tree") == 0 then
+		return
+	end
+
+	pos.y = pos.y + 1
+	while minetest.get_node(pos).name == oldnode.name do
+		minetest.node_dig(pos, minetest.get_node(pos), digger)
+		pos.y = pos.y + 1
+	end
+end)
