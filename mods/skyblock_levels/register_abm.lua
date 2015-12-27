@@ -36,7 +36,12 @@ minetest.register_abm({
 			return
 		end
 
-		-- check for nearby
+		-- Check for nearby Monsarno Round-Down
+		if minetest.env:find_node_near(pos, 5, 'skyblock:round_down') ~= nil then
+			return
+		end
+
+		-- check for nearby flora
 		if minetest.env:find_node_near(pos, 2, {'group:flora'}) ~= nil then
 			return
 		end

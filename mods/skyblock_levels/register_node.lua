@@ -44,6 +44,53 @@ minetest.override_item('skyblock:quest', {
 	end,
 })
 
+-- Monsarno Round-Down
+local round_down_radius = 5
+minetest.register_node(':skyblock:round_down', {
+	description = "Monsarno Round-Down",
+	inventory_image = 'skyblock_round_down_sprayer.png^[transformFY',
+	tiles = {'skyblock_round_down.png'},
+	is_ground_content = true,
+	drawtype = "airlike",
+	groups = {oddly_breakable_by_hand=3, not_in_creative_inventory=1},
+	paramtype = "light",
+	sunlight_propagates = "true",
+	walkable = false,
+	buildable_to = true,
+	selection_box = { type = 'fixed', fixed = {-0.5, -0.5, -0.5, 0.5, -0.475, 0.5} },
+	on_construct = function(pos)
+		-- Remove nearby flora
+		local player_name = skyblock.get_spawn_player(pos)
+		for x=-round_down_radius,round_down_radius do
+			for y=-round_down_radius,round_down_radius do
+				for z=-round_down_radius,round_down_radius do
+					local pos = { x=pos.x+x, y=pos.y+y, z=pos.z+z }
+					local node = minetest.get_node_or_nil(pos)
+					if node and minetest.get_item_group(node.name, 'flora') > 0 then
+						minetest.set_node(pos, {name='air'})
+					end
+				end
+			end
+		end
+	end
+})
+
+local round_down_uses = 40
+minetest.register_tool(':skyblock:round_down_sprayer', {
+	description = "Monsarno Round-Down sprayer",
+	inventory_image = 'skyblock_round_down_sprayer.png',
+	wield_scale = {x = 1, y = 1, z = 6},
+	on_place = function(itemstack, user, pointed_thing)
+		if pointed_thing.type == 'node' then
+			if not minetest.is_protected(pointed_thing.above, user:get_player_name()) then
+				minetest.set_node(pointed_thing.above, {name='skyblock:round_down'})
+				itemstack:add_wear(65535/round_down_uses+1)
+			end
+		end
+		return itemstack
+	end
+})
+
 -- trees
 local trees = {'default:tree','default:jungletree','default:pinetree'}
 for k,node in ipairs(trees) do

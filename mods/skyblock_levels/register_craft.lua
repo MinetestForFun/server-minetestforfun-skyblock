@@ -218,3 +218,22 @@ minetest.register_craft({
 	recipe = 'default:desert_sand',
 })
 
+-- Monsarno Round-Down
+minetest.register_craft({
+	output = 'skyblock:round_down_sprayer',
+	recipe = {
+		{'default:mese_crystal_fragment'},
+		{'default:copper_ingot'},
+		{'bucket:bucket_water'}
+	},
+	replacements = {{'bucket:bucket_water', 'bucket:bucket_empty'}}
+})
+minetest.register_craft({
+	output = 'skyblock:round_down_sprayer',
+	recipe = {
+		{'default:copper_ingot'},
+		{'default:mese_crystal_fragment'},
+		{'bucket:bucket_water'}
+	},
+	replacements = {{'bucket:bucket_water', 'bucket:bucket_empty'}}
+})
