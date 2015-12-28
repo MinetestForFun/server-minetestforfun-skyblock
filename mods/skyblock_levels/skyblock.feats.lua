@@ -91,7 +91,7 @@ function skyblock.feats.update(player_name)
 	if player then
 		player:set_inventory_formspec(info.formspec)
 	end
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	meta:set_string('formspec', info.formspec_quest)
 	meta:set_string('infotext', info.infotext)
 end
@@ -282,7 +282,7 @@ local function bucket_on_use(itemstack, user, pointed_thing)
 		skyblock.feats.bucket_on_use(itemstack, user, pointed_thing)
 		-- end track bucket feats
 	
-		minetest.env:add_node(pointed_thing.under, {name='air'})
+		minetest.add_node(pointed_thing.under, {name='air'})
 		return {name=liquid.itemname}
 	end
 end
@@ -320,10 +320,10 @@ local function bucket_water_on_use(itemstack, user, pointed_thing)
 		end
 		-- end anti-grief change
 
-		minetest.env:add_node(pointed_thing.above, {name='default:water_source'})
+		minetest.add_node(pointed_thing.above, {name='default:water_source'})
 	elseif n.name ~= 'default:water_source' then
 		-- It's a liquid
-		minetest.env:add_node(pointed_thing.under, {name='default:water_source'})
+		minetest.add_node(pointed_thing.under, {name='default:water_source'})
 	end
 
 	-- begin track bucket feats
@@ -367,10 +367,10 @@ local function bucket_lava_on_use(itemstack, user, pointed_thing)
 		end
 		-- end anti-grief change
 
-		minetest.env:add_node(pointed_thing.above, {name='default:lava_source'})
+		minetest.add_node(pointed_thing.above, {name='default:lava_source'})
 	elseif n.name ~= 'default:lava_source' then
 		-- It's a liquid
-		minetest.env:add_node(pointed_thing.under, {name='default:lava_source'})
+		minetest.add_node(pointed_thing.under, {name='default:lava_source'})
 	end
 
 	-- begin track bucket feats

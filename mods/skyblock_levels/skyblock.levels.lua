@@ -248,7 +248,7 @@ end
 
 -- track bucket feats
 function skyblock.levels.bucket_on_use(level,player_name,pointed_thing)
-	local node = minetest.env:get_node(pointed_thing.under)
+	local node = minetest.get_node(pointed_thing.under)
 	for _,v in ipairs(skyblock.levels[level].feats) do
 		if v.bucket then
 			for _,vv in ipairs(v.bucket) do
@@ -263,7 +263,7 @@ end
 
 -- track bucket water feats
 function skyblock.levels.bucket_water_on_use(level,player_name,pointed_thing) 
-	local node = minetest.env:get_node(pointed_thing.under)
+	local node = minetest.get_node(pointed_thing.under)
 	for _,v in ipairs(skyblock.levels[level].feats) do
 		if v.bucket_water then
 			for _,vv in ipairs(v.bucket_water) do
@@ -278,7 +278,7 @@ end
 
 -- track bucket lava feats
 function skyblock.levels.bucket_lava_on_use(level,player_name,pointed_thing)
-	local node = minetest.env:get_node(pointed_thing.under)
+	local node = minetest.get_node(pointed_thing.under)
 	for _,v in ipairs(skyblock.levels[level].feats) do
 		if v.bucket_lava then
 			for _,vv in ipairs(v.bucket_lava) do

@@ -37,18 +37,18 @@ minetest.register_abm({
 		end
 
 		-- Check for nearby Monsarno Round-Down
-		if minetest.env:find_node_near(pos, 5, 'skyblock:round_down') ~= nil then
+		if minetest.find_node_near(pos, 5, 'skyblock:round_down') ~= nil then
 			return
 		end
 
 		-- check for nearby flora
-		if minetest.env:find_node_near(pos, 2, {'group:flora'}) ~= nil then
+		if minetest.find_node_near(pos, 2, {'group:flora'}) ~= nil then
 			return
 		end
 
-		if minetest.env:get_node(pos).name == 'air' then
+		if minetest.get_node(pos).name == 'air' then
 			local node = skyblock.flora[math.random(1,#skyblock.flora)]
-			minetest.env:set_node(pos, {name=node})
+			minetest.set_node(pos, {name=node})
 		end
 	end
 })
@@ -59,6 +59,6 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-		minetest.env:remove_node(pos)
+		minetest.remove_node(pos)
 	end,
 })

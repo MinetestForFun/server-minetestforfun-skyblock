@@ -55,23 +55,30 @@ minetest.register_node(':skyblock:round_down', {
 	groups = {oddly_breakable_by_hand=3, not_in_creative_inventory=1},
 	paramtype = "light",
 	sunlight_propagates = "true",
+	drop = {max_items = 0},
 	walkable = false,
 	buildable_to = true,
 	selection_box = { type = 'fixed', fixed = {-0.5, -0.5, -0.5, 0.5, -0.475, 0.5} },
 	on_construct = function(pos)
-		-- Remove nearby flora
-		local player_name = skyblock.get_spawn_player(pos)
-		for x=-round_down_radius,round_down_radius do
-			for y=-round_down_radius,round_down_radius do
-				for z=-round_down_radius,round_down_radius do
-					local pos = { x=pos.x+x, y=pos.y+y, z=pos.z+z }
-					local node = minetest.get_node_or_nil(pos)
-					if node and minetest.get_item_group(node.name, 'flora') > 0 then
-						minetest.set_node(pos, {name='air'})
+		minetest.after(1, function(pos)
+			-- Remove nearby flora
+			local owner = minetest.get_meta(pos):get_string("owner") or ""
+			local player_name = skyblock.get_spawn_player(pos)
+			for x=-round_down_radius,round_down_radius do
+				for y=-round_down_radius,round_down_radius do
+					for z=-round_down_radius,round_down_radius do
+						if not minetest.is_protected(pos, owner) then
+							local pos = { x=pos.x+x, y=pos.y+y, z=pos.z+z }
+							local node = minetest.get_node_or_nil(pos)
+							if node and (minetest.get_item_group(node.name, 'flora') > 0
+							   or minetest.get_item_group(node.name, 'plant') > 0) then
+								minetest.remove_node(pos)
+							end
+						end
 					end
 				end
 			end
-		end
+		end, pos)
 	end
 })
 
@@ -83,7 +90,8 @@ minetest.register_tool(':skyblock:round_down_sprayer', {
 	on_place = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == 'node' then
 			if not minetest.is_protected(pointed_thing.above, user:get_player_name()) then
-				minetest.set_node(pointed_thing.above, {name='skyblock:round_down'})
+				minetest.item_place_node(ItemStack("skyblock:round_down"), user, pointed_thing, 0)
+				minetest.get_meta(pointed_thing.above):set_string("owner", user:get_player_name())
 				itemstack:add_wear(65535/round_down_uses+1)
 			end
 		end
@@ -119,7 +127,7 @@ minetest.override_item('default:sapling', {
 		-- check if we have space to make a tree
 		for dy=1,4 do
 			pos.y = pos.y+dy
-			if minetest.env:get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+			if minetest.get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
 				return
 			end
 			pos.y = pos.y-dy
@@ -142,7 +150,7 @@ minetest.override_item('default:junglesapling', {
 		-- check if we have space to make a tree
 		for dy=1,8 do
 			pos.y = pos.y+dy
-			if minetest.env:get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+			if minetest.get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
 				return
 			end
 			pos.y = pos.y-dy
@@ -165,7 +173,7 @@ minetest.override_item('default:pine_sapling', {
 		-- check if we have space to make a tree
 		for dy=1,9 do
 			pos.y = pos.y+dy
-			if minetest.env:get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+			if minetest.get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
 				return
 			end
 			pos.y = pos.y-dy

@@ -164,7 +164,7 @@ function skyblock.load_schem(origin,filename)
 			y=entry.y + origin.y + skyblock.schem_offset_y,
 			z=entry.z + origin.z + skyblock.schem_offset_z,
 		}
-		if minetest.env:get_node(pos).name == 'air' then
+		if minetest.get_node(pos).name == 'air' then
 			minetest.add_node(pos, {name=entry.name})
 		end
 	end
@@ -174,7 +174,7 @@ end
 function skyblock.make_spawn_blocks(pos, player_name)
 	skyblock.log('skyblock.make_spawn_blocks('..skyblock.dump_pos(pos)..', '..player_name..') ')
 	skyblock.load_schem(pos,skyblock.schem)
-	--minetest.env:add_node(pos, {name='skyblock:quest'})
+	--minetest.add_node(pos, {name='skyblock:quest'})
 end
 
 -- make spawn blocks on generated
