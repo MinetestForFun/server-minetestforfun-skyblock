@@ -16,3 +16,6 @@
 [submodule "mods/teleport-request"]
 	path = mods/teleport-request
 	url = https://github.com/ChaosWormz/teleport-request.git
+[submodule "mods/areas"]
+	path = mods/areas
+	url = https://github.com/ShadowNinja/areas.git
