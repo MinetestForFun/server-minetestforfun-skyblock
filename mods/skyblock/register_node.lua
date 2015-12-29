@@ -17,7 +17,7 @@ minetest.register_node('skyblock:quest', {
 	paramtype = 'light',
 	light_propagates = true,
 	sunlight_propagates = true,
-	light_source = 15,		
+	light_source = 15,
 	can_dig = function(pos, player)
 		return false
 	end,
@@ -26,3 +26,7 @@ minetest.register_node('skyblock:quest', {
 	end,
 })
 
+local modpath = minetest.get_modpath('skyblock')
+dofile(modpath..'/nodes/aerbratus.lua')
+dofile(modpath..'/nodes/clouds.lua')
+dofile(modpath..'/trees/aerbratus.lua')

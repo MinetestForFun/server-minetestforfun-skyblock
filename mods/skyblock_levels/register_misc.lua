@@ -46,14 +46,12 @@ end)
 -- player receive fields
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	-- restart
-	if formname=='skyblock_restart' and fields.restart then
+	if formname == 'skyblock_restart' and fields.restart then
 		skyblock.feats.reset(player:get_player_name())
 		minetest.chat_send_player(player:get_player_name(), "Your feats have been reset")
 		player:set_hp(0)
 	elseif formname == '' then -- That's the main inventory
-		elseif fields.report then -- mod report
-			minetest.show_formspec(player:get_player_name(), "report:form", "field[text;Text about what to report:;")
-		elseif fields.craft_max then
+		if fields.craft_max then
 			local inv = player:get_inventory()
 			if inv:is_empty("craftpreview") then
 				return
@@ -87,17 +85,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				minetest.add_item(player:getpos(), stack)
 			end
 		end
-	elseif formname == "report:form" and fields.text and fields.text ~= "" then -- mod report
-		-- Copied from src/builtin/game/chatcommands.lua (with little tweaks)
-		if not fields.text or fields.text == "" then
-			return
-		end
-		local name = player:get_player_name()
-		local success, message = action_timers.wrapper(name, "report", "report_" .. name, 600, report.send, {name, fields.text})
-		if message then
-			core.chat_send_player(name, message)
-		end
-		return true -- Handled fields reception
 	end
 end)
 

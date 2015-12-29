@@ -66,7 +66,7 @@ function skyblock.levels.get_inventory_formspec(level,player_name,inventory)
 		if minetest.get_modpath('unified_inventory') then
 			formspec = formspec..skyblock.get_unified_inventory_buttons()
 		end
-		formspec = formspec..'button_exit[13,0;2,0.5;close;Close]'
+		formspec = formspec..'button_exit[13.6,0;1.4,0.5;close;Close]'
 	else
 		formspec = formspec
 			..'button[11,0;2,0.5;restart;Restart]'
@@ -91,9 +91,8 @@ function skyblock.levels.get_inventory_formspec(level,player_name,inventory)
 		..'background[6.9,5.4;8.2,4.8;inventory.png]'
 		..'list[current_player;main;7,6;8,4;]'
 
-		-- Our Addons
-		..'button[11,0;2,0.5;report;Report]'
-		..'button[7.5,4.5;2,0.5;craft_max;Max]'
+		-- MFF addons
+		..'button[14,4.2;1,0.5;craft_max;Max]'
 	return formspec
 end
 
