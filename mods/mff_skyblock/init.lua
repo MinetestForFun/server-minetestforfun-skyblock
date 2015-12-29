@@ -1,3 +1,5 @@
+-- farming_plus integration
+
 local flora = {
 	'farming:tomato_7',
 	'farming:rhubarb_3',
@@ -16,4 +18,21 @@ local flora = {
 
 for _, node in ipairs(flora) do
 	skyblock.register_flora(node)
+end
+
+-- unified_inventory: override home buttons to support (set)home API
+
+-- Could've been a dirty workaround by tapping in the core minetest
+-- command callback array if Mg was't there to clean coredevs' idiocy
+
+for _, def in ipairs(unified_inventory.buttons) do
+	if def.name == "home_gui_set" then
+		def.action = function(player)
+			sethome.set_home(player:get_player_name())
+		end
+	elseif def.name == "home_gui_go" then
+		def.action = function(player)
+			sethome.go_home(player:get_player_name())
+		end
+	end
 end
