@@ -36,3 +36,12 @@ for _, def in ipairs(unified_inventory.buttons) do
 		end
 	end
 end
+
+-- Add areas as a default priv
+
+minetest.register_on_joinplayer(function(player)
+	local playername = player:get_player_name()
+	local privs = minetest.get_player_privs(playername)
+	privs.areas = true
+	minetest.set_player_privs(playername, privs)
+end)
