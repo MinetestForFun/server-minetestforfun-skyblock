@@ -72,7 +72,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 					count = math.min(count, st:get_count())
 				end
 			end
-			minetest.chat_send_player(player:get_player_name(), "Crafting " .. stack:get_name() .. " up to " .. count .. " times...")
+
 			for _, st in pairs(cgrid) do
 				if st:get_count() > 0 then
 					st:set_count(st:get_count() - count)
