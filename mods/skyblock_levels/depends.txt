@@ -9,3 +9,4 @@ xpanes
 protector
 farming
 unified_inventory?
+irc?
