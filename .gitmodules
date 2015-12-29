@@ -14,7 +14,7 @@
 	path = mods/unified_inventory
 	url = https://github.com/minetest-technic/unified_inventory.git
 [submodule "mods/teleport-request"]
-	path = mods/teleport-request
+	path = mods/teleport_request
 	url = https://github.com/ChaosWormz/teleport-request.git
 [submodule "mods/areas"]
 	path = mods/areas
