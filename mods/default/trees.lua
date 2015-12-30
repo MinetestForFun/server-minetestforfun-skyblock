@@ -26,6 +26,7 @@ end
 
 -- Sapling ABM
 
+--[[ We have instagrow (MFF)
 minetest.register_abm({
 	nodenames = {"default:sapling", "default:junglesapling",
 		"default:pine_sapling", "default:acacia_sapling"},
@@ -67,7 +68,7 @@ minetest.register_abm({
 			default.grow_new_acacia_tree(pos)
 		end
 	end
-})
+})]]
 
 
 --

@@ -54,11 +54,14 @@ minetest.register_abm({
 })
 
 -- remove bones
-minetest.register_abm({
-	nodenames = {'bones:bones'},
-	interval = 1,
-	chance = 1,
-	action = function(pos, node)
-		minetest.remove_node(pos)
-	end,
-})
+
+if not minetest.setting_getbool("disable_skyblock_remove_bones_abm") then
+	minetest.register_abm({
+		nodenames = {'bones:bones'},
+		interval = 1,
+		chance = 1,
+		action = function(pos, node)
+			minetest.remove_node(pos)
+		end
+	})
+end
