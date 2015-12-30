@@ -37,11 +37,23 @@ for _, def in ipairs(unified_inventory.buttons) do
 	end
 end
 
--- Add areas as a default priv
+-- Set privileges
 
 minetest.register_on_joinplayer(function(player)
 	local playername = player:get_player_name()
-	local privs = minetest.get_player_privs(playername)
-	privs.areas = true
-	minetest.set_player_privs(playername, privs)
+	local p = minetest.setting_get("default_privs")
+	local u = minetest.get_player_privs(playername)
+	local n = minetest.string_to_privs(p)
+
+	for priv, _ in pairs(n) do
+		u[priv] = true
+	end
+
+	if skyblock.feats.get_level(playername) < 4 and (u.fly or u.fast) then
+		u.fly = nil
+		u.fast = nil
+		minetest.chat_send_player(playername, "You have lost FLY and FAST")
+	end
+
+	minetest.set_player_privs(playername, u)
 end)
