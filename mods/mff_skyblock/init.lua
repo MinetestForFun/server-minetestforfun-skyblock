@@ -69,3 +69,10 @@ minetest.override_item("travelnet:travelnet", {
 		"travelnet_travelnet_top.png",  -- view from bottom
 	}
 })
+
+-- Allow everybody to add to a travelnet network
+
+local ret_true = function(...) return true end
+
+travelnet.allow_attach = ret_true
+travelnet.allow_dig    = ret_true
