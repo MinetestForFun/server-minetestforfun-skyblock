@@ -57,3 +57,15 @@ minetest.register_on_joinplayer(function(player)
 
 	minetest.set_player_privs(playername, u)
 end)
+
+-- Override travelnet box texture
+
+minetest.override_item("travelnet:travelnet", {
+	tiles = {
+		"travelnet_travelnet_front.png",  -- backward view
+		"travelnet_travelnet_back.png", -- front view
+		"travelnet_travelnet_side.png", -- sides :)
+		"travelnet_travelnet_top.png",  -- view from top
+		"travelnet_travelnet_top.png",  -- view from bottom
+	}
+})
