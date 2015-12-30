@@ -19,3 +19,9 @@
 [submodule "mods/areas"]
 	path = mods/areas
 	url = https://github.com/ShadowNinja/areas.git
+[submodule "mods/xdecor"]
+	path = mods/xdecor
+	url = https://github.com/kilbith/xdecor.git
+[submodule "mods/protector"]
+	path = mods/protector
+	url = https://github.com/tenplus1/protector.git
