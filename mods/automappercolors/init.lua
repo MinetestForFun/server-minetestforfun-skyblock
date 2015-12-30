@@ -27,7 +27,7 @@ function amc_dumpnodes()
 	return n, "done"
 end
 
-minetest.register_chatcommand("amcdumpnodes", {
+--[[minetest.register_chatcommand("amcdumpnodes", {
 	params = "",
 	description = "",
 	func = function(plname, param)
@@ -38,7 +38,7 @@ minetest.register_chatcommand("amcdumpnodes", {
 			minetest.chat_send_player(plname, n .. " nodes dumped.")
 		end
 	end,
-})
+})]]
 
 minetest.after(1, function(args)
 	amc_dumpnodes()
