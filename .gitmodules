@@ -25,3 +25,9 @@
 [submodule "mods/protector"]
 	path = mods/protector
 	url = https://github.com/tenplus1/protector.git
+[submodule "mods/xban2"]
+	path = mods/xban2
+	url = https://github.com/kaeza/minetest-xban2.git
+[submodule "mods/WorldEdit"]
+	path = mods/WorldEdit
+	url = https://github.com/Uberi/Minetest-WorldEdit.git
