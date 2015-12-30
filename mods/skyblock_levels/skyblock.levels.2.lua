@@ -60,10 +60,10 @@ skyblock.levels[level].feats = {
 		placenode = {'default:fence_wood'},
 	},
 	{
-		name = 'build a structure using 100 Gravel',
+		name = 'build a structure using 50 Gravel',
 		hint = 'default:gravel',
 		feat = 'place_gravel', 
-		count = 100, 
+		count = 50, 
 		reward = 'stairs:stair_cobble 4',
 		placenode = {'default:gravel'},
 	},

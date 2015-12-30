@@ -178,8 +178,8 @@ end
 minetest.register_abm({
 	nodenames = {"default:cactus"},
 	neighbors = {"group:sand"},
-	interval = 50,
-	chance = 20,
+	interval = 45, -- (MFF)
+	chance = 8, -- (MFF)
 	action = function(...)
 		default.grow_cactus(...)
 	end
@@ -188,8 +188,8 @@ minetest.register_abm({
 minetest.register_abm({
 	nodenames = {"default:papyrus"},
 	neighbors = {"default:dirt", "default:dirt_with_grass", "default:sand"},
-	interval = 50,
-	chance = 20,
+	interval = 45, -- (MFF)
+	chance = 8, -- (MFF)
 	action = function(...)
 		default.grow_papyrus(...)
 	end
