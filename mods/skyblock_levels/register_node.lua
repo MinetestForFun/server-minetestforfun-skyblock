@@ -55,7 +55,7 @@ minetest.register_node(':skyblock:round_down', {
 	groups = {oddly_breakable_by_hand=3, not_in_creative_inventory=1},
 	paramtype = "light",
 	sunlight_propagates = "true",
-	drop = {max_items = 0},
+	drop = "",
 	walkable = false,
 	buildable_to = true,
 	selection_box = { type = 'fixed', fixed = {-0.5, -0.5, -0.5, 0.5, -0.475, 0.5} },
