@@ -20,12 +20,14 @@ for _, node in ipairs(flora) do
 	skyblock.register_flora(node)
 end
 
--- unified_inventory: override home buttons to support (set)home API
+-- unified_inventory:
+-- * Override home buttons to support (set)home API
+--   Could've been a dirty workaround by tapping in the core minetest
+--   command callback array if Mg was't there to clean coredevs' idiocy
+-- * Remove bags, clear_inv, misc_set_day and misc_set_night button
 
--- Could've been a dirty workaround by tapping in the core minetest
--- command callback array if Mg was't there to clean coredevs' idiocy
-
-for _, def in ipairs(unified_inventory.buttons) do
+for i=#unified_inventory.buttons,1,-1 do
+	local def = unified_inventory.buttons[i]
 	if def.name == "home_gui_set" then
 		def.action = function(player)
 			sethome.set_home(player:get_player_name())
@@ -34,6 +36,9 @@ for _, def in ipairs(unified_inventory.buttons) do
 		def.action = function(player)
 			sethome.go_home(player:get_player_name())
 		end
+	elseif def.name == "bags" or def.name == "clear_inv" or def.name == "misc_set_day" or
+		def.name == "misc_set_night" then
+		table.remove(unified_inventory.buttons, i)
 	end
 end
 
