@@ -81,3 +81,10 @@ local ret_true = function(...) return true end
 
 travelnet.allow_attach = ret_true
 travelnet.allow_dig    = ret_true
+
+-- Play a generic sound when someone eats
+minetest.register_on_item_eat(function(_, _, _, user)
+	if user then
+		minetest.sound_play({name = "mff_skyblock_eat_generic", gain = 1}, {pos = user:getpos(), max_hear_distance = 16})
+	end
+end)		
