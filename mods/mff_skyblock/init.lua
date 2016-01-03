@@ -57,7 +57,7 @@ minetest.register_on_joinplayer(function(player)
 	if skyblock.feats.get_level(playername) < 4 and (u.fly or u.fast) then
 		u.fly = nil
 		u.fast = nil
-		minetest.chat_send_player(playername, "You have lost FLY and FAST")
+		minetest.chat_send_player(playername, "You have lost FLY and FAST. You will earn these privileges when you reach level 4.")
 	end
 
 	minetest.set_player_privs(playername, u)
