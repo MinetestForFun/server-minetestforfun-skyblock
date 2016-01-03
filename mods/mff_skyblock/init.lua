@@ -58,6 +58,7 @@ minetest.register_on_joinplayer(function(player)
 		u.fly = nil
 		u.fast = nil
 		minetest.chat_send_player(playername, "You have lost FLY and FAST. You will earn these privileges when you reach level 4.")
+		minetest.chat_send_player(playername, "Complete the quests in your inventory to level up. Each level has a new set of quests.")
 	end
 
 	minetest.set_player_privs(playername, u)
