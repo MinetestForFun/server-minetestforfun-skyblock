@@ -384,8 +384,14 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 	end
 
 	pos.y = pos.y + 1
-	while minetest.get_node(pos).name == oldnode.name do
-		minetest.node_dig(pos, minetest.get_node(pos), digger)
+	local stackcount = 0
+	local pname = digger:get_player_name()
+	while true do
+		local node = minetest.get_node(pos).name
+		if node ~= oldnode.name or minetest.is_protected(pos, pname) then break end
+		minetest.remove_node(pos)
 		pos.y = pos.y + 1
+		stackcount = stackcount + 1
 	end
+	minetest.add_item(pos, {name = oldnode.name, count = stackcount})
 end)
