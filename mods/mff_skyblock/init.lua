@@ -88,4 +88,71 @@ minetest.register_on_item_eat(function(_, _, _, user)
 	if user then
 		minetest.sound_play({name = "mff_skyblock_eat_generic", gain = 1}, {pos = user:getpos(), max_hear_distance = 16})
 	end
-end)		
+end)
+
+-- Protectors
+
+local function register_protector_pair(scalename, range, displaycolor, logocolor)
+	local logotex = "protector_mff_logo_underlay.png^[colorize:#" .. logocolor ..
+	                "^protector_mff_logo_overlay.png"
+	protector.register_protector("mff_block_" .. range, {
+		description = scalename .. " Protection Block",
+		drawtype = "nodebox",
+		tiles = {
+			"protector_mff_block.png",
+			"protector_mff_block.png",
+			"protector_mff_block.png^(" .. logotex .. ")"
+		},
+		sounds = default.node_sound_stone_defaults(),
+		groups = {dig_immediate = 2, unbreakable = 1},
+		is_ground_content = false,
+		paramtype = "light",
+		light_source = 4,
+
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5 ,-0.5, -0.5, 0.5, 0.5, 0.5},
+			}
+		}
+	}, { radius = range, displaycolor = displaycolor })
+	protector.register_protector("mff_logo_15", {
+		description = scalename .. " Protection Logo",
+		tiles = {logotex},
+		wield_image = logotex,
+		inventory_image = logotex,
+		sounds = default.node_sound_stone_defaults(),
+		groups = {dig_immediate = 2, unbreakable = 1},
+		paramtype = 'light',
+		paramtype2 = "wallmounted",
+		legacy_wallmounted = true,
+		light_source = 4,
+		drawtype = "nodebox",
+		sunlight_propagates = true,
+		walkable = true,
+		node_box = {
+			type = "wallmounted",
+			wall_top    = {-0.375, 0.4375, -0.5, 0.375, 0.5, 0.5},
+			wall_bottom = {-0.375, -0.5, -0.5, 0.375, -0.4375, 0.5},
+			wall_side   = {-0.5, -0.5, -0.375, -0.4375, 0.5, 0.375},
+		},
+		selection_box = {type = "wallmounted"}
+	}, { radius = range, displaycolor = displaycolor })
+end
+
+register_protector_pair("3x", 15, "10EF10", "0BAC0B")
+
+minetest.register_craft({
+	output = "protector:mff_block_15 4",
+	recipe = {
+		{"protector:protect", "protector:protect"},
+		{"protector:protect", "protector:protect"}
+	}
+})
+minetest.register_craft({
+	output = "protector:mff_logo_15 4",
+	recipe = {
+		{"protector:protect2", "protector:protect2"},
+		{"protector:protect2", "protector:protect2"}
+	}
+})
