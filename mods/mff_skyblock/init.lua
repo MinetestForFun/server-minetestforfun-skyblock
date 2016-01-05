@@ -150,9 +150,24 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
+	output = "protector:protect 4",
+	recipe = {
+		{"protector:mff_block_15", "protector:mff_block_15"},
+		{"protector:mff_block_15", "protector:mff_block_15"}
+	}
+})
+minetest.register_craft({
 	output = "protector:mff_logo_15 4",
 	recipe = {
 		{"protector:protect2", "protector:protect2"},
 		{"protector:protect2", "protector:protect2"}
 	}
 })
+minetest.register_craft({
+	output = "protector:protect2 4",
+	recipe = {
+		{"protector:mff_logo_15", "protector:mff_logo_15"},
+		{"protector:mff_logo_15", "protector:mff_logo_15"}
+	}
+})
+
