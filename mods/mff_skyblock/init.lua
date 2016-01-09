@@ -143,31 +143,53 @@ end
 register_protector_pair("3x", 15, "10EF10", "0BAC0B")
 
 minetest.register_craft({
-	output = "protector:mff_block_15 4",
+	output = "protector:mff_block_15",
 	recipe = {
-		{"protector:protect", "protector:protect"},
-		{"protector:protect", "protector:protect"}
+		{"protector:protect"}
 	}
 })
 minetest.register_craft({
-	output = "protector:protect 4",
+	output = "protector:protect",
 	recipe = {
-		{"protector:mff_block_15", "protector:mff_block_15"},
-		{"protector:mff_block_15", "protector:mff_block_15"}
+		{"protector:mff_block_15"}
 	}
 })
 minetest.register_craft({
-	output = "protector:mff_logo_15 4",
+	output = "protector:mff_logo_15",
 	recipe = {
-		{"protector:protect2", "protector:protect2"},
-		{"protector:protect2", "protector:protect2"}
+		{"protector:protect2"}
 	}
 })
 minetest.register_craft({
-	output = "protector:protect2 4",
+	output = "protector:protect2",
 	recipe = {
-		{"protector:mff_logo_15", "protector:mff_logo_15"},
-		{"protector:mff_logo_15", "protector:mff_logo_15"}
+		{"protector:mff_logo_15"}
 	}
 })
 
+-- 3x protector fix ABM (temp fix)
+
+if true then
+
+-- Degrade 3x protector into 1x if it overlaps other player's protectors
+minetest.register_abm({
+	nodenames = {"protector:mff_block_15", "protector:mff_logo_15"},
+	interval = 60,
+	chance = 1,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		local protradius = protector.registered_protectors[node.name] or 0
+		local meta = minetest.get_meta(pos)
+		local owner = meta:get_string("owner")
+		if not protector.can_dig(protector.max_registered_radius * 2 + 2, pos,
+		owner, true, 0, protradius) then
+			local oldnode = minetest.get_node(pos)
+			if node.name == "protector:mff_block_15" then
+				minetest.swap_node(pos, {name = "protector:protect", param1 = oldnode.param1, param2 = oldnode.param2})
+			else
+				minetest.swap_node(pos, {name = "protector:protect2", param1 = oldnode.param1, param2 = oldnode.param2})
+			end
+		end
+	end
+})
+
+end
