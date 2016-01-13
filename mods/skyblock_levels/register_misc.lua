@@ -56,14 +56,69 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			if inv:is_empty("craftpreview") then
 				return
 			end
-			local stack = inv:get_stack("craftpreview", 1)
-			local cgrid = inv:get_list("craft")
-			local count = 65535
-			for _, st in pairs(cgrid) do
+			local stack   = inv:get_stack("craftpreview", 1)
+			local cgrid   = inv:get_list("craft")
+			local recipes = minetest.get_all_craft_recipes(stack:get_name())
+			local tabrcp  = {}
+			local count   = 65535
+
+			-- Get a simplified table for the craft grid's recipe
+			local widths = 0
+			local widthe = 0
+			for i = 1,3 do
+				if cgrid[i]:get_count() > 0 or cgrid[i+3]:get_count() > 0 or cgrid[i+6]:get_count() > 0 then
+					widthe = i
+					if widths == 0 then
+						widths = i
+					end
+				end
+			end
+			local width = widthe - widths + 1
+
+			for u, st in pairs(cgrid) do
 				if st:get_count() > 0 then
 					count = math.min(count, st:get_count())
 				end
+				if widths <= ((u-1)%3)+1 and ((u-1)%3)+1 <= widthe then
+					table.insert(tabrcp, st:get_name())
+				end
 			end
+
+			-- Crop out the useless blanks
+			local tmprcp = {}
+			for i = 0, 2 do
+				if (tabrcp[(i*3)+1] or "") ~= "" or (tabrcp[(i*3)+2] or "") ~= "" or (tabrcp[(i*3)+3] or "") ~= "" then
+					for u = 1, 3 do
+						if (tabrcp[(i*3)+u] or "") ~= "" then
+							table.insert(tmprcp, tabrcp[(i*3)+u])
+						end
+					end
+				end
+			end
+			tabrcp = table.copy(tmprcp)
+
+			-- Now check which recipe is the right one
+			local recipe = {}
+			for _, rcp in pairs(recipes) do
+				if rcp.type == "normal" and rcp.width == width then
+					local status = true
+					for u, elem in pairs(rcp.items) do
+						if elem ~= tabrcp[u] then
+							status = false
+							break
+						end
+					end
+					if status then
+						recipe = rcp
+						break
+					end
+				end
+			end
+
+			-- And get its replacements (even though there are usually not any...)
+			local _, output_decrement = minetest.get_craft_result(recipe)
+			local leftovers = table.copy((output_decrement.items or {}))
+
 
 			for _, st in pairs(cgrid) do
 				if st:get_count() > 0 then
@@ -84,6 +139,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			else
 				minetest.add_item(player:getpos(), stack)
 			end
+			for _, ls in pairs(leftovers) do
+				ls:set_count(count)
+				if inv:room_for_item("main", ls) then
+					inv:add_item("main", ls)
+				else
+					minetest.add_item(player:getpos(), ls)
+				end
+			end
+			-- WE'RE DONE
 		end
 	end
 end)
