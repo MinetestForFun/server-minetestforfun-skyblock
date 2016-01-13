@@ -18,3 +18,17 @@ minetest.register_chatcommand("spawn", {
 	description = "Teleport a player to the defined spawnpoint",
 	func = spawn.spawn
 })
+
+if minetest.get_modpath("unified_inventory") then
+	unified_inventory.register_button("misc_spawn", {
+		type = "image",
+		image = "spawn_button.png",
+		toolstipe = "Teleport to spawn",
+		action = function(player)
+			local _, res = spawn.spawn(player:get_player_name())
+			if res then
+				minetest.chat_send_player(player:get_player_name(), res)
+			end
+		end
+	})
+end
