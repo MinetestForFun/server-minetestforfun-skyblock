@@ -12,7 +12,7 @@ License: GPLv3
 -- quest
 minetest.register_node('skyblock:quest', {
 	description = 'Skyblock',
-	tiles = {'skyblock_quest.png'},
+	tiles = {'skyblock_quest1.png'},
 	is_ground_content = true,
 	paramtype = 'light',
 	light_propagates = true,
