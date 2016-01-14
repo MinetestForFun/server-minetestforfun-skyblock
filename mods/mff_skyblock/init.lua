@@ -65,6 +65,7 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 -- Override travelnet box texture
+--[[
 
 minetest.override_item("travelnet:travelnet", {
 	tiles = {
@@ -75,6 +76,7 @@ minetest.override_item("travelnet:travelnet", {
 		"travelnet_travelnet_top.png",  -- view from bottom
 	}
 })
+--]]
 
 -- Allow everybody to add to a travelnet network
 
