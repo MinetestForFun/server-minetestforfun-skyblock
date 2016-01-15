@@ -28,3 +28,7 @@
 [submodule "mods/protector"]
 	path = mods/protector
 	url = https://github.com/MinetestForFun/protector.git
+[submodule "mods/unified_inventory"]
+	path = mods/unified_inventory
+	url = https://github.com/MinetestForFun/unified_inventory.git
+
