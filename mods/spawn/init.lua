@@ -23,7 +23,7 @@ if minetest.get_modpath("unified_inventory") then
 	unified_inventory.register_button("misc_spawn", {
 		type = "image",
 		image = "spawn_button.png",
-		toolstipe = "Teleport to spawn",
+		tooltip = "Teleport to spawn",
 		action = function(player)
 			local _, res = spawn.spawn(player:get_player_name())
 			if res then
