@@ -1,0 +1,3 @@
+name = "battlerobot",
+author = "",
+comment = "GPL3",
