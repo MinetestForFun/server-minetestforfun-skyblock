@@ -138,7 +138,25 @@ function skyblock.spawn_player(player)
 	-- find the player spawn point
 	local spawn = skyblock.get_spawn(player_name)
 	if spawn == nil then
-		spawn = skyblock.get_next_spawn()
+		while true do
+			spawn = skyblock.get_next_spawn()
+			continue = false
+
+			for xp = -skyblock.start_gap/2, skyblock.start_gap/2 do
+				for yp = -skyblock.height_difference, skyblock.height_difference do
+					for zp = -skyblock.start_gap/2, skyblock.start_gap/2 do
+						local node = minetest.get_node_or_nil({x = spawn.x + xp, y = spawn.y + yp, z = spawn.z + zp})
+						if (node and node.name ~= "air") or minetest.is_protected({x = spawn.x + xp, y = spawn.y + yp, z = spawn.z + zp}, player:get_player_name()) then
+							continue = true
+							break
+						end
+					end
+					if continue then break end
+				end
+				if continue then break end
+			end
+			if not continue then break end
+		end
 		skyblock.set_spawn(player_name,spawn)
 	end
 	
