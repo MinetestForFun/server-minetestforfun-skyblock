@@ -409,7 +409,7 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
       while true do      
       
       local new_node = minetest.get_node(pos)
-      if minetest.get_item_group(new_node.name, "tree") == 0 then break end 
+      if minetest.get_item_group(new_node.name, "tree") == 0 or new_node.name ~= oldnode.name then break end 
       
       minetest.remove_node(pos)
       pos.y = pos.y + 1
