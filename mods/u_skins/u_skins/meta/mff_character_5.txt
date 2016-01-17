@@ -1,0 +1,3 @@
+name = "Cyclède",
+author = "",
+comment = "GPL3",
