@@ -29,3 +29,6 @@
 	path = mods/unified_inventory
 	url = https://github.com/MinetestForFun/unified_inventory.git
 
+[submodule "mods/ignore"]
+	path = mods/ignore
+	url = git://github.com/MinetestForFun/ignore.git
