@@ -89,7 +89,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			for i = 0, 2 do
 				if (tabrcp[(i*3)+1] or "") ~= "" or (tabrcp[(i*3)+2] or "") ~= "" or (tabrcp[(i*3)+3] or "") ~= "" then
 					for u = 1, 3 do
-						if (tabrcp[(i*3)+u] or "") ~= "" then
+						if (tabrcp[u] or "") ~= "" or (tabrcp[3+u] or "") ~= "" or (tabrcp[6+u] or "") ~= "" then
 							table.insert(tmprcp, tabrcp[(i*3)+u])
 						end
 					end
@@ -100,10 +100,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			-- Now check which recipe is the right one
 			local recipe = {}
 			for _, rcp in pairs(recipes) do
-				if rcp.type == "normal" and rcp.width == width then
+				if rcp.type == "normal" and (rcp.width == width or rcp.width == 0) then
 					local status = true
 					for u, elem in pairs(rcp.items) do
-						if elem ~= tabrcp[u] then
+						if elem:split(":")[1] == "group" then
+							local groups = elem:split(":")[2]:split(",")
+							for _, group in pairs(groups) do
+								if minetest.get_item_group(tabrcp[u], group) == 0 then
+									status = false
+									break
+								end
+							end
+
+						elseif elem ~= tabrcp[u] then
 							status = false
 							break
 						end
@@ -116,6 +125,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			end
 
 			-- And get its replacements (even though there are usually not any...)
+			if not recipe.items then
+				minetest.log("error", "ERROR in Max button for output " .. stack:get_name() .. ". Debug details :\nTabrcp: " .. dump(tabrcp) .. "\nCgrid: " .. dump(cgrid))
+				minetest.chat_send_player(player:get_player_name(), "Something went wrong. Ask the administrators for further informations.")
+				return
+			end
+
 			local _, output_decrement = minetest.get_craft_result(recipe)
 			local leftovers = table.copy((output_decrement.items or {}))
 
