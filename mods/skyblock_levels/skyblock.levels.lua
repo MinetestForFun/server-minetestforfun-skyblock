@@ -91,9 +91,9 @@ function skyblock.levels.get_inventory_formspec(level,player_name,inventory)
 		..'background[6.9,5.4;8.2,4.8;inventory.png]'
 		..'list[current_player;main;7,6;8,4;]'
 
-		--[[ MFF addons
+		-- MFF addon(s)
 		..'button[14,4.2;1,0.5;craft_max;Max]'
-    ]]
+
 	return formspec
 end
 
