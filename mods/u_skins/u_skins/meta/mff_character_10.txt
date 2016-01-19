@@ -1,3 +1,0 @@
-name = "strangekiller",
-author = "",
-comment = "GPL3",

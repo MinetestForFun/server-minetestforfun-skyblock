@@ -1,3 +1,0 @@
-name = "walkingdead",
-author = "",
-comment = "GPL3",

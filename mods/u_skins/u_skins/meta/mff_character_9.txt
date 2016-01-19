@@ -1,3 +1,0 @@
-name = "Obani",
-author = "Obani",
-comment = "GPL3",

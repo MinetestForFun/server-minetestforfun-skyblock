@@ -1,3 +1,0 @@
-name = "Gardeducorps",
-author = "",
-comment = "GPL3",

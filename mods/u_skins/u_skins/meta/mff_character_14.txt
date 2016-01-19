@@ -1,3 +1,0 @@
-name = "Greyscale Anhedonia",
-author = "Mg",
-comment = "WTFPL",

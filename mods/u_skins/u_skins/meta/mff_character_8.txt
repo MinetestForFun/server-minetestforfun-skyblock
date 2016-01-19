@@ -1,3 +1,0 @@
-name = "mystic",
-author = "",
-comment = "GPL3",
