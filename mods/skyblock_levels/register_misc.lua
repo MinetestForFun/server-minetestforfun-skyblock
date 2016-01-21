@@ -38,9 +38,9 @@ minetest.register_on_dieplayer(function(player)
 	else
 		skyblock.feats.reset_level(player_name)
 	end
-	
+
 	-- back to start of this level
-	
+
 end)
 
 -- player receive fields
@@ -82,6 +82,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				if widths <= ((u-1)%3)+1 and ((u-1)%3)+1 <= widthe then
 					table.insert(tabrcp, st:get_name())
 				end
+			end
+
+			if count * stack:get_count() > stack:get_stack_max() then
+				count = math.floor(stack:get_stack_max() / stack:get_count())
 			end
 
 			-- Crop out the useless blanks
@@ -134,26 +138,20 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local _, output_decrement = minetest.get_craft_result(recipe)
 			local leftovers = table.copy((output_decrement.items or {}))
 
-
-			for _, st in pairs(cgrid) do
-				if st:get_count() > 0 then
-					st:set_count(st:get_count() - count)
-					if st:get_count() > 0 then
-						if inv:room_for_item("main", st) then
-							inv:add_item("main", st)
-						else
-							minetest.add_item(player:getpos(), st)
-						end
-					end
-				end
-			end
+			-- Back to normal crafting
 			stack:set_count(stack:get_count() * count)
-			inv:set_list("craft", {[1] = "", [9] = ""})
+			for i = 1,inv:get_size("craft") do
+				local s = inv:get_stack("craft", i)
+				s:set_count(s:get_count() - count)
+				inv:set_stack("craft", i, s)
+			end
+
 			if inv:room_for_item("main", stack) then
 				inv:add_item("main", stack)
 			else
 				minetest.add_item(player:getpos(), stack)
 			end
+
 			for _, ls in pairs(leftovers) do
 				ls:set_count(count)
 				if inv:room_for_item("main", ls) then
@@ -175,6 +173,6 @@ if minetest.get_modpath('unified_inventory') then
 		tooltip = 'Skyblock Quests',
 		action = function(player)
 			skyblock.feats.update(player:get_player_name())
-		end,	
+		end,
 	})
 end
