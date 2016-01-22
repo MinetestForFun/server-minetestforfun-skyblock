@@ -171,7 +171,7 @@ minetest.register_craft({
 
 -- 3x protector fix ABM (temp fix)
 
-if true then
+if false then
 
 -- Degrade 3x protector into 1x if it overlaps other player's protectors
 minetest.register_abm({
