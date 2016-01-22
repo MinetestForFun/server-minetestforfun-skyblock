@@ -399,7 +399,7 @@ end)
 ]]
 
 minetest.register_on_dignode(function(pos, oldnode, digger)
-    
+  if not digger then return end
   local player = digger:get_player_name()
   pos.y = pos.y +1
   
