@@ -1,3 +1,34 @@
+report = {}
+
+function report.send(name, param)
+	-- Send to online moderators / admins
+	-- Get comma separated list of online moderators and admins
+	local mods = {}
+	for _, player in pairs(minetest.get_connected_players()) do
+		local toname = player:get_player_name()
+		if minetest.check_player_privs(toname, {kick = true, ban = true}) then
+			table.insert(mods, toname)
+			minetest.chat_send_player(toname, "-!- " .. name .. " reported: " .. param)
+		end
+	end
+
+	if #mods > 0 then
+		mod_list = table.concat(mods, ", ")
+		local admin = minetest.setting_get("name")
+		email.send_mail(name, admin, "Report: " .. param .. " (mods online: " .. mod_list .. ")")
+		for _, moderator in pairs(mods) do
+			if name ~= moderator then
+				email.send_mail(name, moderator, "Report: " .. param .. " (mods online: " .. mod_list .. ")")
+			end
+		end
+		return true, "Reported. Moderators currently online: " .. mod_list
+	else
+		email.send_mail(name, minetest.setting_get("name"),
+			"Report: " .. param .. " (no mods online)")
+		return true, "Reported. We'll get back to you."
+	end
+end
+
 minetest.register_chatcommand("report", {
 	func = function(name, param)
 		param = param:trim()
@@ -11,32 +42,11 @@ minetest.register_chatcommand("report", {
 				"you should also include a reason why. (Eg: swearing, sabotage)")
 		end
 
-		-- Send to online moderators / admins
-		-- Get comma separated list of online moderators and admins
-		local mods = {}
-		for _, player in pairs(minetest.get_connected_players()) do
-			local toname = player:get_player_name()
-			if minetest.check_player_privs(toname, {kick = true, ban = true}) then
-				table.insert(mods, toname)
-				minetest.chat_send_player(toname, "-!- " .. name .. " reported: " .. param)
-			end
+		local success, message = action_timers.wrapper(name, "report", "report_" .. name, 300, report.send, {name, param})
+		if message then
+			core.chat_send_player(name, message)
 		end
-
-		if #mods > 0 then
-			mod_list = table.concat(mods, ", ")
-			local admin = minetest.setting_get("name")
-			email.send_mail(name, admin, "Report: " .. param .. " (mods online: " .. mod_list .. ")")
-			for _, moderator in pairs(mods) do
-				if name ~= moderator then
-					email.send_mail(name, moderator, "Report: " .. param .. " (mods online: " .. mod_list .. ")")
-				end
-			end
-			return true, "Reported. Moderators currently online: " .. mod_list
-		else
-			email.send_mail(name, minetest.setting_get("name"),
-				"Report: " .. param .. " (no mods online)")
-			return true, "Reported. We'll get back to you."
-		end
+		return success
 	end
 })
 
@@ -76,6 +86,12 @@ if minetest.get_modpath("unified_inventory") then
 			local success, message = cmd_def.func(name, fields.text)
 			if message then
 				core.chat_send_player(name, message)
+			end
+
+			if success then
+				-- Little hack, since we cannot control a field's value
+				local base_form = unified_inventory.get_formspec(player, "report")
+				minetest.show_formspec(player:get_player_name(), "report:_thank", "label[4.7,3;Thank you for your input]")
 			end
 		else
 			core.chat_send_player(name, "You don't have permission"
