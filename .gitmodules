@@ -32,3 +32,6 @@
 [submodule "mods/ignore"]
 	path = mods/ignore
 	url = git://github.com/MinetestForFun/ignore.git
+[submodule "mods/time_regulation"]
+	path = mods/time_regulation
+	url = git://github.com/MinetestForFun/time_regulation.git
