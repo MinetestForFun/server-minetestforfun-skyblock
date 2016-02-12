@@ -140,7 +140,7 @@ function skyblock.spawn_player(player)
 	if spawn == nil then
 		while true do
 			spawn = skyblock.get_next_spawn()
-			continue = false
+			local continue = false
 
 			for xp = -skyblock.start_gap/2, skyblock.start_gap/2 do
 				for yp = -skyblock.height_difference, skyblock.height_difference do
