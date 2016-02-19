@@ -88,40 +88,26 @@ end
 -- Lavacooling
 --
 
-default.cool_lava_source = function(pos)
-	minetest.set_node(pos, {name = "default:obsidian"})
+default.cool_lava = function(pos, node)
+	if node.name == "default:lava_source" then
+		minetest.set_node(pos, {name = "default:obsidian"})
+	else -- Lava flowing
+		minetest.set_node(pos, {name = "default:stone"})
+	end
 	minetest.sound_play("default_cool_lava",
 		{pos = pos, max_hear_distance = 16, gain = 0.25})
 end
 
-default.cool_lava_flowing = function(pos)
-	minetest.set_node(pos, {name = "default:stone"})
-	minetest.sound_play("default_cool_lava",
-		{pos = pos, max_hear_distance = 16, gain = 0.25})
-end
-
---[[ No lava (MFF)
 minetest.register_abm({
-	nodenames = {"default:lava_flowing"},
+	nodenames = {"default:lava_source", "default:lava_flowing"},
 	neighbors = {"group:water"},
-	interval = 10,
-	chance = 2,
+	interval = 1,
+	chance = 1,
 	catch_up = false,
 	action = function(...)
-		default.cool_lava_flowing(...)
+		default.cool_lava(...)
 	end,
 })
-
-minetest.register_abm({
-	nodenames = {"default:lava_source"},
-	neighbors = {"group:water"},
-	interval = 10,
-	chance = 2,
-	catch_up = false,
-	action = function(...)
-		default.cool_lava_source(...)
-	end,
-})]]
 
 
 --
@@ -187,7 +173,7 @@ minetest.register_abm({
 
 minetest.register_abm({
 	nodenames = {"default:papyrus"},
-	neighbors = {"default:dirt", "default:dirt_with_grass", "default:sand"},
+	neighbors = {"default:dirt", "default:dirt_with_grass"},
 	interval = 45, -- (MFF)
 	chance = 8, -- (MFF)
 	action = function(...)
@@ -207,6 +193,51 @@ function default.dig_up(pos, node, digger)
 	if nn.name == node.name then
 		minetest.node_dig(np, nn, digger)
 	end
+end
+
+
+--
+-- Fence registration helper
+--
+function default.register_fence(name, def)
+	minetest.register_craft({
+		output = name .. " 4",
+		recipe = {
+			{ def.material, 'group:stick', def.material },
+			{ def.material, 'group:stick', def.material },
+		}
+	})
+
+	local fence_texture = "default_fence_overlay.png^" .. def.texture ..
+			"^default_fence_overlay.png^[makealpha:255,126,126"
+	-- Allow almost everything to be overridden
+	local default_fields = {
+		paramtype = "light",
+		drawtype = "fencelike",
+		inventory_image = fence_texture,
+		wield_image = fence_texture,
+		tiles = { def.texture },
+		sunlight_propagates = true,
+		is_ground_content = false,
+		selection_box = {
+			type = "fixed",
+			fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
+		},
+		groups = {},
+	}
+	for k, v in pairs(default_fields) do
+		if not def[k] then
+			def[k] = v
+		end
+	end
+
+	-- Always add to the fence group, even if no group provided
+	def.groups.fence = 1
+
+	def.texture = nil
+	def.material = nil
+
+	minetest.register_node(name, def)
 end
 
 
@@ -315,8 +346,9 @@ minetest.register_abm({
 
 minetest.register_abm({
 	nodenames = {"default:dirt"},
-	interval = 2,
-	chance = 200,
+	neighbors = {"air"},
+	interval = 6,
+	chance = 67,
 	catch_up = false,
 	action = function(pos, node)
 		local above = {x = pos.x, y = pos.y + 1, z = pos.z}
@@ -342,8 +374,8 @@ minetest.register_abm({
 --[[ Useless (MFF)
 minetest.register_abm({
 	nodenames = {"default:dirt_with_grass", "default:dirt_with_dry_grass"},
-	interval = 2,
-	chance = 20,
+	interval = 8,
+	chance = 50,
 	catch_up = false,
 	action = function(pos, node)
 		local above = {x = pos.x, y = pos.y + 1, z = pos.z}
@@ -366,7 +398,7 @@ minetest.register_abm({
 minetest.register_abm({
 	nodenames = {"default:cobble"},
 	neighbors = {"group:water"},
-	interval = 17,
+	interval = 16,
 	chance = 200,
 	catch_up = false,
 	action = function(pos, node)
