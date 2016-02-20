@@ -131,22 +131,33 @@ function skyblock.get_next_spawn()
 end
 
 -- handle player spawn setup
-function skyblock.spawn_player(player)
+function skyblock.spawn_player(player, old_spawn)
 	local player_name = player:get_player_name()
+	if not player_name or player_name ==  "" then return end --stop if retry with minetest.after, and not player
 	skyblock.log('skyblock.spawn_player() '..player_name)
 	
 	-- find the player spawn point
 	local spawn = skyblock.get_spawn(player_name)
 	if spawn == nil then
 		while true do
-			spawn = skyblock.get_next_spawn()
 			local continue = false
+			if not old_spawn then
+				spawn = skyblock.get_next_spawn()
+			else
+				spawn = old_spawn
+				old_spawn = nil
+			end
 
 			for xp = -skyblock.start_gap/2, skyblock.start_gap/2 do
 				for yp = -skyblock.height_difference, skyblock.height_difference do
 					for zp = -skyblock.start_gap/2, skyblock.start_gap/2 do
 						local node = minetest.get_node_or_nil({x = spawn.x + xp, y = spawn.y + yp, z = spawn.z + zp})
-						if (node and node.name ~= "air") or minetest.is_protected({x = spawn.x + xp, y = spawn.y + yp, z = spawn.z + zp}, player:get_player_name()) then
+						if not node or node.name == "ignore" then --if unloaded chunk then teleport player to load chunk and retry at same spawn_point
+							player:setpos({x=spawn.x,y=spawn.y+8,z=spawn.z})
+							minetest.after(2, skyblock.spawn_player, player, spawn)
+							return
+						end
+						if (node and node.name ~= "air") then
 							continue = true
 							break
 						end
@@ -155,6 +166,16 @@ function skyblock.spawn_player(player)
 				end
 				if continue then break end
 			end
+			
+			if minetest.is_protected({x = spawn.x+15, y = spawn.y, z = spawn.z}, player:get_player_name())
+			or minetest.is_protected({x = spawn.x, y = spawn.y+15, z = spawn.z}, player:get_player_name())
+			or minetest.is_protected({x = spawn.x, y = spawn.y, z = spawn.z+15}, player:get_player_name())
+			or minetest.is_protected({x = spawn.x-15, y = spawn.y, z = spawn.z}, player:get_player_name())
+			or minetest.is_protected({x = spawn.x, y = spawn.y-15, z = spawn.z}, player:get_player_name())
+			or minetest.is_protected({x = spawn.x, y = spawn.y, z = spawn.z-15}, player:get_player_name()) then
+				continue = true
+			end
+
 			if not continue then break end
 		end
 		skyblock.set_spawn(player_name,spawn)

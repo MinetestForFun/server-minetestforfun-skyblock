@@ -40,7 +40,7 @@ local function spawn_tick()
 		-- hit the bottom
 		if pos.y < skyblock.world_bottom then
 			local spawn = skyblock.get_spawn(player:get_player_name())
-			if minetest.get_node(spawn).name == 'skyblock:quest' then
+			if spawn and minetest.get_node(spawn).name == 'skyblock:quest' then
 				player:set_hp(0)
 			else
 				skyblock.spawn_player(player)
