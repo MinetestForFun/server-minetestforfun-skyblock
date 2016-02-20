@@ -154,6 +154,25 @@ function _doors.door_toggle(pos, clicker)
 	return true
 end
 
+
+local function on_place_node(place_to, newnode, placer, oldnode, itemstack, pointed_thing)
+	-- Run script hook
+	local _, callback
+	for _, callback in ipairs(core.registered_on_placenodes) do
+		-- Deepcopy pos, node and pointed_thing because callback can modify them
+		local place_to_copy = {x = place_to.x, y = place_to.y, z = place_to.z}
+		local newnode_copy = {name = newnode.name, param1 = newnode.param1, param2 = newnode.param2}
+		local oldnode_copy = {name = oldnode.name, param1 = oldnode.param1, param2 = oldnode.param2}
+		local pointed_thing_copy = {
+			type  = pointed_thing.type,
+			above = vector.new(pointed_thing.above),
+			under = vector.new(pointed_thing.under),
+			ref   = pointed_thing.ref,
+		}
+		callback(place_to_copy, newnode_copy, placer, oldnode_copy, itemstack, pointed_thing_copy)
+	end
+end
+
 function doors.register(name, def)
 	-- replace old doors of this type automatically
 	minetest.register_abm({
@@ -183,11 +202,28 @@ function doors.register(name, def)
 		inventory_image = def.inventory_image,
 
 		on_place = function(itemstack, placer, pointed_thing)
-			local pos = pointed_thing.above
-			local node = minetest.get_node(pos)
+			local pos = nil
 
-			if not minetest.registered_nodes[node.name].buildable_to then
+			if not pointed_thing.type == "node" then
 				return itemstack
+			end
+
+			local node = minetest.get_node(pointed_thing.under)
+			local def = minetest.registered_nodes[node.name]
+			if def and def.on_rightclick then
+				return def.on_rightclick(pointed_thing.under,
+						node, placer, itemstack)
+			end
+
+			if def and def.buildable_to then
+				pos = pointed_thing.under
+			else
+				pos = pointed_thing.above
+				node = minetest.get_node(pos)
+				def = minetest.registered_nodes[node.name]
+				if not def or not def.buildable_to then
+					return itemstack
+				end
 			end
 
 			local above = { x = pos.x, y = pos.y + 1, z = pos.z }
@@ -231,6 +267,8 @@ function doors.register(name, def)
 			if not minetest.setting_getbool("creative_mode") then
 				itemstack:take_item()
 			end
+
+			on_place_node(pos, minetest.get_node(pos), placer, node, itemstack, pointed_thing)
 
 			return itemstack
 		end
