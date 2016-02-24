@@ -13,7 +13,7 @@ function report.send(name, param)
 	end
 
 	if #mods > 0 then
-		mod_list = table.concat(mods, ", ")
+		local mod_list = table.concat(mods, ", ")
 		local admin = minetest.setting_get("name")
 		email.send_mail(name, admin, "Report: " .. param .. " (mods online: " .. mod_list .. ")")
 		for _, moderator in pairs(mods) do
@@ -91,7 +91,7 @@ if minetest.get_modpath("unified_inventory") then
 			if success then
 				-- Little hack, since we cannot control a field's value
 				local base_form = unified_inventory.get_formspec(player, "report")
-				minetest.show_formspec(player:get_player_name(), "report:_thank", "label[4.7,3;Thank you for your input]")
+				minetest.show_formspec(player:get_player_name(), "report:_thank", "size[4,3]label[1.6,0;Report]label[0.7,1;Thank you for your input]button_exit[1.5,2.2;1.2,1;btclose;Close]")
 			end
 		else
 			core.chat_send_player(name, "You don't have permission"
