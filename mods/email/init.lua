@@ -137,6 +137,7 @@ function email.show_inbox(name, text_mode)
 end
 
 minetest.register_on_player_receive_fields(function(player,formname,fields)
+	if formname ~= "email:inbox" then return end
 	if fields.clear then
 		local name = player:get_player_name()
 		email.clear_inbox(name)
