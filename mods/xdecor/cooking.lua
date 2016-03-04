@@ -42,7 +42,7 @@ end
 
 function cauldron.idle_timer(pos)
 	local below_node = {x=pos.x, y=pos.y-1, z=pos.z}
-	if not minetest.get_node(below_node).name:find("fire") then
+	if not (minetest.get_node(below_node).name:find("fire") or minetest.get_node(below_node).name == "default:torch") then
 		return true
 	end
 
@@ -84,7 +84,7 @@ function cauldron.boiling_timer(pos)
 	end
 
 	local node_under = {x=pos.x, y=pos.y-1, z=pos.z}
-	if not minetest.get_node(node_under).name:find("fire") then
+	if not (minetest.get_node(node_under).name:find("fire") or minetest.get_node(node_under).name == "default:torch") then
 		minetest.set_node(pos, {name="xdecor:cauldron_idle", param2=node.param2})
 	end
 	return true

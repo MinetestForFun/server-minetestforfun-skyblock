@@ -11,7 +11,7 @@ function workbench:nodes(def)
 		def.on_blast and not def.allow_metadata_inventory_take and not
 		(def.groups.not_in_creative_inventory == 1) and not
 		def.groups.wool and not def.description:find("Ore") and
-		def.description and def.description ~= "" and def.light_source == 0
+		def.description and def.description ~= "" and (def.light_source == 0 or def.name:find("default:mese"))
 end
 
 -- Nodeboxes definitions.
