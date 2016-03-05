@@ -35,7 +35,7 @@ function beds.register_bed(name, def)
 			end
 			minetest.set_node(p, {name = n.name:gsub("%_bottom", "_top"), param2 = n.param2})
 			return false
-		end,	
+		end,
 		on_destruct = function(pos)
 			local n = minetest.get_node_or_nil(pos)
 			if not n then return end
@@ -45,6 +45,12 @@ function beds.register_bed(name, def)
 			if minetest.get_item_group(n2.name, "bed") == 2 and n.param2 == n2.param2 then
 				minetest.remove_node(p)
 			end
+		end,
+		after_dig_node = function(pos, oldnode, oldmetadata, digger)
+			local name = digger:get_player_name()
+			if not name or name == "" then return end
+			beds.spawn[name] = nil
+			beds.save_spawns()
 		end,
 		on_rightclick = function(pos, node, clicker)
 			beds.on_rightclick(pos, clicker)
