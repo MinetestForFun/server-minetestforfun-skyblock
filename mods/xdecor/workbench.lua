@@ -242,6 +242,8 @@ for node in pairs(minetest.registered_nodes) do
 				def.description.." Stair", def.description.." Slab", def.sounds)
 		end
 
+		local light_source = minetest.registered_nodes[node].light_source or 0
+
 		minetest.register_node(":"..node.."_"..d[1], {
 			description = def.description.." "..d[1]:gsub("^%l", string.upper),
 			paramtype = "light",
@@ -253,7 +255,8 @@ for node in pairs(minetest.registered_nodes) do
 			-- `unpack` has been changed to `table.unpack` in newest Lua versions.
 			node_box = xdecor.pixelbox(16, {unpack(d, 3)}),
 			sunlight_propagates = true,
-			on_place = minetest.rotate_node
+			on_place = minetest.rotate_node,
+			light_source = light_source,
 		})
 	end
 	if node:match(":mese") then
