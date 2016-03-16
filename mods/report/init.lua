@@ -1,8 +1,28 @@
 report = {}
 
+
+function report.is_online(mods, name)
+	for _, moderator in pairs(mods) do
+		if moderator == name then
+			return true
+		end
+	end
+	return false
+end
+
+
 function report.send(name, param)
 	-- Send to online moderators / admins
 	-- Get comma separated list of online moderators and admins
+	local always_send_to = minetest.setting_get("report_moderator")
+	local offline_mods = {}
+	if always_send_to then
+		local all = string.split(always_send_to, " ")
+		for _, n in pairs(all) do
+			table.insert(offline_mods, n)
+		end
+	end
+
 	local mods = {}
 	for _, player in pairs(minetest.get_connected_players()) do
 		local toname = player:get_player_name()
@@ -21,8 +41,19 @@ function report.send(name, param)
 				email.send_mail(name, moderator, "Report: " .. param .. " (mods online: " .. mod_list .. ")")
 			end
 		end
+
+		for _, moderator in pairs(offline_mods) do
+			if not report.is_online(mods, moderator) then
+				email.send_mail(name, moderator, "Report: " .. param .. " (mods online: " .. mod_list .. ")")
+			end
+		end
+
 		return true, "Reported. Moderators currently online: " .. mod_list
 	else
+		for _, moderator in pairs(offline_mods) do
+			email.send_mail(name, moderator, "Report: " .. param .. " (no mods online)")
+		end
+
 		email.send_mail(name, minetest.setting_get("name"),
 			"Report: " .. param .. " (no mods online)")
 		return true, "Reported. We'll get back to you."
