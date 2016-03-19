@@ -47,24 +47,10 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({ 
-	output = "realchess:chessboard",
-	recipe = {
-		{"dye:black", "dye:white", "dye:black"},
-		{"stairs:slab_wood", "stairs:slab_wood", "stairs:slab_wood"}
-	} 
-})
-
-minetest.register_craft({ 
-	output = "xdecor:crafting_guide",
-	type = "shapeless",
-	recipe = {"default:book"}
-})
-
 minetest.register_craft({
-	output = "xdecor:cushion 3",
+	output = "xdecor:cactusbrick",
 	recipe = {
-		{"wool:red", "wool:red", "wool:red"}
+		{"default:brick", "default:cactus"}
 	}
 })
 
@@ -75,6 +61,14 @@ minetest.register_craft({
 		{"default:iron_lump", "", "default:iron_lump"},
 		{"default:iron_lump", "default:iron_lump", "default:iron_lump"}
 	}
+})
+
+minetest.register_craft({ 
+	output = "realchess:chessboard",
+	recipe = {
+		{"dye:black", "dye:white", "dye:black"},
+		{"stairs:slab_wood", "stairs:slab_wood", "stairs:slab_wood"}
+	} 
 })
 
 minetest.register_craft({
@@ -95,27 +89,24 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "xdecor:cobble_wall_ln 6",
-	recipe = {
-		{"default:cobble", "default:cobble", "default:cobble"},
-		{"default:cobble", "default:cobble", "default:cobble"}
-	}
-})
-
-minetest.register_craft({
-	output = "xdecor:mossycobble_wall_ln 6",
-	recipe = {
-		{"default:mossycobble", "default:mossycobble", "default:mossycobble"},
-		{"default:mossycobble", "default:mossycobble", "default:mossycobble"}
-	}
-})
-
-minetest.register_craft({
 	output = "xdecor:cobweb",
 	recipe = {
 		{"farming:cotton", "", "farming:cotton"},
 		{"", "farming:cotton", ""},
 		{"farming:cotton", "", "farming:cotton"}
+	}
+})
+
+minetest.register_craft({ 
+	output = "xdecor:crafting_guide",
+	type = "shapeless",
+	recipe = {"default:book"}
+})
+
+minetest.register_craft({
+	output = "xdecor:cushion 3",
+	recipe = {
+		{"wool:red", "wool:red", "wool:red"}
 	}
 })
 
@@ -151,13 +142,6 @@ minetest.register_craft({
 		{"", "default:book", ""},
 		{"default:diamond", "default:obsidian", "default:diamond"},
 		{"default:obsidian", "default:obsidian", "default:obsidian"}
-	}
-})
-
-minetest.register_craft({
-	output = "xdecor:flint_steel",
-	recipe = {
-		{"default:obsidian_shard", "default:steel_ingot"}
 	}
 })
 
@@ -239,6 +223,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "xdecor:moonbrick",
+	recipe = {
+		{"default:brick", "default:stone"}
+	}
+})
+
+minetest.register_craft({
 	output = "xdecor:multishelf",
 	recipe = {
 		{"group:wood", "group:wood", "group:wood"},
@@ -258,7 +249,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "xdecor:painting_1",
 	recipe = {
-		{"default:sign_wall", "dye:blue"}
+		{"default:sign_wall_wood", "dye:blue"}
 	}
 })
 
@@ -269,7 +260,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "xdecor:pressure_wooden_off",
+	output = "xdecor:pressure_wood_off",
 	type = "shapeless",
 	recipe = {"group:wood", "group:wood"}
 })

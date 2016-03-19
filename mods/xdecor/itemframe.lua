@@ -7,15 +7,14 @@ local function remove_item(pos, node)
 
 	for _, obj in pairs(objs) do
 		if obj and obj:get_luaentity() and
-			obj:get_luaentity().name == "xdecor:f_item" then
-			obj:remove()
+				obj:get_luaentity().name == "xdecor:f_item" then
+			obj:remove() break
 		end
 	end
 end
 
 local facedir = {
-	[0] = {x=0, y=0, z=1}, {x=1, y=0, z=0},
-	      {x=0, y=0, z=-1},{x=-1, y=0, z=0}
+	[0] = {x=0, y=0, z=1}, {x=1, y=0, z=0}, {x=0, y=0, z=-1}, {x=-1, y=0, z=0}
 }
 
 local function update_item(pos, node)
@@ -25,15 +24,16 @@ local function update_item(pos, node)
 	local posad = facedir[node.param2]
 	if not posad or itemstring == "" then return end
 
-	pos.x = pos.x + posad.x * 6.5/16
-	pos.y = pos.y + posad.y * 6.5/16
-	pos.z = pos.z + posad.z * 6.5/16
+	pos = vector.add(pos, vector.multiply(posad, 6.5/16))
 	tmp.nodename = node.name
 	tmp.texture = ItemStack(itemstring):get_name()
 
 	local entity = minetest.add_entity(pos, "xdecor:f_item")
 	local yaw = math.pi*2 - node.param2 * math.pi/2
 	entity:setyaw(yaw)
+
+	local timer = minetest.get_node_timer(pos)
+	timer:start(15.0)
 end
 
 local function drop_item(pos, node)
@@ -44,12 +44,14 @@ local function drop_item(pos, node)
 	minetest.add_item(pos, item)
 	meta:set_string("item", "")
 	remove_item(pos, node)
+
+	local timer = minetest.get_node_timer(pos)
+	timer:stop()
 end
 
 minetest.register_entity("xdecor:f_item", {
-	hp_max = 1,
 	visual = "wielditem",
-	visual_size = {x=.33, y=.33},
+	visual_size = {x=0.33, y=0.33},
 	collisionbox = {0},
 	physical = false,
 	textures = {"air"},
@@ -80,7 +82,7 @@ minetest.register_entity("xdecor:f_item", {
 
 xdecor.register("frame", {
 	description = "Item Frame",
-	groups = {choppy=3, oddly_breakable_by_hand=2},
+	groups = {choppy=2},
 	sounds = default.node_sound_wood_defaults(),
 	on_rotate = screwdriver.disallow,
 	sunlight_propagates = true,
@@ -94,6 +96,16 @@ xdecor.register("frame", {
 		meta:set_string("owner", name)
 		meta:set_string("infotext", "Item Frame (owned by "..name..")")
 	end,
+	on_timer = function(pos)
+		local node = minetest.get_node(pos)
+		local meta = minetest.get_meta(pos)
+		local num = #minetest.get_objects_inside_radius(pos, 0.5)
+
+		if num == 0 and meta:get_string("item") ~= "" then
+			update_item(pos, node)
+		end
+		return true
+	end,
 	on_rightclick = function(pos, node, clicker, itemstack)
 		local meta = minetest.get_meta(pos)
 		local player = clicker:get_player_name()
@@ -101,7 +113,7 @@ xdecor.register("frame", {
 		if player ~= owner or not itemstack then return end
 
 		drop_item(pos, node)
-		local itemstring = itemstack:take_item():to_string()
+		local itemstring = itemstack:take_item():get_name()
 		meta:set_string("item", itemstring)
 		update_item(pos, node)
 
@@ -125,12 +137,3 @@ xdecor.register("frame", {
 	after_destruct = remove_item
 })
 
-minetest.register_abm({
-	nodenames = {"xdecor:frame"},
-	interval = 15, chance = 1,
-	action = function(pos, node)
-		local num = #minetest.get_objects_inside_radius(pos, 0.5)
-		if num > 0 then return end
-		update_item(pos, node)
-	end
-})

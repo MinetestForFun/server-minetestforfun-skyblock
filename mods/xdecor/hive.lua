@@ -1,4 +1,5 @@
 local hive = {}
+local honey_max = 16
 
 function hive.construct(pos)
 	local meta = minetest.get_meta(pos)
@@ -16,6 +17,31 @@ function hive.construct(pos)
 	meta:set_string("formspec", formspec)
 	meta:set_string("infotext", "Artificial Hive")
 	inv:set_size("honey", 1)
+
+	local timer = minetest.get_node_timer(pos)
+	timer:start(math.random(64, 128))
+end
+
+function hive.timer(pos)
+	local time = (minetest.get_timeofday() or 0) * 24000
+	if time < 5500 or time > 18500 then return true end
+
+	local inv = minetest.get_meta(pos):get_inventory()	
+	local honeystack = inv:get_stack("honey", 1)
+	local honey = honeystack:get_count()
+
+	local radius = 4
+	local minp = vector.add(pos, -radius)
+	local maxp = vector.add(pos, radius)
+	local flowers = minetest.find_nodes_in_area_under_air(minp, maxp, "group:flower")
+
+	if #flowers > 2 and honey < honey_max then
+		inv:add_item("honey", "xdecor:honey")
+	elseif honey == honey_max then
+		local timer = minetest.get_node_timer(pos)
+		timer:stop() return true
+	end
+	return true
 end
 
 xdecor.register("hive", {
@@ -25,33 +51,20 @@ xdecor.register("hive", {
 		 "xdecor_hive_side.png", "xdecor_hive_front.png"},
 	groups = {choppy=3, oddly_breakable_by_hand=2, flammable=1},
 	on_construct = hive.construct,
+	on_timer = hive.timer,
 	can_dig = function(pos)
-		return minetest.get_meta(pos):get_inventory():is_empty("honey")
+		local inv = minetest.get_meta(pos):get_inventory()
+		return inv:is_empty("honey")
 	end,
 	on_punch = function(_, _, puncher)
 		puncher:set_hp(puncher:get_hp() - 2)
 	end,
-	allow_metadata_inventory_put = function() return 0 end
-})
-
-minetest.register_abm({
-	nodenames = {"xdecor:hive"},
-	interval = 30, chance = 10,
-	action = function(pos)
-		local time = (minetest.get_timeofday() or 0) * 24000
-		if time < 5500 or time > 18500 then return end
-
-		local inv = minetest.get_meta(pos):get_inventory()
-		local honeystack = inv:get_stack("honey", 1)
-		local honey = honeystack:get_count()
-
-		local radius = 4
-		local minp = vector.add(pos, -radius)
-		local maxp = vector.add(pos, radius)
-		local flowers = minetest.find_nodes_in_area_under_air(minp, maxp, "group:flower")
-
-		if #flowers > 2 and honey < 16 then
-			inv:add_item("honey", "xdecor:honey")
+	allow_metadata_inventory_put = function() return 0 end,
+	on_metadata_inventory_take = function(pos, _, _, stack)
+		if stack:get_count() == honey_max then
+			local timer = minetest.get_node_timer(pos)
+			timer:start(math.random(64, 128))
 		end
 	end
 })
+
