@@ -1,11 +1,15 @@
--- Thanks to sofar for helping with that code.
+--[[ Thanks to sofar for helping with that code.
+Pressure plates work better with this setting in minetest.conf (requires 0.4.14):
+	nodetimer_interval = 0.1
+]]
+
 local plate = {}
 screwdriver = screwdriver or {}
 
 local function door_toggle(pos_actuator, pos_door, player)
 	local actuator = minetest.get_node(pos_actuator)
 	local door = doors.get(pos_door)
-	if not door then return end
+
 	if actuator.name:sub(-4) == "_off" then
 		minetest.set_node(pos_actuator,
 			{name=actuator.name:gsub("_off", "_on"), param2=actuator.param2})
@@ -71,12 +75,12 @@ end
 
 plate.register("wood", "Wooden", {
 	sounds = default.node_sound_wood_defaults(),
-	groups = {choppy=3, flammable=2}
+	groups = {choppy=3, oddly_breakable_by_hand=2, flammable=2}
 })
 
 plate.register("stone", "Stone", {
 	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky=3}
+	groups = {cracky=3, oddly_breakable_by_hand=2}
 })
 
 xdecor.register("lever_off", {
