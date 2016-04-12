@@ -1,6 +1,8 @@
 -- Minetest 0.4 mod: default
 -- See README.txt for licensing and other information.
 
+default = {} -- Definitions made by this mod are usable by all mods.
+
 -- The API documentation in here was moved into game_api.txt
 
 -- Definitions made by this mod that other mods can use too

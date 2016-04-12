@@ -53,8 +53,8 @@ function default.register_ores()
 		ore_type        = "blob",
 		ore             = "default:clay",
 		wherein         = {"default:sand"},
-		clust_scarcity  = 16 * 16 * 16,
-		clust_size      = 5,
+		clust_scarcity  = 24 * 24 * 24,
+		clust_size      = 7,
 		y_min           = -15,
 		y_max           = 0,
 		noise_threshold = 0.0,
@@ -75,9 +75,9 @@ function default.register_ores()
 		ore             = "default:sand",
 		wherein         = {"default:stone", "default:sandstone",
 			"default:desert_stone"},
-		clust_scarcity  = 16 * 16 * 16,
-		clust_size      = 5,
-		y_min           = -31,
+		clust_scarcity  = 24 * 24 * 24,
+		clust_size      = 7,
+		y_min           = -63,
 		y_max           = 4,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -96,9 +96,9 @@ function default.register_ores()
 		ore_type        = "blob",
 		ore             = "default:dirt",
 		wherein         = {"default:stone", "default:sandstone"},
-		clust_scarcity  = 16 * 16 * 16,
-		clust_size      = 5,
-		y_min           = -31,
+		clust_scarcity  = 24 * 24 * 24,
+		clust_size      = 7,
+		y_min           = -63,
 		y_max           = 31000,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -117,8 +117,8 @@ function default.register_ores()
 		ore_type        = "blob",
 		ore             = "default:gravel",
 		wherein         = {"default:stone"},
-		clust_scarcity  = 16 * 16 * 16,
-		clust_size      = 5,
+		clust_scarcity  = 24 * 24 * 24,
+		clust_size      = 7,
 		y_min           = -31000,
 		y_max           = 31000,
 		noise_threshold = 0.0,
@@ -138,10 +138,21 @@ function default.register_ores()
 		ore_type       = "scatter",
 		ore            = "default:stone_with_coal",
 		wherein        = "default:stone",
-		clust_scarcity = 8 * 8 * 8,
+		clust_scarcity = 9 * 9 * 9,
 		clust_num_ores = 8,
 		clust_size     = 3,
-		y_min          = -31000,
+		y_min          = -30000,
+		y_max          = 64,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:desert_stone_with_coal",
+		wherein        = "default:desert_stone",
+		clust_scarcity = 9 * 9 * 9,
+		clust_num_ores = 10,
+		clust_size     = 3,
+		y_min          = 0,
 		y_max          = 64,
 	})
 
@@ -152,8 +163,20 @@ function default.register_ores()
 		clust_scarcity = 24 * 24 * 24,
 		clust_num_ores = 27,
 		clust_size     = 6,
-		y_min          = -31000,
+		y_min          = -30000,
 		y_max          = 0,
+		flags          = "absheight",
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:stone_with_coal",
+		wherein        = "default:stone",
+		clust_scarcity = 32 * 32 * 32,
+		clust_num_ores = 40,
+		clust_size     = 4,
+		y_max          = 64,
+		y_min          = -30000,
 	})
 
 	-- Iron
@@ -187,7 +210,7 @@ function default.register_ores()
 		clust_scarcity = 7 * 7 * 7,
 		clust_num_ores = 5,
 		clust_size     = 3,
-		y_min          = -31000,
+		y_min          = -30000,
 		y_max          = -64,
 	})
 
@@ -198,11 +221,22 @@ function default.register_ores()
 		clust_scarcity = 24 * 24 * 24,
 		clust_num_ores = 27,
 		clust_size     = 6,
-		y_min          = -31000,
+		y_min          = -30000,
 		y_max          = -64,
 	})
 
-	--Mese
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:stone_with_iron",
+		wherein        = "default:stone",
+		clust_scarcity = 48 * 48 * 48,
+		clust_num_ores = 40,
+		clust_size     = 4,
+		y_max          = 64,
+		y_min          = -30000,
+	})
+
+	-- Mese
 
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -212,7 +246,7 @@ function default.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 2,
 		y_min          = -255,
-		y_max          = -64,
+		y_max          = -128,
 	})
 
 	minetest.register_ore({
@@ -222,7 +256,7 @@ function default.register_ores()
 		clust_scarcity = 14 * 14 * 14,
 		clust_num_ores = 5,
 		clust_size     = 3,
-		y_min          = -31000,
+		y_min          = -1024,
 		y_max          = -256,
 	})
 
@@ -230,12 +264,63 @@ function default.register_ores()
 		ore_type       = "scatter",
 		ore            = "default:mese",
 		wherein        = "default:stone",
-		clust_scarcity = 36 * 36 * 36,
+		clust_scarcity = 20 * 20 * 20,
 		clust_num_ores = 3,
 		clust_size     = 2,
-		y_min          = -31000,
+		y_min          = -30000,
 		y_max          = -1024,
 	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:mese",
+		wherein        = "default:stone",
+		clust_scarcity = 40 * 40 * 40,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_min          = -1024,
+		y_max          = 64,
+		flags          = "absheight",
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:mese",
+		wherein        = "default:desert_stone",
+		clust_scarcity = 40 * 40 * 40,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_min          = -1024,
+		y_max          = 64,
+		flags          = "absheight",
+	})
+
+	-- Beware of Meze
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:meze",
+		wherein        = "default:stone",
+		clust_scarcity = 40 * 40 * 40,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_min          = 0,
+		y_max          = 64,
+		flags          = "absheight",
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:meze",
+		wherein        = "default:desert_stone",
+		clust_scarcity = 40 * 40 * 40,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_min          = 0,
+		y_max          = 64,
+		flags          = "absheight",
+	})
+
 
 	-- Gold
 
@@ -257,7 +342,7 @@ function default.register_ores()
 		clust_scarcity = 13 * 13 * 13,
 		clust_num_ores = 5,
 		clust_size     = 3,
-		y_min          = -31000,
+		y_min          = -30000,
 		y_max          = -256,
 	})
 
@@ -270,8 +355,8 @@ function default.register_ores()
 		clust_scarcity = 17 * 17 * 17,
 		clust_num_ores = 4,
 		clust_size     = 3,
-		y_min          = -255,
-		y_max          = -128,
+		y_min          = -512,
+		y_max          = -256,
 	})
 
 	minetest.register_ore({
@@ -281,8 +366,19 @@ function default.register_ores()
 		clust_scarcity = 15 * 15 * 15,
 		clust_num_ores = 4,
 		clust_size     = 3,
-		y_min          = -31000,
-		y_max          = -256,
+		y_min          = -30000,
+		y_max          = -512,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:stone_with_diamond",
+		wherein        = "default:stone",
+		clust_scarcity = 30 * 30 * 30,
+		clust_num_ores = 32,
+		clust_size     = 5,
+		y_max          = -4096,
+		y_min          = -30000,
 	})
 
 	-- Copper
@@ -300,13 +396,192 @@ function default.register_ores()
 
 	minetest.register_ore({
 		ore_type       = "scatter",
+		ore            = "default:desert_stone_with_copper",
+		wherein        = "default:desert_stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 6,
+		clust_size     = 3,
+		y_min          = 0,
+		y_max          = 64,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
 		ore            = "default:stone_with_copper",
 		wherein        = "default:stone",
-		clust_scarcity = 9 * 9 * 9,
+		clust_scarcity = 10 * 10 * 10,
 		clust_num_ores = 5,
 		clust_size     = 3,
-		y_min          = -31000,
+		y_min          = -30000,
 		y_max          = -64,
+	})
+
+	-- Gold Coins
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:stone_with_coin",
+		wherein        = "default:stone",
+		clust_scarcity = 26 * 26 * 26,
+		clust_num_ores = 1,
+		clust_size     = 1,
+		y_min          = -30000,
+		y_max          = 0,
+		flags          = "absheight",
+	})
+
+	-- Super Apples
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "maptools:superapple",
+		wherein        = "default:apple",
+		clust_scarcity = 6 * 6 * 6,
+		clust_num_ores = 5,
+		clust_size     = 2,
+		y_min          = 0,
+		y_max          = 64,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "maptools:superapple",
+		wherein        = "default:jungleleaves",
+		clust_scarcity = 16 * 16 * 16,
+		clust_num_ores = 5,
+		clust_size     = 2,
+		y_min          = 0,
+		y_max          = 64,
+	})
+
+	-- Underground springs:
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:water_source",
+		ore_param2     = 128,
+		wherein        = "default:stone",
+		clust_scarcity = 20 * 20 * 20,
+		clust_num_ores = 10,
+		clust_size     = 4,
+		y_min          = -10000,
+		y_max          = -10,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:lava_source",
+		ore_param2     = 128,
+		wherein        = "default:stone",
+		clust_scarcity = 32 * 32 * 32,
+		clust_num_ores = 5,
+		clust_size     = 2,
+		y_min          = -30000,
+		y_max          = -100,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:dirt",
+		wherein        = "default:stone",
+		clust_scarcity = 16 * 16 * 16,
+		clust_num_ores = 64,
+		clust_size     = 5,
+		y_max          = 64,
+		y_min          = -4096,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:gravel",
+		wherein        = "default:stone",
+		clust_scarcity = 16 * 16 * 16,
+		clust_num_ores = 64,
+		clust_size     = 5,
+		y_max          = 64,
+		y_min          = -30000,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:sand",
+		wherein        = "default:stone",
+		clust_scarcity = 24 * 24 * 24,
+		clust_num_ores = 32,
+		clust_size     = 4,
+		y_max          = 64,
+		y_min          = -1024,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:clay",
+		wherein        = "default:stone",
+		clust_scarcity = 32 * 32 * 32,
+		clust_num_ores = 32,
+		clust_size     = 4,
+		y_max          = 64,
+		y_min          = -1024,
+	})
+
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:cobble",
+		wherein        = "default:stone",
+		clust_scarcity = 40 * 40 * 40,
+		clust_num_ores = 512,
+		clust_size     = 9,
+		y_max          = 64,
+		y_min          = -4096,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:desert_cobble",
+		wherein        = "default:desert_stone",
+		clust_scarcity = 40 * 40 * 40,
+		clust_num_ores = 512,
+		clust_size     = 9,
+		y_max          = 64,
+		y_min          = 0,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:clay",
+		wherein        = "default:sand",
+		clust_scarcity = 14 * 14 * 14,
+		clust_num_ores = 64,
+		clust_size     = 5,
+		y_max          = 4,
+		y_min          = -8,
+	})
+
+	-- Air rooms in dirt:
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "air",
+		wherein        = "default:dirt",
+		clust_scarcity = 24 * 24 * 24,
+		clust_num_ores = 200,
+		clust_size     = 7,
+		y_min          = -30000,
+		y_max          = 64,
+	})
+
+	-- Acid lakes in gravel:
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "default:acid_source",
+		wherein        = "default:gravel",
+		clust_scarcity = 26 * 26 * 26,
+		clust_num_ores = 64,
+		clust_size     = 5,
+		y_min          = -30000,
+		y_max          = 64,
 	})
 end
 
@@ -991,8 +1266,8 @@ function default.register_decorations()
 		place_on = {"default:dirt_with_grass"},
 		sidelen = 16,
 		noise_params = {
-			offset = 0.04,
-			scale = 0.02,
+			offset = 0.036,
+			scale = 0.022,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 2,
 			octaves = 3,
@@ -1010,8 +1285,8 @@ function default.register_decorations()
 		place_on = {"default:dirt_with_grass"},
 		sidelen = 16,
 		noise_params = {
-			offset = 0.002,
-			scale = 0.001,
+			offset = 0.0018,
+			scale = 0.0011,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 2,
 			octaves = 3,
@@ -1021,17 +1296,17 @@ function default.register_decorations()
 		y_min = 1,
 		y_max = 31000,
 		schematic = {
-			size = { x = 3, y = 3, z = 1},
+			size = {x = 3, y = 3, z = 1},
 			data = {
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "default:tree", param2 = 12, prob = 191 },
-				{ name = "default:tree", param2 = 12 },
-				{ name = "default:tree", param2 = 12, prob = 127 },
-				{ name = "air", prob = 0 },
-				{ name = "flowers:mushroom_brown", prob = 63 },
-				{ name = "air", prob = 0 },
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "default:tree", param2 = 12, prob = 191},
+				{name = "default:tree", param2 = 12},
+				{name = "default:tree", param2 = 12, prob = 127},
+				{name = "air", prob = 0},
+				{name = "flowers:mushroom_brown", prob = 63},
+				{name = "air", prob = 0},
 			},
 		},
 		flags = "place_center_x",
@@ -1044,7 +1319,7 @@ function default.register_decorations()
 		deco_type = "schematic",
 		place_on = {"default:dirt_with_grass", "default:dirt"},
 		sidelen = 80,
-		fill_ratio = 0.09,
+		fill_ratio = 0.1,
 		biomes = {"rainforest", "rainforest_swamp"},
 		y_min = 0,
 		y_max = 31000,
@@ -1057,22 +1332,22 @@ function default.register_decorations()
 		deco_type = "schematic",
 		place_on = {"default:dirt_with_grass", "default:dirt"},
 		sidelen = 80,
-		fill_ratio = 0.01,
+		fill_ratio = 0.005,
 		biomes = {"rainforest", "rainforest_swamp"},
 		y_min = 1,
 		y_max = 31000,
 		schematic = {
-			size = { x = 3, y = 3, z = 1},
+			size = {x = 3, y = 3, z = 1},
 			data = {
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "default:jungletree", param2 = 12, prob = 191 },
-				{ name = "default:jungletree", param2 = 12 },
-				{ name = "default:jungletree", param2 = 12, prob = 127 },
-				{ name = "air", prob = 0 },
-				{ name = "flowers:mushroom_brown", prob = 127 },
-				{ name = "air", prob = 0 },
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "default:jungletree", param2 = 12, prob = 191},
+				{name = "default:jungletree", param2 = 12},
+				{name = "default:jungletree", param2 = 12, prob = 127},
+				{name = "air", prob = 0},
+				{name = "flowers:mushroom_brown", prob = 127},
+				{name = "air", prob = 0},
 			},
 		},
 		flags = "place_center_x",
@@ -1086,8 +1361,8 @@ function default.register_decorations()
 		place_on = {"default:dirt_with_snow", "default:dirt_with_grass"},
 		sidelen = 16,
 		noise_params = {
-			offset = 0.04,
-			scale = 0.02,
+			offset = 0.036,
+			scale = 0.022,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 2,
 			octaves = 3,
@@ -1104,22 +1379,29 @@ function default.register_decorations()
 		deco_type = "schematic",
 		place_on = {"default:dirt_with_snow", "default:dirt_with_grass"},
 		sidelen = 80,
-		fill_ratio = 0.003,
+		noise_params = {
+			offset = 0.0018,
+			scale = 0.0011,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 2,
+			octaves = 3,
+			persist = 0.66
+		},
 		biomes = {"taiga", "coniferous_forest"},
 		y_min = 1,
 		y_max = 31000,
 		schematic = {
-			size = { x = 3, y = 3, z = 1},
+			size = {x = 3, y = 3, z = 1},
 			data = {
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "default:pine_tree", param2 = 12, prob = 191 },
-				{ name = "default:pine_tree", param2 = 12 },
-				{ name = "default:pine_tree", param2 = 12, prob = 127 },
-				{ name = "air", prob = 0 },
-				{ name = "flowers:mushroom_red", prob = 63 },
-				{ name = "air", prob = 0 },
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "default:pine_tree", param2 = 12, prob = 191},
+				{name = "default:pine_tree", param2 = 12},
+				{name = "default:pine_tree", param2 = 12, prob = 127},
+				{name = "air", prob = 0},
+				{name = "flowers:mushroom_red", prob = 63},
+				{name = "air", prob = 0},
 			},
 		},
 		flags = "place_center_x",
@@ -1164,14 +1446,14 @@ function default.register_decorations()
 		y_min = 1,
 		y_max = 31000,
 		schematic = {
-			size = { x = 3, y = 2, z = 1},
+			size = {x = 3, y = 2, z = 1},
 			data = {
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "default:acacia_tree", param2 = 12, prob = 191 },
-				{ name = "default:acacia_tree", param2 = 12 },
-				{ name = "default:acacia_tree", param2 = 12, prob = 127 },
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "default:acacia_tree", param2 = 12, prob = 191},
+				{name = "default:acacia_tree", param2 = 12},
+				{name = "default:acacia_tree", param2 = 12, prob = 127},
 			},
 		},
 		flags = "place_center_x",
@@ -1186,7 +1468,7 @@ function default.register_decorations()
 		sidelen = 16,
 		noise_params = {
 			offset = 0.0,
-			scale = -0.03,
+			scale = -0.015,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 2,
 			octaves = 3,
@@ -1197,7 +1479,6 @@ function default.register_decorations()
 		y_max = 31000,
 		schematic = minetest.get_modpath("default").."/schematics/aspen_tree.mts",
 		flags = "place_center_x, place_center_z",
-		rotation = "random",
 	})
 
 	minetest.register_decoration({
@@ -1206,7 +1487,7 @@ function default.register_decorations()
 		sidelen = 16,
 		noise_params = {
 			offset = 0.0,
-			scale = -0.0015,
+			scale = -0.0008,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 2,
 			octaves = 3,
@@ -1216,17 +1497,17 @@ function default.register_decorations()
 		y_min = 1,
 		y_max = 31000,
 		schematic = {
-			size = { x = 3, y = 3, z = 1},
+			size = {x = 3, y = 3, z = 1},
 			data = {
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "air", prob = 0 },
-				{ name = "default:aspen_tree", param2 = 12 },
-				{ name = "default:aspen_tree", param2 = 12 },
-				{ name = "default:aspen_tree", param2 = 12, prob = 127 },
-				{ name = "flowers:mushroom_red", prob = 63 },
-				{ name = "flowers:mushroom_brown", prob = 63 },
-				{ name = "air", prob = 0 },
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "air", prob = 0},
+				{name = "default:aspen_tree", param2 = 12},
+				{name = "default:aspen_tree", param2 = 12},
+				{name = "default:aspen_tree", param2 = 12, prob = 127},
+				{name = "flowers:mushroom_red", prob = 63},
+				{name = "flowers:mushroom_brown", prob = 63},
+				{name = "air", prob = 0},
 			},
 		},
 		flags = "place_center_x",
@@ -1377,8 +1658,8 @@ function default.make_nyancat(pos, facedir, length)
 end
 
 function default.generate_nyancats(minp, maxp, seed)
-	local height_min = -31000
-	local height_max = -32
+	local height_min = -19600
+	local height_max = 30000
 	if maxp.y < height_min or minp.y > height_max then
 		return
 	end

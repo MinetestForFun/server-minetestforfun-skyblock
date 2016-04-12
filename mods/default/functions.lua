@@ -40,9 +40,9 @@ end
 function default.node_sound_sand_defaults(table)
 	table = table or {}
 	table.footstep = table.footstep or
-			{name = "default_sand_footstep", gain = 0.2}
+			{name = "default_sand_footstep", gain = 0.12}
 	table.dug = table.dug or
-			{name = "default_sand_footstep", gain = 0.4}
+			{name = "default_sand_footstep", gain = 0.24}
 	table.place = table.place or
 			{name = "default_place_node", gain = 1.0}
 	default.node_sound_defaults(table)
@@ -121,7 +121,8 @@ function default.grow_cactus(pos, node)
 		return
 	end
 	pos.y = pos.y - 1
-	if minetest.get_item_group(minetest.get_node(pos).name, "sand") == 0 then
+	local name = minetest.get_node(pos).name --MFF
+	if minetest.get_item_group(name, "sand") == 0 and name ~= "default:dirt_with_dry_grass" then --MFF
 		return
 	end
 	pos.y = pos.y + 1
@@ -141,7 +142,7 @@ end
 function default.grow_papyrus(pos, node)
 	pos.y = pos.y - 1
 	local name = minetest.get_node(pos).name
-	if name ~= "default:dirt_with_grass" and name ~= "default:dirt" then
+	if name ~= "default:dirt_with_grass" and name ~= "default:dirt" and name ~= "default:sand" and name ~= "default:desert_sand" then --MFF
 		return
 	end
 	if not minetest.find_node_near(pos, 3, {"group:water"}) then
@@ -163,9 +164,9 @@ end
 
 minetest.register_abm({
 	nodenames = {"default:cactus"},
-	neighbors = {"group:sand"},
-	interval = 45, -- (MFF)
-	chance = 8, -- (MFF)
+	neighbors = {"group:sand", "default:dirt_with_dry_grass"}, --MFF
+	interval = 12,
+	chance = 83,
 	action = function(...)
 		default.grow_cactus(...)
 	end
@@ -173,9 +174,9 @@ minetest.register_abm({
 
 minetest.register_abm({
 	nodenames = {"default:papyrus"},
-	neighbors = {"default:dirt", "default:dirt_with_grass"},
-	interval = 45, -- (MFF)
-	chance = 8, -- (MFF)
+	neighbors = {"default:dirt", "default:dirt_with_grass", "default:sand", "default:desert_sand"}, --MFF
+	interval = 14,
+	chance = 71,
 	action = function(...)
 		default.grow_papyrus(...)
 	end
@@ -213,16 +214,27 @@ function default.register_fence(name, def)
 	-- Allow almost everything to be overridden
 	local default_fields = {
 		paramtype = "light",
-		drawtype = "fencelike",
+		drawtype = "nodebox",
+		node_box = {
+			type = "connected",
+			fixed = {{-1/8, -1/2, -1/8, 1/8, 1/2, 1/8}},
+			-- connect_top =
+			-- connect_bottom =
+			connect_front = {{-1/16,3/16,-1/2,1/16,5/16,-1/8},
+				{-1/16,-5/16,-1/2,1/16,-3/16,-1/8}},
+			connect_left = {{-1/2,3/16,-1/16,-1/8,5/16,1/16},
+				{-1/2,-5/16,-1/16,-1/8,-3/16,1/16}},
+			connect_back = {{-1/16,3/16,1/8,1/16,5/16,1/2},
+				{-1/16,-5/16,1/8,1/16,-3/16,1/2}},
+			connect_right = {{1/8,3/16,-1/16,1/2,5/16,1/16},
+				{1/8,-5/16,-1/16,1/2,-3/16,1/16}},
+		},
+		connects_to = {"group:fence", "group:wood", "group:tree"},
 		inventory_image = fence_texture,
 		wield_image = fence_texture,
-		tiles = { def.texture },
+		tiles = {def.texture},
 		sunlight_propagates = true,
 		is_ground_content = false,
-		selection_box = {
-			type = "fixed",
-			fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
-		},
 		groups = {},
 	}
 	for k, v in pairs(default_fields) do
@@ -257,18 +269,19 @@ minetest.register_globalstep(function(dtime)
 end)
 
 default.after_place_leaves = function(pos, placer, itemstack, pointed_thing)
-	local node = minetest.get_node(pos)
-	node.param2 = 1
-	minetest.set_node(pos, node)
+	if placer and not placer:get_player_control().sneak then
+		local node = minetest.get_node(pos)
+		node.param2 = 1
+		minetest.set_node(pos, node)
+	end
 end
 
 minetest.register_abm({
 	nodenames = {"group:leafdecay"},
 	neighbors = {"air", "group:liquid"},
 	-- A low interval and a high inverse chance spreads the load
-	-- You run fast, I run faster! (MFF): interval++ chance--
-	interval = 5,
-	chance = 2,
+	interval = 2,
+	chance = 5,
 
 	action = function(p0, node, _, _)
 		--print("leafdecay ABM at "..p0.x..", "..p0.y..", "..p0.z..")")
@@ -309,7 +322,12 @@ minetest.register_abm({
 				default.leafdecay_trunk_find_allow_accumulator - 1
 		-- Assume ignore is a trunk, to make the thing
 		-- work at the border of the active area
-		local p1 = minetest.find_node_near(p0, d, {"ignore", "group:tree"})
+		local p1
+		if n0.name == "moretrees:palm_leaves" then
+			p1 = minetest.find_node_near(p0, d, {"ignore", "moretrees:palm_trunk"})
+		else
+			p1 = minetest.find_node_near(p0, d, {"ignore", "group:tree"})
+		end
 		if p1 then
 			do_preserve = true
 			if default.leafdecay_enable_cache then
@@ -340,6 +358,15 @@ minetest.register_abm({
 })
 
 
+minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
+	if newnode.name ~= "default:torch" or minetest.get_item_group(oldnode.name, "water") == 0 then
+		return
+	end
+	minetest.remove_node(pos, newnode)
+	minetest.set_node(pos, oldnode)
+	minetest.add_item(pos, "default:torch")
+end)
+
 --
 -- Grass growing on well-lit dirt
 --
@@ -356,7 +383,8 @@ minetest.register_abm({
 		local nodedef = minetest.registered_nodes[name]
 		if nodedef and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and
 				nodedef.liquidtype == "none" and
-				(minetest.get_node_light(above) or 0) >= 13 then
+				pos.y >= 0 and
+				(minetest.get_node_light(above) or 0) >= 12 then
 			if name == "default:snow" or name == "default:snowblock" then
 				minetest.set_node(pos, {name = "default:dirt_with_snow"})
 			else

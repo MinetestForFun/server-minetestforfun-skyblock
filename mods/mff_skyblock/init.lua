@@ -195,3 +195,16 @@ minetest.register_abm({
 })
 
 end
+
+-- The flint and steel
+minetest.register_tool(":fire:flint_and_steel", {
+	description = "Flint and Steel",
+	inventory_image = "fire_flint_steel.png",
+})
+
+minetest.register_craft({
+	output = "fire:flint_and_steel",
+	recipe = {
+		{"default:flint", "default:steel_ingot"}
+	}
+})
