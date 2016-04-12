@@ -5,7 +5,7 @@ screwdriver = screwdriver or {}
 -- Only the regular, solid blocks without formspec or explosivity can be cut.
 local nodes = {}
 for node, def in pairs(minetest.registered_nodes) do
-	if def.name == "default:mese" or ((def.drawtype == "normal" or def.drawtype:find("glass")) and
+	if def.name:find("default:mese") or ((def.drawtype == "normal" or def.drawtype:find("glass")) and
 			(def.groups.cracky or def.groups.choppy) and not
 			def.on_construct and not def.after_place_node and not
 			def.after_place_node and not def.on_rightclick and not
