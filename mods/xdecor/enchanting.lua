@@ -136,9 +136,8 @@ function enchanting:register_tools(mod, def)
 	for material in def.materials:gmatch("[%w_]+") do
 	for enchant in def.tools[tool].enchants:gmatch("[%w_]+") do
 		local original_tool = minetest.registered_tools[mod..":"..tool.."_"..material]
-		if not original_tool then return end
 
-		if original_tool.tool_capabilities then
+		if original_tool and original_tool.tool_capabilities then
 			local original_damage_groups = original_tool.tool_capabilities.damage_groups
 			local original_groupcaps = original_tool.tool_capabilities.groupcaps
 			local groupcaps = table.copy(original_groupcaps)
@@ -169,7 +168,7 @@ function enchanting:register_tools(mod, def)
 			})
 		end
 
-		if mod == "3d_armor" then
+		if original_tool and mod == "3d_armor" then
 			local original_armor_groups = original_tool.groups
 			local armorcaps = {}
 			armorcaps.not_in_creative_inventory = 1
