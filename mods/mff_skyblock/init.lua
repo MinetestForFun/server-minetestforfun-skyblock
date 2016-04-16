@@ -196,10 +196,45 @@ minetest.register_abm({
 
 end
 
+
+minetest.register_node(":fire:fake_fire", {
+	description = "Fake Fire",
+	range = 12,
+	stack_max = 1,
+	drawtype = "plantlike",
+	paramtype = "light",
+	tiles = {{
+		name="fire_basic_flame_animated.png",
+		animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1},
+	}},
+	inventory_image = "fire_basic_flame.png",
+	light_source = 14,
+	drop = "",
+	groups = {dig_immediate = 2, not_in_creative_inventory = 1},
+	sunlight_propagates = true,
+	walkable = false,
+})
+
+
 -- The flint and steel
 minetest.register_tool(":fire:flint_and_steel", {
 	description = "Flint and Steel",
 	inventory_image = "fire_flint_steel.png",
+	on_use = function(itemstack, user, pointed_thing)
+		local player_name = user:get_player_name()
+		local pt = pointed_thing
+
+		if pt.type == "node" and minetest.get_node(pt.above).name == "air" then
+			itemstack:add_wear(1000)
+			if not minetest.is_protected(pt.above, player_name) then
+				minetest.set_node(pt.above, {name = "fire:fake_fire"})
+			else
+				minetest.chat_send_player(player_name, "This area is protected")
+			end
+		end
+
+		return itemstack
+	end
 })
 
 minetest.register_craft({
