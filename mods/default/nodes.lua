@@ -117,8 +117,6 @@ default:meze
 default:stone_with_diamond
 default:diamondblock
 
-default:stone_with_coin
-
 Plantlife (non-cubic)
 ---------------------
 
@@ -844,13 +842,7 @@ minetest.register_node("default:stone_with_coal", {
 	description = "Coal Ore",
 	tiles = {"default_stone.png^default_mineral_coal.png"},
 	groups = {cracky = 3},
-	drop = "default:cobble",
-	drop = {
-		items = {
-			{items = {"default:cobble"}},
-			{items = {"default:coal_lump 2"}},
-		},
-	},
+	drop = "default:coal_lump 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -859,12 +851,7 @@ minetest.register_node("default:desert_stone_with_coal", {
 	tiles = {"default_desert_stone.png^default_mineral_coal.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
-	drop = {
-		items = {
-			{items = {"default:desert_cobble"}},
-			{items = {"default:coal_lump 2"}},
-		},
-	},
+	drop = "default:coal_lump 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -881,12 +868,7 @@ minetest.register_node("default:stone_with_iron", {
 	description = "Iron Ore",
 	tiles = {"default_stone.png^default_mineral_iron.png"},
 	groups = {cracky = 3},
-	drop = {
-		items = {
-			{items = {"default:cobble"}},
-			{items = {"default:iron_lump 2"}},
-		},
-	},
+	drop = "default:iron_lump 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -904,12 +886,7 @@ minetest.register_node("default:stone_with_copper", {
 	tiles = {"default_stone.png^default_mineral_copper.png"},
 	is_ground_content = true,
 	groups = {cracky = 3},
-	drop = {
-		items = {
-			{items = {"default:cobble"}},
-			{items = {"default:copper_lump 2"}},
-		},
-	},
+	drop = "default:copper_lump 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -918,12 +895,7 @@ minetest.register_node("default:desert_stone_with_copper", {
 	tiles = {"default_desert_stone.png^default_mineral_copper.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
-	drop = {
-		items = {
-			{items = {"default:desert_cobble"}},
-			{items = {"default:copper_lump 2"}},
-		},
-	},
+	drop = "default:copper_lump 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -948,12 +920,7 @@ minetest.register_node("default:stone_with_mese", {
 	description = "Mese Ore",
 	tiles = {"default_stone.png^default_mineral_mese.png"},
 	groups = {cracky = 3},
-	drop = {
-		items = {
-			{items = {"default:cobble"}},
-			{items = {"default:mese_crystal 2"}},
-		},
-	},
+	drop = "default:mese_crystal 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -971,12 +938,7 @@ minetest.register_node("default:stone_with_gold", {
 	description = "Gold Ore",
 	tiles = {"default_stone.png^default_mineral_gold.png"},
 	groups = {cracky = 3},
-	drop = {
-		items = {
-			{items = {"default:cobble"}},
-			{items = {"default:default:gold_lump 2"}},
-		},
-	},
+	drop = "default:default:gold_lump 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -993,12 +955,7 @@ minetest.register_node("default:stone_with_diamond", {
 	description = "Diamond Ore",
 	tiles = {"default_stone.png^default_mineral_diamond.png"},
 	groups = {cracky = 3},
-	drop = {
-		items = {
-			{items = {"default:cobble"}},
-			{items = {"default:diamond 2"}},
-		},
-	},
+	drop = "default:diamond 2",
 	sounds = default.node_sound_stone_defaults(),
 })
 
