@@ -2,12 +2,13 @@ local mailbox = {}
 screwdriver = screwdriver or {}
 
 local function img_col(stack)
-	if not stack then return "" end
-	if stack.inventory_image ~= "" then
-		return stack.inventory_image:match("(.*)%.png")..".png"
-	else
-		return stack.tiles[1]:match("(.*)%.png")..".png"
+	local def = minetest.registered_items[stack]
+	if not def then return "" end
+
+	if def.inventory_image ~= "" then
+		return def.inventory_image:match("(.*)%.png")..".png"
 	end
+	return def.tiles[1]:match("(.*)%.png")..".png"
 end
 
 function mailbox:formspec(pos, owner, num)
@@ -17,13 +18,17 @@ function mailbox:formspec(pos, owner, num)
 
 	if num == 1 then
 		for i = 1, 7 do
-			if meta:get_string("giver"..i) ~= "" then
-				local giver_name = meta:get_string("giver"..i):sub(1,12)
-				local stack_name = meta:get_string("stack"..i):match("[%w_:]+")
-				local stack_count = meta:get_string("stack"..i):match("%s(%d+)") or 1
+			local giving = meta:get_string("giver"..i)
+			if giving ~= "" then
+				local stack = meta:get_string("stack"..i)
+				local giver_name = giving:sub(1,12)
+				local stack_name = stack:match("[%w_:]+")
+				local stack_count = stack:match("%s(%d+)") or 1
 
 				giver = giver.."#FFFF00,"..giver_name..","..i..",#FFFFFF,x "..stack_count..","
-				img = img..i.."="..img_col(minetest.registered_items[stack_name])..","
+				-- Hack to force using a 16px resolution for images in formspec's tablecolumn.
+				-- The engine doesn't scale them automatically yet.
+				img = img..i.."=mailbox_blank16.png^"..img_col(stack_name)..","
 			end
 		end
 

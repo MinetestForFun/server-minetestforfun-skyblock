@@ -98,8 +98,6 @@ function itemframe.dig(pos, player)
 	return player and pname == owner
 end
 
-minetest.register_alias("xdecor:frame", "xdecor:itemframe")
-
 xdecor.register("itemframe", {
 	description = "Item Frame",
 	groups = {choppy=3, oddly_breakable_by_hand=2, flammable=3},
@@ -125,6 +123,11 @@ minetest.register_entity("xdecor:f_item", {
 	physical = false,
 	textures = {"air"},
 	on_activate = function(self, staticdata)
+		local pos = self.object:getpos()
+		if minetest.get_node(pos).name ~= "xdecor:itemframe" then
+			self.object:remove()
+		end
+
 		if tmp.nodename and tmp.texture then
 			self.nodename = tmp.nodename
 			tmp.nodename = nil

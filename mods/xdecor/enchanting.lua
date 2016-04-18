@@ -58,7 +58,7 @@ function enchanting.on_put(pos, listname, _, stack)
 	end
 end
 
-function enchanting.fields(pos, _, fields)
+function enchanting.fields(pos, _, fields, sender)
 	if fields.quit then return end
 	local inv = minetest.get_meta(pos):get_inventory()
 	local tool = inv:get_stack("tool", 1)
@@ -68,6 +68,7 @@ function enchanting.fields(pos, _, fields)
 	local enchanted_tool = (mod or "")..":enchanted_"..(name or "").."_"..next(fields)
 
 	if mese:get_count() >= mese_cost and minetest.registered_tools[enchanted_tool] then
+		minetest.sound_play("xdecor_enchanting", {to_player=sender:get_player_name(), gain=0.8})
 		tool:replace(enchanted_tool)
 		tool:add_wear(orig_wear)
 		mese:take_item(mese_cost)
@@ -110,6 +111,50 @@ function enchanting.construct(pos)
 	local inv = meta:get_inventory()
 	inv:set_size("tool", 1)
 	inv:set_size("mese", 1)
+
+	minetest.add_entity({x=pos.x, y=pos.y+0.85, z=pos.z}, "xdecor:book_open")
+	local timer = minetest.get_node_timer(pos)
+	timer:start(5.0)
+end
+
+function enchanting.destruct(pos)
+	for _, obj in pairs(minetest.get_objects_inside_radius(pos, 0.9)) do
+		if obj and obj:get_luaentity() and
+				obj:get_luaentity().name == "xdecor:book_open" then
+			obj:remove() break
+		end
+	end
+end
+
+function enchanting.timer(pos)
+	local node = minetest.get_node(pos)
+	local num = #minetest.get_objects_inside_radius(pos, 0.9)
+
+	if num == 0 then
+		minetest.add_entity({x=pos.x, y=pos.y+0.85, z=pos.z}, "xdecor:book_open")
+	end
+
+	local minp = {x=pos.x-2, y=pos.y, z=pos.z-2}
+	local maxp = {x=pos.x+2, y=pos.y+1, z=pos.z+2}
+	local bookshelves = minetest.find_nodes_in_area(minp, maxp, "default:bookshelf")
+	if #bookshelves == 0 then return true end
+
+	local bookshelf_pos = bookshelves[math.random(1, #bookshelves)]
+	local x = pos.x - bookshelf_pos.x
+	local y = bookshelf_pos.y - pos.y
+	local z = pos.z - bookshelf_pos.z
+
+	if tostring(x..z):find(2) then
+		minetest.add_particle({
+			pos = bookshelf_pos,
+			velocity = {x=x, y=2-y, z=z},
+			acceleration = {x=0, y=-2.2, z=0},
+			expirationtime = 1,
+			size = 2,
+			texture = "xdecor_glyph"..math.random(1,18)..".png"
+		})
+	end
+	return true
 end
 
 xdecor.register("enchantment_table", {
@@ -121,12 +166,30 @@ xdecor.register("enchantment_table", {
 	sounds = default.node_sound_stone_defaults(),
 	on_rotate = screwdriver.rotate_simple,
 	can_dig = enchanting.dig,
+	on_timer = enchanting.timer,
 	on_construct = enchanting.construct,
+	on_destruct = enchanting.destruct,
 	on_receive_fields = enchanting.fields,
 	on_metadata_inventory_put = enchanting.on_put,
 	on_metadata_inventory_take = enchanting.on_take,
 	allow_metadata_inventory_put = enchanting.put,
 	allow_metadata_inventory_move = function() return 0 end
+})
+
+minetest.register_entity("xdecor:book_open", {
+	visual = "sprite",
+	visual_size = {x=0.75, y=0.75},
+	collisionbox = {0},
+	physical = false,
+	textures = {"xdecor_book_open.png"},
+	on_activate = function(self)
+		local pos = self.object:getpos()
+		local pos_under = {x=pos.x, y=pos.y-1, z=pos.z}
+
+		if minetest.get_node(pos_under).name ~= "xdecor:enchantment_table" then
+			self.object:remove()
+		end
+	end
 })
 
 local function cap(S) return S:gsub("^%l", string.upper) end
@@ -136,8 +199,9 @@ function enchanting:register_tools(mod, def)
 	for material in def.materials:gmatch("[%w_]+") do
 	for enchant in def.tools[tool].enchants:gmatch("[%w_]+") do
 		local original_tool = minetest.registered_tools[mod..":"..tool.."_"..material]
+		if not original_tool then break end
 
-		if original_tool and original_tool.tool_capabilities then
+		if original_tool.tool_capabilities then
 			local original_damage_groups = original_tool.tool_capabilities.damage_groups
 			local original_groupcaps = original_tool.tool_capabilities.groupcaps
 			local groupcaps = table.copy(original_groupcaps)
@@ -168,7 +232,7 @@ function enchanting:register_tools(mod, def)
 			})
 		end
 
-		if original_tool and mod == "3d_armor" then
+		if mod == "3d_armor" then
 			local original_armor_groups = original_tool.groups
 			local armorcaps = {}
 			armorcaps.not_in_creative_inventory = 1
