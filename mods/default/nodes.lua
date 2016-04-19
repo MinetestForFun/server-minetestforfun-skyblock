@@ -920,7 +920,7 @@ minetest.register_node("default:stone_with_mese", {
 	description = "Mese Ore",
 	tiles = {"default_stone.png^default_mineral_mese.png"},
 	groups = {cracky = 3},
-	drop = "default:mese_crystal 2",
+	drop = "default:mese_crystal",
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -955,7 +955,7 @@ minetest.register_node("default:stone_with_diamond", {
 	description = "Diamond Ore",
 	tiles = {"default_stone.png^default_mineral_diamond.png"},
 	groups = {cracky = 3},
-	drop = "default:diamond 2",
+	drop = "default:diamond",
 	sounds = default.node_sound_stone_defaults(),
 })
 
