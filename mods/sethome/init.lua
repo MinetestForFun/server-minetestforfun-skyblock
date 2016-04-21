@@ -52,6 +52,10 @@ minetest.register_chatcommand("home", {
 function sethome.set_home(name)
 	local player = minetest.get_player_by_name(name)
 	local pos = player:getpos()
+	if minetest.is_protected(vector.round(pos), player:get_player_name()) then
+		return false, "This area is protected, you cannot set your home position here"
+	end
+
 	homepos[player:get_player_name()] = pos
 	minetest.chat_send_player(name, "Home set!")
 	changed = true
