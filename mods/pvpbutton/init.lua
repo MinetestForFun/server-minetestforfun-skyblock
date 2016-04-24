@@ -1,7 +1,7 @@
 -- Needed variables
 local pvptable = {}
 local huds = {}
-local toggle_interval = 2.5 * 60
+local toggle_interval = 5 * 60
 
 -- Inventory mod determination
 local inv_mod = ""
