@@ -11,17 +11,19 @@ if minetest.get_modpath("flowers") ~= nil then
 		register_food("flowers:mushroom_red", 1, "", 3)
 end
 
+--[[
 if minetest.get_modpath("mobs") ~= nil then
 	if mobs.mod ~= nil and mobs.mod == "redo" then
 		register_food("mobs:cheese", 4)
-		register_food("mobs:meat", 8)
-		register_food("mobs:meat_raw", 4)
-		register_food("mobs:rat_cooked", 4)
-		register_food("mobs:honey", 2)
-		register_food("mobs:pork_raw", 3, "", 3)
-		register_food("mobs:pork_cooked", 8)
-		register_food("mobs:chicken_cooked", 6)
+		register_food("mobs:meat", 5)
+		register_food("mobs:meat_raw", 3)
+		register_food("mobs:rat_cooked", 5)
+		register_food("mobs:honey", 6)
+		register_food("mobs:pork_raw", 4, "", 3)
+		register_food("mobs:pork_cooked", 7)
+		register_food("mobs:chicken_cooked", 4)
 		register_food("mobs:chicken_raw", 2, "", 3)
+		register_food("mobs:egg", 1)
 		register_food("mobs:chicken_egg_fried", 2)
 		if minetest.get_modpath("bucket") then
 			register_food("mobs:bucket_milk", 3, "bucket:bucket_empty")
@@ -68,12 +70,21 @@ end
 
 if minetest.get_modpath("fishing") ~= nil then
 	register_food("fishing:fish_raw", 2)
-	register_food("fishing:fish_cooked", 5)
+	register_food("fishing:fish_cooked", 4)
 	register_food("fishing:sushi", 6)
-	register_food("fishing:shark", 4)
-	register_food("fishing:shark_cooked", 8)
-	register_food("fishing:pike", 4)
-	register_food("fishing:pike_cooked", 8)
+	register_food("fishing:shark", 2)
+	register_food("fishing:shark_cooked", 6)
+	register_food("fishing:pike", 2)
+	register_food("fishing:pike_cooked", 6)
+
+	register_food("fishing:clownfish_raw", 2) --new fishing
+	register_food("fishing:bluewhite_raw", 2) --new fishing
+	register_food("fishing:shark_raw", 2)  --new fishing
+	register_food("fishing:pike_raw", 2) --new fishing
+	register_food("fishing:carp_raw", 2) --new fishing
+	register_food("fishing:perch_raw", 2) --new fishing
+	register_food("fishing:catfish_raw", 2)  --new fishing
+	register_food("fishing:exoticfish_raw", 2) --new fishing
 end
 
 if minetest.get_modpath("glooptest") ~= nil then
@@ -224,50 +235,54 @@ if minetest.get_modpath("ethereal") then
 		register_food("ethereal:bucket_cactus", 2, "bucket:bucket_empty")
 	end
 	register_food("ethereal:fish_raw", 2)
-	register_food("ethereal:fish_cooked", 5)
+	register_food("ethereal:fish_cooked", 4)
 	register_food("ethereal:seaweed", 1)
 	register_food("ethereal:yellowleaves", 1, "", nil, 1)
 	register_food("ethereal:sashimi", 4)
 end
+]]
 
 if minetest.get_modpath("farming") and farming.mod == "redo" then
-	register_food("farming:bread", 6)
+	register_food("farming:bread", 5)
 	register_food("farming:potato", 1)
-	register_food("farming:baked_potato", 6)
-	register_food("farming:cucumber", 4)
-	register_food("farming:tomato", 4)
+	register_food("farming:orange", 4)
+	register_food("farming:baked_potato", 5)
+	register_food("farming:cucumber", 3)
+	register_food("farming:tomato", 3)
 	register_food("farming:carrot", 3)
-	register_food("farming:carrot_gold", 6, "", nil, 8)
+	register_food("farming:carrot_gold", 6, "", nil, 10)
 	register_food("farming:corn", 3)
 	register_food("farming:corn_cob", 5)
 	register_food("farming:melon_slice", 2)
 	register_food("farming:pumpkin_slice", 1)
-	register_food("farming:pumpkin_bread", 9)
+	register_food("farming:pumpkin_bread", 7)
 	register_food("farming:coffee_cup", 2, "farming:drinking_cup")
 	register_food("farming:coffee_cup_hot", 3, "farming:drinking_cup", nil, 2)
 	register_food("farming:cookie", 2)
 	register_food("farming:chocolate_dark", 3)
 	register_food("farming:donut", 4)
-	register_food("farming:donut_chocolate", 6)
-	register_food("farming:donut_apple", 6)
+	register_food("farming:donut_chocolate", 5)
+	register_food("farming:donut_apple", 5)
 	register_food("farming:raspberries", 1)
 	register_food("farming:blueberries", 1)
 	register_food("farming:muffin_blueberry", 4)
+	register_food("farming:beans", 1)
+	register_food("farming:grapes", 2)
 	if minetest.get_modpath("vessels") then
 		register_food("farming:smoothie_raspberry", 2, "vessels:drinking_glass")
 	end
 	register_food("farming:rhubarb", 1)
-	register_food("farming:rhubarb_pie", 6)
-	register_food("farming:beans", 1)
+	register_food("farming:rhubarb_pie", 5)
 end
 
+--[[
 if minetest.get_modpath("kpgmobs") ~= nil then
 	register_food("kpgmobs:uley", 3)
 	register_food("kpgmobs:meat", 6)
 	register_food("kpgmobs:rat_cooked", 5)
 	register_food("kpgmobs:med_cooked", 4)
   	if minetest.get_modpath("bucket") then
-	   register_food("kpgmobs:bucket_milk", 4, "bucket:bucket_empty")
+		register_food("kpgmobs:bucket_milk", 4, "bucket:bucket_empty")
 	end
 end
 
@@ -307,7 +322,23 @@ if minetest.get_modpath("ferns") ~= nil then
 	register_food("ferns:horsetail_01", 1)
 end
 
-if minetest.get_modpath("pizza") ~= nil then
-	register_food("pizza:pizza", 30, "", nil, 30)
-	register_food("pizza:pizzaslice", 5, "", nil, 5)
+-- Food mod by Rubenwardy ( https://github.com/rubenwardy/food )
+if minetest.get_modpath("food") ~= nil then
+	register_food("food:apple_juice", 1)
+	register_food("food:rainbow_juice", 6)
+	register_food("food:cheese", 4)
+	register_food("food:cactus_juice", 3)
+	register_food("food:cake", 5)
+	register_food("food:cake_carrot", 6)
+	register_food("food:cake_choco", 7)
+	register_food("food:milk", 3)
+	register_food("food:milk_chocolate", 4)
+	register_food("food:pasta_bake", 7)
+	register_food("food:soup_chicken", 4)
+	register_food("food:soup_tomato", 4)
+end
+]]
+
+if minetest.get_modpath("xdecor") ~= nil then
+	register_food("xdecor:honey", 2)
 end
