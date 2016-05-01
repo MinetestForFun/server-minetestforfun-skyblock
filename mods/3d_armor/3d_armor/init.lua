@@ -164,6 +164,7 @@ if ARMOR_MATERIALS.gold then
 	})
 end
 
+--[[ MFF 02/05/2016 Comment Mithril and Crystal armors
 if ARMOR_MATERIALS.mithril then
 	minetest.register_tool("3d_armor:helmet_mithril", {
 		description = "Mithril Helmet",
@@ -217,6 +218,7 @@ if ARMOR_MATERIALS.crystal then
 		wear = 0,
 	})
 end
+--]]
 
 for k, v in pairs(ARMOR_MATERIALS) do
 	minetest.register_craft({
