@@ -215,11 +215,7 @@ local function add_hud_item(player, name, def)
 	end
 	local i_name = player:get_player_name().."_"..name
 	hud_id[i_name] = def
-	if name == "health" or name == "breath" then
-		hud_id[i_name].id = core.hud_replace_builtin(name, def)
-	else
-		hud_id[i_name].id = player:hud_add(def)
-	end
+	hud_id[i_name].id = player:hud_add(def)
 end
 
 minetest.register_on_joinplayer(function(player)
