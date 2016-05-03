@@ -164,12 +164,11 @@ armor.set_player_armor = function(self, player)
 				if v == false then
 					local level = def.groups["armor_"..k]
 					if level then
-						local texture = item:gsub("%:", "_")
-						table.insert(textures, texture..".png")
+						local texture = minetest.registered_items[item].inventory_image:gsub(".png", ""):gsub("_inv", "")
 						if preview == "" then
 							preview = texture .. "_preview.png"
 						elseif stack:get_name():find("shield") then -- //MFF(Mg|09/05/15)
-							preview = preview.. "^" .. texture.."_preview.png"
+							preview = preview.. "^" .. texture .. "_preview.png"
 						else
 							preview = texture .. "_preview.png^" .. preview
 						end
