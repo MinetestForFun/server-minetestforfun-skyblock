@@ -10,9 +10,6 @@
 [submodule "mods/teleport-request"]
 	path = mods/teleport_request
 	url = https://github.com/ChaosWormz/teleport-request.git
-[submodule "mods/xban2"]
-	path = mods/xban2
-	url = https://github.com/kaeza/minetest-xban2.git
 [submodule "mods/protector"]
 	path = mods/protector
 	url = https://github.com/MinetestForFun/protector.git
