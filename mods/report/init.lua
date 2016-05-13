@@ -59,7 +59,7 @@ function report.send(name, param)
 		return true, "Reported. We'll get back to you."
 	end
 end
-
+--[[
 minetest.register_chatcommand("report", {
 	func = function(name, param)
 		param = param:trim()
@@ -80,7 +80,7 @@ minetest.register_chatcommand("report", {
 		return success
 	end
 })
-
+--]]
 if minetest.get_modpath("unified_inventory") then
 	unified_inventory.register_button("report", {
 		type = "image",
@@ -113,14 +113,10 @@ if minetest.get_modpath("unified_inventory") then
 			return
 		end
 		local name = player:get_player_name()
-		local cmd_def = core.chatcommands["report"]
-		if not cmd_def then
-			return
-		end
-		local has_privs, missing_privs = core.check_player_privs(name, cmd_def.privs)
+		local has_privs, missing_privs = core.check_player_privs(name, {interact = true})
+
 		if has_privs then
-			core.set_last_run_mod(cmd_def.mod_origin)
-			local success, message = cmd_def.func(name, fields.text)
+			local success, message = action_timers.wrapper(name, "report", "report_" .. name, 300, report.send, {name, fields.text})
 			if message then
 				core.chat_send_player(name, message)
 			end
