@@ -1,14 +1,14 @@
 local register_food = hunger.register_food
 
-register_food("default:apple", 2)
+register_food("default:apple", 2, "", nil, 2)
 
 if minetest.get_modpath("farming") ~= nil then
-	register_food("farming:bread", 4)
+	register_food("farming:bread", 4, "", nil, 4)
 end
 
 if minetest.get_modpath("flowers") ~= nil then
-		register_food("flowers:mushroom_brown", 1)
-		register_food("flowers:mushroom_red", 1, "", 3)
+		register_food("flowers:mushroom_brown", 1, "", nil, 1)
+		register_food("flowers:mushroom_red", 1, "", 3, 1)
 end
 
 --[[
@@ -243,36 +243,36 @@ end
 ]]
 
 if minetest.get_modpath("farming") and farming.mod == "redo" then
-	register_food("farming:bread", 5)
-	register_food("farming:potato", 1)
-	register_food("farming:orange", 4)
-	register_food("farming:baked_potato", 5)
-	register_food("farming:cucumber", 3)
-	register_food("farming:tomato", 3)
-	register_food("farming:carrot", 3)
+	register_food("farming:bread", 5, "", nil, 10)
+	register_food("farming:potato", 1, "", nil, 1)
+	register_food("farming:orange", 4, "", nil, 4)
+	register_food("farming:baked_potato", 5, "", nil, 5)
+	register_food("farming:cucumber", 3, "", nil, 3)
+	register_food("farming:tomato", 3, "", nil, 3)
+	register_food("farming:carrot", 3, "", nil, 3)
 	register_food("farming:carrot_gold", 6, "", nil, 10)
-	register_food("farming:corn", 3)
-	register_food("farming:corn_cob", 5)
-	register_food("farming:melon_slice", 2)
-	register_food("farming:pumpkin_slice", 1)
-	register_food("farming:pumpkin_bread", 7)
-	register_food("farming:coffee_cup", 2, "farming:drinking_cup")
+	register_food("farming:corn", 3, "", nil, 3)
+	register_food("farming:corn_cob", 5, "", nil, 5)
+	register_food("farming:melon_slice", 2, "", nil, 2)
+	register_food("farming:pumpkin_slice", 1, "", nil, 1)
+	register_food("farming:pumpkin_bread", 7, "", nil, 7)
+	register_food("farming:coffee_cup", 2, "farming:drinking_cup", nil, 2)
 	register_food("farming:coffee_cup_hot", 3, "farming:drinking_cup", nil, 2)
-	register_food("farming:cookie", 2)
-	register_food("farming:chocolate_dark", 3)
-	register_food("farming:donut", 4)
-	register_food("farming:donut_chocolate", 5)
-	register_food("farming:donut_apple", 5)
-	register_food("farming:raspberries", 1)
-	register_food("farming:blueberries", 1)
-	register_food("farming:muffin_blueberry", 4)
-	register_food("farming:beans", 1)
-	register_food("farming:grapes", 2)
+	register_food("farming:cookie", 2, "", nil, 2)
+	register_food("farming:chocolate_dark", 3, "", nil, 3)
+	register_food("farming:donut", 4, "", nil, 4)
+	register_food("farming:donut_chocolate", 5, "", nil, 5)
+	register_food("farming:donut_apple", 5, "", nil, 5)
+	register_food("farming:raspberries", 1, "", nil, 1)
+	register_food("farming:blueberries", 1, "", nil, 1)
+	register_food("farming:muffin_blueberry", 4, "", nil, 4)
+	register_food("farming:beans", 1, "", nil, 1)
+	register_food("farming:grapes", 2, "", nil, 2)
 	if minetest.get_modpath("vessels") then
-		register_food("farming:smoothie_raspberry", 2, "vessels:drinking_glass")
+		register_food("farming:smoothie_raspberry", 2, "vessels:drinking_glass", nil, 2)
 	end
-	register_food("farming:rhubarb", 1)
-	register_food("farming:rhubarb_pie", 5)
+	register_food("farming:rhubarb", 1, "", nil, 1)
+	register_food("farming:rhubarb_pie", 5, "", nil, 5)
 end
 
 --[[
@@ -340,5 +340,5 @@ end
 ]]
 
 if minetest.get_modpath("xdecor") ~= nil then
-	register_food("xdecor:honey", 2)
+	register_food("xdecor:honey", 2, "", nil, 2)
 end
