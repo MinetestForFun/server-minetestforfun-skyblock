@@ -138,7 +138,11 @@ end
 -- set feat
 function skyblock.feats.set(level,player_name,feat,value)
 	skyblock.log('skyblock.feats.set('..level..','..player_name..','..feat..')')
-	players_feat[player_name][level][feat] = value
+	if not players_feat[player_name] then
+		players_feat[player_name] = {[level] = {[feat] = value}}
+	else
+		players_feat[player_name][level][feat] = value
+	end
 	if level~=0 or feat~='level' then
 		local rewarded = skyblock.levels[level].reward_feat(player_name,feat)
 		if rewarded then
@@ -317,9 +321,9 @@ local function bucket_water_on_use(itemstack, user, pointed_thing)
 		return
 	end
 
-	local n = minetest.get_node_or_nil(pointed_thing.under)
+	local n = minetest.get_node(pointed_thing.under)
 	local ndef
-	if n then
+	if n.name ~= "ignore" then
 		ndef = minetest.registered_items[n.name]
 	end
 	-- Call on_rightclick if the pointed node defines it
