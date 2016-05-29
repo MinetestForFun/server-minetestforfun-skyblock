@@ -5,14 +5,19 @@ screwdriver = screwdriver or {}
 -- Only the regular, solid blocks without metas or explosivity can be cut.
 local nodes = {}
 for node, def in pairs(minetest.registered_nodes) do
-	if def.name:find("default:mese") or ((def.drawtype == "normal" or def.drawtype:find("glass")) and
-	   (def.groups.cracky or def.groups.choppy) and not
-	   def.on_construct and not def.after_place_node and not
-	   def.after_place_node and not def.on_rightclick and not
-	   def.on_blast and not def.allow_metadata_inventory_take and not
-	   (def.groups.not_in_creative_inventory == 1) and not
-	   def.groups.wool and not def.description:find("Ore") and
-	   def.description and def.description ~= "" and def.light_source == 0)
+	if def.name:find("default:mese") or ((def.drawtype == "normal" or def.drawtype:sub(1,5) == "glass") and
+	   (def.groups.cracky or def.groups.choppy) and
+	   not def.on_construct and
+	   not def.after_place_node and
+	   not def.on_rightclick and
+	   not def.on_blast and
+	   not def.allow_metadata_inventory_take and
+	   not (def.groups.not_in_creative_inventory == 1) and
+	   not def.groups.wool and
+	   not def.description:find("Ore") and
+	   def.description and
+	   def.description ~= "" and
+	   def.light_source == 0)
 	then
 		nodes[#nodes+1] = node
 	end
@@ -166,8 +171,8 @@ function workbench.take(_, listname, _, stack, player)
 	return stack:get_count()
 end
 
-function workbench.move(_, _, _, to_list, _, count)
-	if to_list == "storage" then return count end
+function workbench.move(_, from_list, _, to_list, _, count)
+	if to_list == "storage" and from_list ~= "forms" then return count end
 	return 0
 end
 
