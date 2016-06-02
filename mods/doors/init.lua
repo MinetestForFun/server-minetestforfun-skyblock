@@ -226,10 +226,8 @@ function _doors.door_toggle(pos, clicker)
 	local b = string.sub(def.name, -1)
 	local pos2 = doors.get_pos(pos, dir, old, b)
 	local node = minetest.get_node_or_nil(pos2)
-	if node and minetest.get_item_group(node.name, "door") == 1 then
-		local def2 = minetest.registered_nodes[node.name]
-		if def2 and def2.door.name and def2.door.name == name then
-			local name1 = string.sub(name, 0, -2)
+	if node and string.sub(node.name, 0, -3) == name then
+		if b ~= string.sub(node.name, -1) then
 			local state2 = minetest.get_meta(pos2):get_int("state")
 			if (old % 2) == (state2 % 2) then
 				if minetest.registered_nodes[node.name].on_rightclick then
