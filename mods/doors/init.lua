@@ -192,6 +192,8 @@ function _doors.door_toggle(pos, clicker)
 		-- fix up lvm-placed right-hinged doors, default closed
 		if minetest.get_node(pos).name:sub(-2) == "_b" then
 			state = 2
+		else
+			state = 0
 		end
 	else
 		state = tonumber(state)
@@ -272,11 +274,10 @@ function doors.register(name, def)
 	end
 
 	-- replace old doors of this type automatically
-	minetest.register_abm({
+	minetest.register_lbm({
+		name = ":doors:replace_" .. name:gsub(":", "_"),
 		nodenames = {name.."_b_1", name.."_b_2"},
-		interval = 7.0,
-		chance = 1,
-		action = function(pos, node, active_object_count, active_object_count_wider)
+		action = function(pos, node)
 			local l = tonumber(node.name:sub(-1))
 			local meta = minetest.get_meta(pos)
 			local h = meta:get_int("right") + 1
@@ -322,7 +323,7 @@ function doors.register(name, def)
 			local pdef = minetest.registered_nodes[node.name]
 			if pdef and pdef.on_rightclick then
 				return pdef.on_rightclick(pointed_thing.under,
-						node, placer, itemstack)
+						node, placer, itemstack, pointed_thing)
 			end
 
 			if pdef and pdef.buildable_to then
