@@ -122,7 +122,7 @@ function skyblock.feats.add(level,player_name,feat)
 	if level~=0 or feat~='level' then
 		local rewarded = skyblock.levels[level].reward_feat(player_name,feat)
 		if rewarded then
-			minetest.chat_send_player(player_name..' completed the quest "'..feat..'" on level '..level)
+			minetest.chat_send_player(player_name, 'You completed the quest "'..feat..'" on level '..level)
 			--if irc then irc:say(player_name .. ' completed the quest "' .. feat .. '" on level ' .. level) end
 			minetest.sound_play("skyblock_finish_quest", {
 				to_player = player_name,
