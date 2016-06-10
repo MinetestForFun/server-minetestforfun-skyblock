@@ -8,6 +8,23 @@ License: GPLv3
 
 ]]--
 
+--[[
+Level 4 mostly revolving around farming and dying
+level 4 feats and rewards:
+
+* Craft the wooden hoe -> Wheat seed
+* Plant wheat seed -> Cactus 1
+* Craft the bread and eat it -> Cotton Seed
+* Use hoe 50 times -> Steel hoe
+* Place 5 white wool blocks -> 2 orange wool blocks + 2 red dye
+* Dig cactus 20 -> 2 white dyes
+* Dig Geranium 10 -> Brown Mushroom 2
+* Dig Tulip 15 -> Red Mushroom 2
+* Dig Brown Mushroom 10 -> Stick 50
+* Craft the Diamond Hoe -> Diamondblock
+
+]]--
+
 local level = 4
 
 --
@@ -17,15 +34,14 @@ local level = 4
 skyblock.levels[level] = {}
 
 -- feats
-skyblock.levels[level].feats = {}
+skyblock.levels[level].feats = {
+   {
+      
+   }
+}
 
 -- init level
 skyblock.levels[level].init = function(player_name)
-	local privs = core.get_player_privs(player_name)
-	privs['fly'] = true
-	privs['fast'] = true
-	core.set_player_privs(player_name, privs)
-	minetest.chat_send_player(player_name, 'You can now use FLY and FAST !')
 end
 
 -- get level information
@@ -40,14 +56,25 @@ skyblock.levels[level].get_info = function(player_name)
 		formspec_quest = '',
 	}
 	
-	local text = 'label[0,0.5; THE END]'
-		..'label[0,1.0; I hope you enjoyed your journey, and you]'
-		..'label[0,1.5; are welcome to stay and keep building]'
-		..'label[0,2.0; your new sky world.]'
-		
+	local text = 'label[0,2.7; --== Quests ==--]'
+		..'label[0,0.5; Time Goes On, '..player_name..'...]'
+		..'label[0,1.0; You may wonder, traveller, where some of your]'
+		..'label[0,1.5; precious items are. Be patient...]'
+		..'label[0,2.0; They will come to you in time...]'
+
 	info.formspec = skyblock.levels.get_inventory_formspec(level,info.player_name,true)..text
 	info.formspec_quest = skyblock.levels.get_inventory_formspec(level,info.player_name)..text
-	info.infotext = 'THE END! for '.. player_name ..' ... or is it ...'
+
+	for k,v in ipairs(skyblock.levels[level].feats) do
+		info.formspec = info.formspec..skyblock.levels.get_feat_formspec(info,k,v.feat,v.count,v.name,v.hint,true)
+		info.formspec_quest = info.formspec_quest..skyblock.levels.get_feat_formspec(info,k,v.feat,v.count,v.name,v.hint)
+	end
+	if info.count>0 then
+		info.count = info.count/2 -- only count once
+	end
+
+	info.infotext = 'LEVEL '..info.level..' for '..info.player_name..': '..info.count..' of '..info.total
+	
 	return info
 end
 
