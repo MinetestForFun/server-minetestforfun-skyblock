@@ -289,3 +289,17 @@ function skyblock.levels.bucket_lava_on_use(level,player_name,pointed_thing)
 		end
 	end
 end
+
+-- track hoe usage
+function skyblock.levels.hoe_on_use(level, player_name, pointed_thing, itemname)
+   for _, v in pairs(skyblock.levels[level].feats) do
+      if v.hoeuse then
+	 for _, vv in pairs(v.hoeuse) do
+	    if itemname == "farming:hoe_" .. vv then
+	       skyblock.feats.add(level, player_name, v.feat)
+	       return
+	    end
+	 end
+      end
+   end
+end

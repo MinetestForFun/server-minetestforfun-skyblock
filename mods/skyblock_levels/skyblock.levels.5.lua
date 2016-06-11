@@ -8,7 +8,7 @@ License: GPLv3
 
 ]]--
 
-local level = 4
+local level = 5
 
 --
 -- PUBLIC FUNCTIONS

@@ -56,7 +56,8 @@ minetest.register_node('skyblock:aerbratus_sapling', {
 	groups = {snappy = 2, dig_immediate = 3,
 		attached_node = 1, sapling = 1},
 	sounds = default.node_sound_leaves_defaults(),
-  after_place_node = function(pos)
+	after_place_node = function(pos)
+		pos.y = pos.y - 1
 		skyblock.grow_aerbratus(pos)
 	end
 })
