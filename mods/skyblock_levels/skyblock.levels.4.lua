@@ -13,13 +13,13 @@ Level 4 mostly revolving around farming and dying
 level 4 feats and rewards:
 
 * craft_woodenhoe        farming:seed_wheat
-* use_hoe                farming:hoe_steel
+* use_hoe x40            farming:hoe_steel
 * plant_wheatseed        default:cactus
 * craft_bread            farming:seed_cotton
 * place_whitewool x5     dye:red x2
-* place_cactus x20       dye:white x2
-* dig_geranium x10       flowers:mushroom_brown x2
-* dig_tulip x2           flowers:mushroom_red x2
+* place_cactus x10       dye:white x2
+* dig_geranium x5        flowers:mushroom_brown x2
+* dig_tulip x5           flowers:mushroom_red x2
 * dig_brownmushroom x15  default:stick x50
 * craft_diamondhoe       default:diamondblock
 
@@ -45,10 +45,10 @@ skyblock.levels[level].feats = {
       craft = {"farming:hoe_wood"}
    },
    {
-      name = "Use the hoe 50 times",
+      name = "Use the hoe 40 times",
       hint = "farming:hoe_wood",
       feat = "use_hoe",
-      count = 50,
+      count = 40,
       reward = "farming:hoe_steel",
       hoeuse = {"wood"}
    },
@@ -56,7 +56,7 @@ skyblock.levels[level].feats = {
       name = "Plant 10 wheat seeds",
       hint = "farming:seed_wheat",
       feat = "place_wheatseed",
-      count = 1,
+      count = 10,
       reward = "default:cactus",
       placenode = {"farming:seed_wheat"}
    },
@@ -77,26 +77,26 @@ skyblock.levels[level].feats = {
       placenode = {"wool:white"},
    },
    {
-      name = "Place 20 cacti",
+      name = "Place 10 cacti",
       hint = "default:cactus",
       feat = "place_cactus",
-      count = 20,
+      count = 10,
       reward = "dye:white 2",
       dignode = {"default:cactus"},
    },
    {
-      name = "Dig 10 Geranium flowers",
+      name = "Pick 5 Geranium flowers",
       hint = "flowers:geranium",
       feat = "dig_geranium",
-      count = 10,
+      count = 5,
       reward = "flowers:mushroom_brown 2",
       dignode = {"flowers:geranium"},
    },
    {
-      name = "Dig 15 orange tulips",
+      name = "Pick 5 orange tulips",
       hint = "flowers:tulip",
       feat = "dig_tulip",
-      count = 15,
+      count = 5,
       reward = "flowers:mushroom_red 2",
       dignode = {"flowers:tulip"},
    },
