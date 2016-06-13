@@ -15,7 +15,7 @@ level 4 feats and rewards:
 * craft_diamondhoe       farming:seed_wheat
 * use_hoe x40            farming:melon_slice
 * plant_wheatseed        default:cactus
-* craft_bread            farming:seed_cotton x10
+* craft_flour            farming:seed_cotton x10
 * place_snowblock x50    dye:red x20
 * dig_cactus x10         dye:white x20
 * dig_geranium x5        flowers:mushroom_brown x2
@@ -61,12 +61,12 @@ skyblock.levels[level].feats = {
       placenode = {"farming:seed_wheat"}
    },
    {
-      name = "Eat 4 pieces of bread",
-      hint = "farming:bread",
-      feat = "eat_bread",
+      name = "Craft 4 lumps of flour",
+      hint = "farming:flour",
+      feat = "craft_flour",
       count = 4,
       reward = "farming:seed_cotton 10",
-      item_eat = {"farming:bread"},
+      craft = {"farming:flour"},
    },
    {
       name = "Place 50 snow blocks",
