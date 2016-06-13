@@ -12,7 +12,7 @@ License: GPLv3
 Level 4 mostly revolving around farming and dying
 level 4 feats and rewards:
 
-* craft_woodenhoe        farming:seed_wheat
+* craft_diamondhoe       farming:seed_wheat
 * use_hoe x40            farming:hoe_steel
 * plant_wheatseed        default:cactus
 * craft_bread            farming:seed_cotton
@@ -21,7 +21,7 @@ level 4 feats and rewards:
 * dig_geranium x5        flowers:mushroom_brown x2
 * dig_tulip x5           flowers:mushroom_red x2
 * dig_brownmushroom x15  default:stick x50
-* craft_diamondhoe       default:diamondblock
+* craft_ethanol          farming:melon_slice
 
 ]]--
 
@@ -37,20 +37,20 @@ skyblock.levels[level] = {}
 -- Parts of this are purely hypothetical and not implement yet
 skyblock.levels[level].feats = {
    {
-      name = "Craft a wooden hoe",
-      hint = "farming:hoe_wood",
-      feat = "craft_woodenhoe",
+      name = "Craft a mese hoe",
+      hint = "farming:hoe_mese",
+      feat = "craft_mesehoe",
       count = 1,
       reward = "farming:seed_wheat 2",
-      craft = {"farming:hoe_wood"}
+      craft = {"farming:hoe_mese"}
    },
    {
       name = "Use the hoe 40 times",
-      hint = "farming:hoe_wood",
+      hint = "farming:hoe_mese",
       feat = "use_hoe",
       count = 40,
       reward = "farming:hoe_steel",
-      hoeuse = {"wood"}
+      hoeuse = {"mese"}
    },
    {
       name = "Plant 10 wheat seeds",
@@ -105,16 +105,16 @@ skyblock.levels[level].feats = {
       hint = "flowers:mushroom_brown",
       feat = "dig_brownmushroom",
       count = 10,
-      reward = "default:stick 50",
+      reward = "farming:corn",
       dignode = {"flowers:mushroom_brown"},
    },
    {
-      name = "Craft the Diamond Hoe",
-      hint = "farming:hoe_diamond",
-      feat = "craft_diamondhoe",
+      name = "Make ethanol!",
+      hint = "farming:corn",
+      feat = "craft_ethanol",
       count = 1,
-      reward = "default:diamondblock",
-      craft = {"farming:hoe_diamond"},
+      reward = "farming:melon_slice",
+      craft = {"farming:bottle_ethanol"},
    }
 }
 
