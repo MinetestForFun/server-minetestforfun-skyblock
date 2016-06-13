@@ -17,7 +17,7 @@ level 4 feats and rewards:
 * plant_wheatseed        default:cactus
 * craft_bread            farming:seed_cotton x10
 * place_snowblock x50    dye:red x20
-* place_cactus x10       dye:white x20
+* dig_cactus x10         dye:white x20
 * dig_geranium x5        flowers:mushroom_brown x2
 * dig_tulip x5           flowers:mushroom_red x2
 * dig_brownmushroom x15  default:stick x50
@@ -77,9 +77,9 @@ skyblock.levels[level].feats = {
       placenode = {"default:snowblock"},
    },
    {
-      name = "Place 10 cacti",
+      name = "Dig 10 cacti",
       hint = "default:cactus",
-      feat = "place_cactus",
+      feat = "dig_cactus",
       count = 10,
       reward = "dye:white 20",
       dignode = {"default:cactus"},
