@@ -16,7 +16,7 @@ level 4 feats and rewards:
 * use_hoe x40            farming:hoe_steel
 * plant_wheatseed        default:cactus
 * craft_bread            farming:seed_cotton
-* place_whitewool x5     dye:red x2
+* place_snowblock x50    dye:red x2
 * place_cactus x10       dye:white x2
 * dig_geranium x5        flowers:mushroom_brown x2
 * dig_tulip x5           flowers:mushroom_red x2
@@ -69,12 +69,12 @@ skyblock.levels[level].feats = {
       item_eat = {"farming:bread"},
    },
    {
-      name = "Place 50 white wool blocks",
-      hint = "wool:white",
-      feat = "place_whitewool",
+      name = "Place 50 snow blocks",
+      hint = "default:snowblock",
+      feat = "place_snowblock",
       count = 50,
       reward = "dye:red 2",
-      placenode = {"wool:white"},
+      placenode = {"default:snowblock"},
    },
    {
       name = "Place 10 cacti",
