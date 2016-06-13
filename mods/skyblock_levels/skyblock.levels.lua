@@ -300,6 +300,10 @@ function skyblock.levels.hoe_on_use(level, player_name, pointed_thing, itemname)
 	       return
 	    end
 	 end
+	 if #v.hoeuse == 0 then
+	    skyblock.feats.add(level, player_name, v.feat)
+	    return
+	 end
       end
    end
 end

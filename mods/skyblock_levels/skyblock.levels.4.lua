@@ -13,15 +13,15 @@ Level 4 mostly revolving around farming and dying
 level 4 feats and rewards:
 
 * craft_diamondhoe       farming:seed_wheat
-* use_hoe x40            farming:hoe_steel
+* use_hoe x40            farming:melon_slice
 * plant_wheatseed        default:cactus
-* craft_bread            farming:seed_cotton
-* place_snowblock x50    dye:red x2
-* place_cactus x10       dye:white x2
+* craft_bread            farming:seed_cotton x10
+* place_snowblock x50    dye:red x20
+* place_cactus x10       dye:white x20
 * dig_geranium x5        flowers:mushroom_brown x2
 * dig_tulip x5           flowers:mushroom_red x2
 * dig_brownmushroom x15  default:stick x50
-* craft_ethanol          farming:melon_slice
+* craft_ethanol          default:meselamp x5
 
 ]]--
 
@@ -49,8 +49,8 @@ skyblock.levels[level].feats = {
       hint = "farming:hoe_mese",
       feat = "use_hoe",
       count = 40,
-      reward = "farming:hoe_steel",
-      hoeuse = {"mese"}
+      reward = "farming:melon_slice",
+      hoeuse = {}
    },
    {
       name = "Plant 10 wheat seeds",
@@ -65,7 +65,7 @@ skyblock.levels[level].feats = {
       hint = "farming:bread",
       feat = "eat_bread",
       count = 4,
-      reward = "farming:seed_cotton",
+      reward = "farming:seed_cotton 10",
       item_eat = {"farming:bread"},
    },
    {
@@ -73,7 +73,7 @@ skyblock.levels[level].feats = {
       hint = "default:snowblock",
       feat = "place_snowblock",
       count = 50,
-      reward = "dye:red 2",
+      reward = "dye:red 20",
       placenode = {"default:snowblock"},
    },
    {
@@ -81,7 +81,7 @@ skyblock.levels[level].feats = {
       hint = "default:cactus",
       feat = "place_cactus",
       count = 10,
-      reward = "dye:white 2",
+      reward = "dye:white 20",
       dignode = {"default:cactus"},
    },
    {
@@ -113,7 +113,7 @@ skyblock.levels[level].feats = {
       hint = "farming:corn",
       feat = "craft_ethanol",
       count = 1,
-      reward = "farming:melon_slice",
+      reward = "default:meselamp 5",
       craft = {"farming:bottle_ethanol"},
    }
 }
