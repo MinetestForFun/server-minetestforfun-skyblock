@@ -32,7 +32,7 @@ local function tick()
 	local heure = os.date("%H")
 	local minute = os.date("%M")
 	-- Warn every days
-	if heure == "4" then
+	if heure == "04" then
 		if minute == "00" then
 			minetest.chat_send_all("Reminder : Daily reboot of the server in 30 minutes. (Lasts 5 minutes)")
 			sound_play_all("shutdown_shutdown")
@@ -48,7 +48,7 @@ local function tick()
 	--		minetest.request_shutdown()
 		end
 	end
-	minetest.after(60, tick)
+	minetest.after(20, tick)
 end
 
 tick()
