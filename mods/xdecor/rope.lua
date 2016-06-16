@@ -2,7 +2,7 @@ local rope = {}
 
 -- Code by Mirko K. (modified by Temperest, Wulfsdad and kilbith) (License: GPL).
 minetest.register_on_punchnode(function(pos, oldnode, digger)
-	if oldnode.name == "xdecor:rope" then
+	if oldnode.name == "xdecor:rope" and not minetest.is_protected(pos, digger:get_player_name()) then
 		rope:remove(pos, oldnode, digger, "xdecor:rope")
 	end
 end)
