@@ -1,4 +1,6 @@
 
+local S = farming.intllib
+
 -- Hoe registration function
 
 farming.register_hoe = function(name, def)
@@ -53,6 +55,15 @@ farming.register_hoe = function(name, def)
 				{"", "group:stick", ""}
 			}
 		})
+		-- Reverse Recipe
+		minetest.register_craft({
+			output = name:sub(2),
+			recipe = {
+				{"", def.material, def.material},
+				{"", "group:stick", ""},
+				{"", "group:stick", ""}
+			}
+		})
 	end
 end
 
@@ -66,7 +77,7 @@ function farming.hoe_on_use(itemstack, user, pointed_thing, uses)
 	if not pt or pt.type ~= "node" then
 		return
 	end
-	
+
 	local under = minetest.get_node(pt.under)
 	local upos = pointed_thing.under
 
@@ -77,75 +88,81 @@ function farming.hoe_on_use(itemstack, user, pointed_thing, uses)
 
 	local p = {x = pt.under.x, y = pt.under.y + 1, z = pt.under.z}
 	local above = minetest.get_node(p)
-	
+
 	-- return if any of the nodes is not registered
 	if not minetest.registered_nodes[under.name]
 	or not minetest.registered_nodes[above.name] then
 		return
 	end
-	
+
 	-- check if the node above the pointed thing is air
 	if above.name ~= "air" then
 		return
 	end
-	
+
 	-- check if pointing at dirt
 	if minetest.get_item_group(under.name, "soil") ~= 1 then
 		return
 	end
-	
+
 	-- turn the node into soil, wear out item and play sound
 	minetest.set_node(pt.under, {name = "farming:soil"})
 
 	minetest.sound_play("default_dig_crumbly", {pos = pt.under, gain = 0.5})
-
-	if not minetest.setting_getbool("creative_mode") then
+	if not minetest.setting_getbool("creative_mode") then --MFF DEBUT crabman(26/07/2015) not wearout if creative mod and invtweak refill break tools
+		local tool_name = itemstack:get_name()
 		itemstack:add_wear(65535/(uses-1))
-	end
-
+		if itemstack:get_wear() == 0 and minetest.get_modpath("invtweak") then
+			local index = user:get_wield_index()
+			minetest.sound_play("invtweak_tool_break", {pos = user:getpos(), gain = 0.9, max_hear_distance = 5})
+			minetest.after(0.20, refill, user, tool_name, index)
+		end
+	end --MFF FIN
 	return itemstack
 end
 
 -- Define Hoes
+-- Material fields added for MFF
 
 farming.register_hoe(":farming:hoe_wood", {
-	description = "Wooden Hoe",
+	description = S("Wooden Hoe"),
 	inventory_image = "farming_tool_woodhoe.png",
 	max_uses = 30,
 	material = "group:wood"
 })
 
 farming.register_hoe(":farming:hoe_stone", {
-	description = "Stone Hoe",
+	description = S("Stone Hoe"),
 	inventory_image = "farming_tool_stonehoe.png",
 	max_uses = 90,
 	material = "group:stone"
 })
 
 farming.register_hoe(":farming:hoe_steel", {
-	description = "Steel Hoe",
+	description = S("Steel Hoe"),
 	inventory_image = "farming_tool_steelhoe.png",
 	max_uses = 200,
 	material = "default:steel_ingot"
 })
 
 farming.register_hoe(":farming:hoe_bronze", {
-	description = "Bronze Hoe",
+	description = S("Bronze Hoe"),
 	inventory_image = "farming_tool_bronzehoe.png",
 	max_uses = 220,
 	material = "default:bronze_ingot"
 })
 
 farming.register_hoe(":farming:hoe_mese", {
-	description = "Mese Hoe",
+	description = S("Mese Hoe"),
 	inventory_image = "farming_tool_mesehoe.png",
 	max_uses = 350,
 	material = "default:mese_crystal"
 })
 
 farming.register_hoe(":farming:hoe_diamond", {
-	description = "Diamond Hoe",
+	description = S("Diamond Hoe"),
 	inventory_image = "farming_tool_diamondhoe.png",
 	max_uses = 500,
 	material = "default:diamond"
 })
+
