@@ -9,9 +9,13 @@ minetest.register_craftitem("farming:grapes", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 
-		if minetest.is_protected(pointed_thing.under, placer:get_player_name()) then
-			return
-		end
+	   -- Modification by MFF to check the node on top
+	   local top = table.copy(pointed_thing.above)
+	   top.y = top.y + 1
+	   if minetest.is_protected(pointed_thing.above, placer:get_player_name()) or minetest.is_protected(top, placer:get_player_name()) then
+	      return
+	   end
+	   -- End of modification
 
 		local nodename = minetest.get_node(pointed_thing.under).name
 
