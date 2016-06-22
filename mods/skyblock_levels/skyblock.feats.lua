@@ -446,11 +446,11 @@ for _, material in pairs({"wood", "stone", "steel", "bronze", "mese", "diamond"}
 	minetest.override_item("farming:hoe_" .. material, {
 		on_use = function(itemstack, user, pointed_thing)
 			if pointed_thing.above and not minetest.is_protected(pointed_thing.above, user:get_player_name()) then
-				old_use(itemstack, user, pointed_thing)
+			   if old_use(itemstack, user, pointed_thing) then
+			      -- Also update feats if the hoe did something
+			      skyblock.feats.hoe_on_use(itemstack, user, pointed_thing)
+			   end
 			end
-
-			-- Also update feats
-			skyblock.feats.hoe_on_use(itemstack, user, pointed_thing)
 		end
 	})
 end
