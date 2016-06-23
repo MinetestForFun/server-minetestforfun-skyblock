@@ -313,7 +313,6 @@ local function bucket_on_use(itemstack, user, pointed_thing)
 		return {name=liquid.itemname}
 	end
 end
-
 minetest.override_item('bucket:bucket_empty', {
 	on_place = bucket_on_use,
 	on_use = bucket_on_use,
@@ -403,7 +402,6 @@ local function bucket_lava_on_use(itemstack, user, pointed_thing)
 			n, user,
 			itemstack) or itemstack
 	end
-
 	-- Check if pointing to a liquid
 	if bucket.liquids[n.name] == nil then
 		-- Not a liquid

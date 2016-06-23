@@ -49,7 +49,7 @@ skyblock.levels[level].feats = {
 		feat = 'place_ladder', 
 		count = 10, 
 		reward = 'default:desert_cobble 50',
-		placenode = {'default:ladder_wood'},
+		placenode = {'default:ladder_wood', 'default:ladder_steel'},
 	},
 	{
 		name = 'place 20 Wood Fences',

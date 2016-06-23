@@ -20,7 +20,7 @@ level 4 feats and rewards:
 * dig_cactus x10         dye:white x20
 * dig_geranium x5        flowers:mushroom_brown x2
 * dig_tulip x5           flowers:mushroom_red x2
-* dig_brownmushroom x15  default:stick x50
+* dig_brownmushroom x15  farming:corn x50
 * craft_ethanol          default:meselamp x5
 
 ]]--
