@@ -48,12 +48,32 @@ minetest.register_chatcommand('setlevel', {
 
 -- who
 minetest.register_chatcommand('who', {
-	description = 'Display list of online players and their current level.',
-	func = function(name)
-		minetest.chat_send_player(name, 'Current Players:')
-		for _,player in ipairs(minetest.get_connected_players()) do
-			local player_name = player:get_player_name()
-			minetest.chat_send_player(name, ' - '..player_name..' - level '..skyblock.feats.get_level(player_name))
-		end
-	end,
+				 description = 'Display list of online players and their current level.',
+				 func = function(name)
+				    if not minetest.get_player_by_name(name) then
+				       minetest.chat_send_player(name, 'Current Players:')
+				       for _,player in ipairs(minetest.get_connected_players()) do
+					  local player_name = player:get_player_name()
+					  minetest.chat_send_player(name, ' - '..player_name..' - level '..skyblock.feats.get_level(player_name))
+				       end
+				       return true
+
+				    end
+
+				    local answer = "size[3,3]" ..
+				       "tablecolumns[text,align=center,width=5;" ..
+				       "text,align=center,width=2;" ..
+				       "text,align=center,width=5]" ..
+				       "tableoptions[background=#334522]" ..
+				       "label[0, 0; Players and levels]" ..
+				       "table[0, 0.5; 2.8, 2.5; players;"
+
+				    for _,player in pairs(minetest.get_connected_players()) do
+				       local player_name = player:get_player_name()
+				       answer = answer .. player_name .. ',|,' .. skyblock.feats.get_level(player_name) .. ','
+				    end
+				    answer = answer .. ';]'
+
+				    minetest.show_formspec(name, "skyblock_levels:whocmd", answer)
+				 end,
 })
