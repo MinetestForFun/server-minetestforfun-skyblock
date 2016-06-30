@@ -46,13 +46,35 @@ minetest.override_item('skyblock:quest', {
 
 -- Monsarno Round-Down
 local round_down_radius = 5
+
+function destroy_nature(pos)
+	-- Remove nearby flora
+	local owner = minetest.get_meta(pos):get_string("owner") or ""
+	local player_name = skyblock.get_spawn_player(pos)
+	for x=-round_down_radius,round_down_radius do
+		for y=-round_down_radius,round_down_radius do
+			for z=-round_down_radius,round_down_radius do
+				if not minetest.is_protected(pos, owner) then
+					local pos = { x=pos.x+x, y=pos.y+y, z=pos.z+z }
+					local node = minetest.get_node_or_nil(pos)
+					if node and (minetest.get_item_group(node.name, 'flora') > 0
+					   or minetest.get_item_group(node.name, 'plant') > 0) then
+						minetest.remove_node(pos)
+					end
+				end
+			end
+		end
+	end
+	return true
+end
 minetest.register_node(':skyblock:round_down', {
 	description = "Monsarno Round-Down",
 	inventory_image = 'skyblock_round_down_sprayer.png^[transformFY',
 	tiles = {'skyblock_round_down.png'},
 	is_ground_content = true,
 	drawtype = "airlike",
-	groups = {oddly_breakable_by_hand=3, not_in_creative_inventory=1},
+	groups = {oddly_breakable_by_hand=3, not_in_creative_inventory=1,
+		flora_block=1},
 	paramtype = "light",
 	sunlight_propagates = "true",
 	drop = "",
@@ -60,26 +82,10 @@ minetest.register_node(':skyblock:round_down', {
 	buildable_to = true,
 	selection_box = { type = 'fixed', fixed = {-0.5, -0.5, -0.5, 0.5, -0.475, 0.5} },
 	on_construct = function(pos)
-		minetest.after(1, function(pos)
-			-- Remove nearby flora
-			local owner = minetest.get_meta(pos):get_string("owner") or ""
-			local player_name = skyblock.get_spawn_player(pos)
-			for x=-round_down_radius,round_down_radius do
-				for y=-round_down_radius,round_down_radius do
-					for z=-round_down_radius,round_down_radius do
-						if not minetest.is_protected(pos, owner) then
-							local pos = { x=pos.x+x, y=pos.y+y, z=pos.z+z }
-							local node = minetest.get_node_or_nil(pos)
-							if node and (minetest.get_item_group(node.name, 'flora') > 0
-							   or minetest.get_item_group(node.name, 'plant') > 0) then
-								minetest.remove_node(pos)
-							end
-						end
-					end
-				end
-			end
-		end, pos)
-	end
+		minetest.after(1, destroy_nature, pos)
+		minetest.get_node_timer(pos):start(45) -- We do not want to overload the server
+	end,
+	on_timer = destroy_nature
 })
 
 local round_down_uses = 40
