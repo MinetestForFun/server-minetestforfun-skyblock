@@ -146,6 +146,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				inv:set_stack("craft", i, s)
 			end
 
+			minetest.log("action", "[MAX] Adding stack {name=" .. stack:get_name() .. ",count=" .. stack:get_count() .. "} to player " .. player:get_player_name())
 			if inv:room_for_item("main", stack) then
 				inv:add_item("main", stack)
 			else
