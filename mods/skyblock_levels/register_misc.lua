@@ -146,7 +146,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				inv:set_stack("craft", i, s)
 			end
 
-			--minetest.log("action", "[MAX] Adding stack {name=" .. stack:get_name() .. ",count=" .. stack:get_count() .. "} to player " .. player:get_player_name()) -- DESACTIVATE again MAX_BUTTON because again bugged
+			--minetest.log("action", "[MAX] Adding stack {name=" .. stack:get_name() .. ",count=" .. stack:get_count() .. "} to player " .. player:get_player_name())
 			if inv:room_for_item("main", stack) then
 				inv:add_item("main", stack)
 			else
@@ -154,12 +154,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			end
 
 			for _, ls in pairs(leftovers) do
-				ls:set_count(count)
-				if inv:room_for_item("main", ls) then
-					inv:add_item("main", ls)
-				else
-					minetest.add_item(player:getpos(), ls)
-				end
+			   if ls:get_name() ~= "" then
+			      ls:set_count(count)
+			      --minetest.log("action", "[MAX] Adding leftover {name=" .. ls:get_name() .. ",count=" .. ls:get_count() .. "} to player " .. player:get_player_name())
+			      if inv:room_for_item("main", ls) then
+				 inv:add_item("main", ls)
+			      else
+				 minetest.add_item(player:getpos(), ls)
+			      end
+			   end
 			end
 			-- WE'RE DONE
 		end
