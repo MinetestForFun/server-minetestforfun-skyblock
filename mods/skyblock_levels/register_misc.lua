@@ -90,14 +90,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 			-- Crop out the useless blanks
 			local tmprcp = {}
-			for i = 0, 2 do
-				if (tabrcp[(i*3)+1] or "") ~= "" or (tabrcp[(i*3)+2] or "") ~= "" or (tabrcp[(i*3)+3] or "") ~= "" then
-					for u = 1, 3 do
-						if (tabrcp[u] or "") ~= "" or (tabrcp[3+u] or "") ~= "" or (tabrcp[6+u] or "") ~= "" then
-							table.insert(tmprcp, tabrcp[(i*3)+u])
-						end
-					end
-				end
+			for x = 0, 2 do
+			   local blank = true
+			   local y = 1
+			   while blank and y <= width do
+			      blank = blank and tabrcp[(x*width)+y] == ""
+			      y = y + 1
+			   end
+
+			   if not blank then -- copy
+			      for y = 1, width do
+				 table.insert(tmprcp, tabrcp[(x*width)+y])
+			      end
+			   end
 			end
 			tabrcp = table.copy(tmprcp)
 
