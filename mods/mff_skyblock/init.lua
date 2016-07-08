@@ -60,6 +60,11 @@ minetest.register_on_joinplayer(function(player)
 		minetest.chat_send_player(playername, "You have lost FLY and FAST. You will earn these privileges when you reach level 5.")
 		minetest.chat_send_player(playername, "Complete the quests in your inventory to level up. Each level has a new set of quests.")
 	end
+	if skyblock.feats.get_level(playername) == 5 then
+		u.fly = true
+		u.fast = true
+		minetest.chat_send_player(playername, "You have the fly & fast privilege and it's normal.")
+	end
 
 	minetest.set_player_privs(playername, u)
 end)
