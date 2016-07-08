@@ -54,13 +54,13 @@ minetest.register_on_joinplayer(function(player)
 		u[priv] = true
 	end
 
-	if skyblock.feats.get_level(playername) < 5 and not u.kick and (u.fly or u.fast) then
+	if skyblock.feats.get_level(playername) < skyblock.max_level and not u.kick and (u.fly or u.fast) then
 		u.fly = nil
 		u.fast = nil
 		minetest.chat_send_player(playername, "You have lost FLY and FAST. You will earn these privileges when you reach level 5.")
 		minetest.chat_send_player(playername, "Complete the quests in your inventory to level up. Each level has a new set of quests.")
 	end
-	if skyblock.feats.get_level(playername) == 5 then
+	if skyblock.feats.get_level(playername) == skyblock.max_level then
 		u.fly = true
 		u.fast = true
 		minetest.chat_send_player(playername, "You have the fly & fast privilege and it's normal.")

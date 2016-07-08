@@ -10,15 +10,17 @@ License: GPLv3
 
 local modpath = minetest.get_modpath('skyblock_levels')
 
+skyblock.max_level = 5
+
 dofile(modpath..'/skyblock.craft_guide.lua')
 
 dofile(modpath..'/skyblock.feats.lua')
 dofile(modpath..'/skyblock.levels.lua')
-dofile(modpath..'/skyblock.levels.1.lua')
-dofile(modpath..'/skyblock.levels.2.lua')
-dofile(modpath..'/skyblock.levels.3.lua')
-dofile(modpath..'/skyblock.levels.4.lua')
-dofile(modpath..'/skyblock.levels.5.lua')
+
+for lvl = 1, skyblock.max_level do
+	dofile(modpath..'/skyblock.levels.' .. lvl .. '.lua')
+	skyblock.log("Level " .. lvl .. " loaded")
+end
 
 dofile(modpath..'/register_abm.lua')
 dofile(modpath..'/register_craft.lua')
@@ -27,4 +29,4 @@ dofile(modpath..'/register_node.lua')
 dofile(modpath..'/register_misc.lua')
 
 -- log that we started
-skyblock.log('[MOD]'..minetest.get_current_modname()..' -- loaded from '..minetest.get_modpath(minetest.get_current_modname()))
+skyblock.log('[MOD] '..minetest.get_current_modname()..' -- loaded from '..minetest.get_modpath(minetest.get_current_modname()))
