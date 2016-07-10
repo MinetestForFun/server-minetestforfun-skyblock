@@ -291,6 +291,8 @@ local function bucket_on_use(itemstack, user, pointed_thing)
 	local ndef
 	if n then
 		ndef = minetest.registered_items[n.name]
+	else
+		return
 	end
 	-- Call on_rightclick if the pointed node defines it
 	if ndef and ndef.on_rightclick and
