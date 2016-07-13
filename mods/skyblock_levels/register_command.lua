@@ -60,13 +60,16 @@ minetest.register_chatcommand('who', {
 
 				    end
 
-				    local answer = "size[3,3]" ..
-				       "tablecolumns[text,align=center,width=5;" ..
+				    local answer = "size[4,4]" ..
+				       "tablecolumns[text,align=center,width=10;" ..
 				       "text,align=center,width=2;" ..
-				       "text,align=center,width=5]" ..
+				       "text,align=right,width=5]" ..
 				       "tableoptions[background=#334522]" ..
-				       "label[0, 0; Players and levels]" ..
-				       "table[0, 0.5; 2.8, 2.5; players;"
+				       "label[.7, -.2; Who's Currently Online]" ..
+				       "label[0, .5; Players]" ..
+				       "label[3, .5; Level]" ..
+					   "button_exit[3, 3.7; 1.1, .7; close; Close]" ..
+				       "table[0, 1; 3.8, 2.5; players;"
 
 				    for _,player in pairs(minetest.get_connected_players()) do
 				       local player_name = player:get_player_name()
