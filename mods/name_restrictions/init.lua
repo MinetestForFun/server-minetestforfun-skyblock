@@ -17,38 +17,78 @@ temp = nil
 exemptions[minetest.setting_get("name")] = true
 exemptions["singleplayer"] = true
 
-local disallowed_names = {}
-local file = io.open(minetest.get_worldpath("name_restrictions") .. "/forbidden_names.txt", "r")
-if file then
-	for line in file:lines() do
-		local low_line = line:lower()
-		disallowed_names[low_line] = true
+local disallowed_names
+
+local function load_forbidden_names()
+	disallowed_names = {}
+	local path = minetest.setting_get("name_restrictions.forbidden_names_list_path") or
+		minetest.get_worldpath("name_restrictions") .. "/forbidden_names.txt"
+	local file = io.open(path, 'r')
+	if file then
+		local count = 0
+		for line in file:lines() do
+			local low_line = line:lower()
+			disallowed_names[low_line] = true
+			count = count + 1
+		end
+		file:close()
+		return true, count .. " forbidden names loaded", 'verbose'
+	else
+		disallowed_names = {}
+		return true, path .. " doesn't exist, no forbidden names have been loaded", 'warning'
 	end
-	file:close()
+end
+
+do
+	local ret, msg, lvl = load_forbidden_names()
+	if msg and lvl then
+		minetest.log(lvl, msg)
+	end
 end
 
 ---------------------
 -- Simple matching --
 ---------------------
 
-local disallowed = {
-	["^guest[0-9]+"] = "Guest accounts are disallowed on this server." ..
-	                   " Please choose a proper name and try again.",
-	["^sadie[0-9]+"] = "Guest accounts are disallowed on this server." ..
-			   " Please choose a proper name (and client) and try again.",
-	["^player[0-9]+"] = "Guest accounts are disallowed on this server." ..
-			   " Please choose a proper name (and client) and try again.",
-	["[4a]dm[1il]n"] = "Misleading name." ..
-					   " Please choose a proper name and try again.",
-	["moder[4a]tor"] = "Misleading name." ..
-					   " Please choose a proper name and try again.",
-	["[0o]wn[e3]r"]  = "Misleading name." ..
-					   " Please choose a proper name and try again.",
-	["^[0-9]+$"]     = "All-numeric names are disallowed on this server." ..
-					   " Please choose a proper name and try again.",
-	["[0-9].-[0-9].-[0-9].-[0-9].-[0-9].-[0-9]"] = "Too many numbers in your name (must be 5 at most)." ..
-					   " Please choose a proper name and try again.",
-}
+local disallowed
+
+local function load_disallowed()
+	local path = minetest.setting_get("name_restrictions.forbidden_name_patterns_list_path") or
+		minetest.get_worldpath("name_restrictions") .. "/forbidden_names_patterns.txt"
+	local file = io.open(path, 'r')
+	if file then
+		local content = file:read('*all')
+		local imported = minetest.deserialize(content)
+		local ret, msg, lvl = true, nil, nil
+		if imported == nil then
+			disallowed = disallowed or {}
+			ret, msg, lvl = false, "Failed to parse " .. path .. "; patterns not imported", 'error'
+		elseif type(imported) ~= 'table' then
+			disallowed = disallowed or {}
+			ret, msg, lvl = false, "Parsing " .. path .. " returned a " .. type(imported) ..
+				" where a table was expected; patterns not imported", 'error'
+		else
+			disallowed = imported
+			local count = 0
+			for _ in pairs(disallowed) do
+				count = count + 1
+			end
+			msg, lvl = count .. " forbidden name patterns loaded", 'verbose'
+		end
+		file:close()
+		return ret, msg, lvl
+	else
+		disallowed = {}
+		return true, path .. " doesn't exist, no forbidden name patterns have been loaded", 'warning'
+	end
+end
+
+do
+	local ret, msg, lvl = load_disallowed()
+	if msg and lvl then
+		minetest.log(lvl, msg)
+	end
+end
 
 minetest.register_on_prejoinplayer(function(name, ip)
 	local lname = name:lower()
@@ -62,6 +102,29 @@ minetest.register_on_prejoinplayer(function(name, ip)
 	end
 end)
 
+--------------------------------------
+-- Simple matching config reloading --
+--------------------------------------
+
+minetest.register_chatcommand("forbidden_names_reload", {
+	params = "",
+	description = "Reloads forbidden_names match lists",
+	privs = {ban= true},
+	func = function(name)
+		local ret1, msg, lvl = load_forbidden_names()
+		if msg and lvl then
+			minetest.log(lvl, msg)
+			minetest.chat_send_player(name, msg)
+		end
+		local ret2
+		ret2, msg, lvl = load_disallowed()
+		if msg and lvl then
+			minetest.log(lvl, msg)
+			minetest.chat_send_player(name, msg)
+		end
+		return ret1 and ret2
+	end
+})
 
 ------------------------
 -- Case-insensitivity --
