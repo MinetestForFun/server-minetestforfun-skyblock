@@ -143,6 +143,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local _, output_decrement = minetest.get_craft_result(recipe)
 			local leftovers = table.copy((output_decrement.items or {}))
 
+			-- WAIT... THERE ARE HOOKS TO CALLS
+			for _, func in pairs(core.registered_on_crafts) do
+				local ret
+				for i = 0, count do
+					ret = func(stack, player, cgrid, inv)
+				end
+				if ret then return end
+			end
+
 			-- Back to normal crafting
 			stack:set_count(stack:get_count() * count)
 			for i = 1,inv:get_size("craft") do
