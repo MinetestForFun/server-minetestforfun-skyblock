@@ -44,29 +44,43 @@ end
 
 -- Set privileges
 
+skyblock.feats.privilege_grid = {
+   ["skin_choice"] = 3,
+   ["fly"] = 4,
+   ["fast"] = 4,
+   ["pvp"] = 5,
+}
+
+function skyblock.feats.adjust_privileges(playername)
+   local plev = skyblock.feats.get_level(playername)
+   local p = minetest.setting_get("default_privs")
+   local u = minetest.get_player_privs(playername)
+   local n = minetest.string_to_privs(p)
+
+   -- Look for privileges that should be revoked
+   for priv, lvl in pairs(skyblock.feats.privilege_grid) do
+      if u[priv] and plev < lvl then
+	 u[priv] = nil
+      end
+   end
+
+   -- Look for those that should be granted
+   for priv, lvl in pairs(skyblock.feats.privilege_grid) do
+      if plev >= lvl then
+	 u[priv] = true
+      end
+   end
+
+   -- Enable all default privileges
+   for priv, _ in pairs(n) do
+      u[priv] = true
+   end
+
+   minetest.set_player_privs(playername, u)
+end
+
 minetest.register_on_joinplayer(function(player)
-	local playername = player:get_player_name()
-	local p = minetest.setting_get("default_privs")
-	local u = minetest.get_player_privs(playername)
-	local n = minetest.string_to_privs(p)
-
-	for priv, _ in pairs(n) do
-		u[priv] = true
-	end
-
-	if skyblock.feats.get_level(playername) < skyblock.max_level and not u.kick and (u.fly or u.fast) then
-		u.fly = nil
-		u.fast = nil
-		minetest.chat_send_player(playername, "You have lost FLY and FAST. You will earn these privileges when you reach level 5.")
-		minetest.chat_send_player(playername, "Complete the quests in your inventory to level up. Each level has a new set of quests.")
-	end
-	if skyblock.feats.get_level(playername) == skyblock.max_level then
-		u.fly = true
-		u.fast = true
-		minetest.chat_send_player(playername, "You have the fly & fast privilege and it's normal.")
-	end
-
-	minetest.set_player_privs(playername, u)
+      skyblock.feats.adjust_privileges(player:get_player_name())
 end)
 
 -- Override travelnet box texture

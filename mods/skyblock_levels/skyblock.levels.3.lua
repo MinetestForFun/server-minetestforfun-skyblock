@@ -119,6 +119,7 @@ skyblock.levels[level].feats = {
 
 -- init level
 skyblock.levels[level].init = function(player_name)
+   core.chat_send_player(player_name, "You can now chose your own skin")
 end
 
 -- get level information

@@ -21,11 +21,7 @@ skyblock.levels[level].feats = {}
 
 -- init level
 skyblock.levels[level].init = function(player_name)
-	local privs = core.get_player_privs(player_name)
-	privs['fly'] = true
-	privs['fast'] = true
-	core.set_player_privs(player_name, privs)
-	minetest.chat_send_player(player_name, 'You can now use FLY and FAST !')
+	minetest.chat_send_player(player_name, 'You can now toggle PvP and fight with other players')
 end
 
 -- get level information

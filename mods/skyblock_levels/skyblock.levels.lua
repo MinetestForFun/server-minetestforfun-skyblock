@@ -141,8 +141,9 @@ function skyblock.get_unified_inventory_buttons(playername)
 	local button_col = 0
 	local main_button_x = 7
 	local main_button_y = 0
+	local delay = 0
 	for i, def in pairs(unified_inventory.buttons) do
-		if not def.show_with or minetest.check_player_privs(playername, {[def.show_with] = true}) then
+		if (not def.show_with or minetest.check_player_privs(playername, {[def.show_with] = true})) then
 			if unified_inventory.lite_mode and i > 4 then
 				button_row = 1
 				button_col = 1
@@ -150,13 +151,15 @@ function skyblock.get_unified_inventory_buttons(playername)
 			local tooltip = def.tooltip or ''
 			if def.type == 'image' then
 				formspec = formspec..'image_button['
-						..( main_button_x + 0.65 * (i - 1) - button_col * 0.65 * 4)
+						..( main_button_x + 0.65 * (i - delay - 1) - button_col * 0.65 * 4)
 						..','..(main_button_y + button_row * 0.7)..';0.8,0.8;'
 						..minetest.formspec_escape(def.image)..';'
 						..minetest.formspec_escape(def.name)..';]'
 						..'tooltip['..minetest.formspec_escape(def.name)
 						..';'..tooltip..']'
 			end
+		else
+			delay = delay + 1
 		end
 	end
 	return formspec

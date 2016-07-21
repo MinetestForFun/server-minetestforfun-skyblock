@@ -120,6 +120,7 @@ skyblock.levels[level].feats = {
 
 -- init level
 skyblock.levels[level].init = function(player_name)
+	minetest.chat_send_player(player_name, 'You can now use FLY and FAST !')
 end
 
 -- get level information
