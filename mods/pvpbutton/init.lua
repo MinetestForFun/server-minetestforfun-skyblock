@@ -33,12 +33,26 @@ function toggle_pvp(localname)
 			text = "PvP is enabled for you!",
 			number = 0xFF0000 -- Red
 		})
+
+		-- Change nametag
+		local nametag = player:get_nametag_attributes()
+		player:set_nametag_attributes({
+		      text = nametag.text,
+		      color = {a=255, r=222, g=2, b=3},
+		})
 		return
 	else
 		pvptable[localname] = 0
 		minetest.chat_send_player(localname,
 			"PvP was disabled for "..localname)
 		player:hud_remove(huds[localname])
+
+		-- Change nametag
+		local nametag = player:get_nametag_attributes()
+		player:set_nametag_attributes({
+		      text = nametag.text,
+		      color = {a=255, r=255, g=255, b=255},
+		})
 		return
 	end
 end
@@ -46,18 +60,19 @@ end
 -- Link the toggle callback to the proper hook
 if inv_mod == "unified_inventory" then
 	unified_inventory.register_button("pvp", {
-		type = "image",
-		image = "pvpbutton_pvp.png",
-		tooltip = "Toggle pvp",
-		action = function(player)
-			local pname = player:get_player_name()
-			action_timers.wrapper(pname,
-				"pvp toggle",
-				"pvp_" .. pname,
-				toggle_interval,
-				toggle_pvp, {pname}
-			)
-		end
+					     type = "image",
+					     show_with = "pvp",
+					     image = "pvpbutton_pvp.png",
+					     tooltip = "Toggle pvp",
+					     action = function(player)
+						local pname = player:get_player_name()
+						action_timers.wrapper(pname,
+								      "pvp toggle",
+								      "pvp_" .. pname,
+								      toggle_interval,
+								      toggle_pvp, {pname}
+						)
+					     end
 	})
 else
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
