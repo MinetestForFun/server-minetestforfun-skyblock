@@ -15,4 +15,5 @@ return {
 					   " Please choose a proper name and try again.",
 	["[0-9].-[0-9].-[0-9].-[0-9].-[0-9].-[0-9]"] = "Too many numbers in your name (must be 5 at most)." ..
 					   " Please choose a proper name and try again.",
+	["^[_-]+$"]      = "Your name cannot contain characters - and _ only. Please choose a proper name and try again.",
 }
