@@ -61,6 +61,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local recipes = minetest.get_all_craft_recipes(stack:get_name())
 			local tabrcp  = {}
 			local count   = 65535
+			if recipe == nil then return end -- HOW?! (#155)
 
 			-- Get a simplified table for the craft grid's recipe
 			local widths = 0
