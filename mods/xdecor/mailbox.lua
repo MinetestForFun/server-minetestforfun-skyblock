@@ -1,14 +1,34 @@
 local mailbox = {}
 screwdriver = screwdriver or {}
 
+local function get_img(img)
+	local img_name = img:match("(.*)%.png")
+	if img_name then return img_name..".png" end
+end
+
 local function img_col(stack)
 	local def = minetest.registered_items[stack]
 	if not def then return "" end
 
 	if def.inventory_image ~= "" then
-		return def.inventory_image:match("(.*)%.png")..".png"
+		local img = get_img(def.inventory_image)
+		if img then return img end
 	end
-	return def.tiles[1]:match("(.*)%.png")..".png"
+
+	if def.tiles then
+		local img
+		local tile = def.tiles[1]
+
+		if type(tile) == "table" then
+			img = get_img(tile.name)
+		elseif type(tile) == "string" then
+			img = get_img(tile)
+		end
+
+		if img then return img end
+	end
+
+	return ""
 end
 
 function mailbox:formspec(pos, owner, num)
@@ -28,7 +48,7 @@ function mailbox:formspec(pos, owner, num)
 				giver = giver.."#FFFF00,"..giver_name..","..i..",#FFFFFF,x "..stack_count..","
 				-- Hack to force using a 16px resolution for images in formspec's tablecolumn.
 				-- The engine doesn't scale them automatically yet.
-				img = img..i.."=mailbox_blank16.png^"..img_col(stack_name)..","
+				img = img..i.."="..img_col(stack_name).."^\\[resize:16x16,"
 			end
 		end
 
@@ -131,4 +151,3 @@ xdecor.register("mailbox", {
 	allow_metadata_inventory_put = mailbox.put,
 	after_place_node = mailbox.after_place_node
 })
-
