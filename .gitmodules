@@ -23,3 +23,6 @@
 [submodule "mods/time_regulation"]
 	path = mods/time_regulation
 	url = git://github.com/MinetestForFun/time_regulation.git
+[submodule "mods/stacktraceplus"]
+	path = mods/stacktraceplus
+	url = https://github.com/MinetestForFun/stacktraceplus.git
