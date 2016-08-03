@@ -91,10 +91,10 @@ do
 end
 
 minetest.register_on_prejoinplayer(function(name, ip)
-	local lname = name:lower()
 	if string.find(name, "Sadie") then
-		return "Your client/nickname is disallowed. Please us the official Minetest client (or change your nickname)"
+		return "Your client/nickname is disallowed. Please use the official Minetest client (or change your nickname)"
 	end
+	local lname = name:lower()
 	for re, reason in pairs(disallowed) do
 		if lname:find(re) then
 			return reason
