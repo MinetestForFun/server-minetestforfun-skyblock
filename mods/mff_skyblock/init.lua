@@ -51,6 +51,12 @@ skyblock.feats.privilege_grid = {
    ["pvp"] = 5,
 }
 
+local privileged = {
+	["cessna151"] = {"kick", "protection_bypass", "delprotect", "ignore_protection", "teleport", "ban"},
+	["Mg"] = {"kick", "ban", "irc_admin"},
+	["crabman"] = {"kick", "ban", "irc_admin"},
+}
+
 function skyblock.feats.adjust_privileges(playername)
    local plev = skyblock.feats.get_level(playername)
    local p = minetest.setting_get("default_privs")
@@ -74,6 +80,13 @@ function skyblock.feats.adjust_privileges(playername)
    -- Enable all default privileges
    for priv, _ in pairs(n) do
       u[priv] = true
+   end
+
+   -- Add privileged people's permissions
+   if (privileged[playername]) then
+      for _, priv in pairs(privileged[playername]) do
+         u[priv] = true
+      end
    end
 
    minetest.set_player_privs(playername, u)
