@@ -26,3 +26,6 @@
 [submodule "mods/stacktraceplus"]
 	path = mods/stacktraceplus
 	url = https://github.com/MinetestForFun/stacktraceplus.git
+[submodule "mods/profilerdumper"]
+	path = mods/profilerdumper
+	url = https://github.com/MinetestForFun/profilerdumper.git
