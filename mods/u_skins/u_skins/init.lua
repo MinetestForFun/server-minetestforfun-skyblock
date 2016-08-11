@@ -8,7 +8,7 @@ u_skins.pages = {}
 u_skins.u_skins = {}
 
 u_skins.get_type = function(texture)
-	if not texture then return end
+	if not texture then return -1 end
 	if string.sub(texture,0,string.len("character")) == "character"
 		or string.sub(texture,0,string.len("mff_character")) == "mff_character" then -- MODIFICATION MADE FOR MFF (If it ain't obvious enough)
 		return u_skins.type.MODEL
@@ -16,6 +16,7 @@ u_skins.get_type = function(texture)
 	if string.sub(texture,0,string.len("player")) == "player" then
 		return u_skins.type.SPRITE
 	end
+	return -1
 end
 
 u_skins.modpath = minetest.get_modpath("u_skins")
@@ -24,7 +25,7 @@ dofile(u_skins.modpath.."/meta.lua")
 dofile(u_skins.modpath.."/players.lua")
 
 
-u_skins.update_player_skin = function(player)
+u_skins.update_player_skin = function(player, saving)
 	local name = player:get_player_name()
 	if u_skins.get_type(u_skins.u_skins[name]) == u_skins.type.SPRITE then
 		player:set_properties({
@@ -39,7 +40,10 @@ u_skins.update_player_skin = function(player)
 			visual_size = {x=1, y=1},
 		})
 	end
-	u_skins.save()
+
+	if saving then
+		u_skins.save()
+	end
 end
 
 -- Display Current Skin
@@ -133,7 +137,7 @@ minetest.register_on_player_receive_fields(function(player,formname,fields)
 	for field, _ in pairs(fields) do
 		if string.sub(field,0,string.len("u_skins_set_")) == "u_skins_set_" then
 			u_skins.u_skins[player:get_player_name()] = u_skins.list[tonumber(string.sub(field,string.len("u_skins_set_")+1))]
-			u_skins.update_player_skin(player)
+			u_skins.update_player_skin(player, true)
 			unified_inventory.set_inventory_formspec(player,"u_skins")
 		end
 		if string.sub(field,0,string.len("u_skins_page_")) == "u_skins_page_" then
