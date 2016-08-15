@@ -311,9 +311,26 @@ local function bucket_on_use(itemstack, user, pointed_thing)
 		-- begin track bucket feats
 		skyblock.feats.bucket_on_use(itemstack, user, pointed_thing)
 		-- end track bucket feats
+		local item_count = user:get_wielded_item():get_count()
+		local giving_back = liquid.itemname
+		-- check if holding more than 1 empty bucket
+		if item_count > 1 then
+			-- if space in inventory add filled bucked, otherwise drop as item
+			local inv = user:get_inventory()
+			if inv:room_for_item("main", {name=liquid.itemname}) then
+				inv:add_item("main", liquid.itemname)
+			else
+				local pos = user:getpos()
+				pos.y = math.floor(pos.y + 0.5)
+				core.add_item(pos, liquid.itemname)
+			end
+
+			-- set to return empty buckets minus 1
+			giving_back = "bucket:bucket_empty "..tostring(item_count-1)
+		end
 
 		minetest.add_node(pointed_thing.under, {name='air'})
-		return {name=liquid.itemname}
+		return ItemStack(giving_back)
 	end
 end
 minetest.override_item('bucket:bucket_empty', {
