@@ -96,6 +96,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			end
 			-- Didn't want to put an "else" here, the code's already idented enough at some points
 			while #all_possible_recipes > 1 do
+				minetest.log(#all_possible_recipes)
 				-- Step 4.1.2 : If multiple recipes, try to match ours..
 				-- Step 4.1.2.1 : .. using output amount
 				local recpamntfound = 0
@@ -159,18 +160,41 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 						-- Step 4.1.2.2.2.1 : Vertical analysis of the items
 						local recheight = #recipe.items
 						local reclock = (recheight == 3)
-						local recy = 0
+						local recx = 0
+						local valid = true
 
+						-- Step 4.1.2.2.2.1.1 : Check the presence of only one column
 						for x, tab in pairs(craftgrid) do
 							for y, stack in pairs(tab) do
 								if stack then
-									-- Step 4.1.2.2.2.2 : Determine and assert our column
-									if recy ~= 0 and y ~= recy then
+									if recx == 0 then
+										recx = x
+									elseif recx ~= x then
+										valid = false
 										break
-									elseif recy == 0 then
-										recy = y -- It better not change
 									end
 								end
+							end
+						end
+
+						if valid then
+							-- Step 4.1.2.2.2.1.2 : Verify column content
+							local iterlock = false
+							local iterdelay = 0
+							for y = 1, 3 do
+								local stack = craftgrid[recx][y]
+								if stack then
+									iterlock = true
+								elseif not (stack or iterlock) then
+									iterdelay = iterdelay + 1
+								end
+								if iterlock then -- We start to check from here
+									valid = valid and ((stack or {name=nil}).name == recipe.items[y - iterdelay])
+								end
+							end
+							if valid then
+								our_recipe = recipe
+								break
 							end
 						end
 
