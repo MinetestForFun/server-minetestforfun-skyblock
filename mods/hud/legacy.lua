@@ -9,9 +9,12 @@ if hud.show_armor then
   local function get_armor_lvl(def)
     -- items/protection based display
     local lvl = def.level or 0
-    local max = 63 -- full diamond armor
+    local max = 36 -- full diamond armor
+    if minetest.get_modpath("xdecor") ~= nil then
+    	max = 45 -- full enchanted diamond armor
+    end
     if shields then
-      max = 84.14 -- full diamond armor + diamond shield
+      max = max + 9.9 -- full diamond armor + diamond shield
     end
     -- TODO: is there a sane way to read out max values?
     local ret = lvl/max
