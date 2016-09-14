@@ -91,6 +91,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local all_possible_recipes = minetest.get_all_craft_recipes(outstack.name)
 			local our_recipe
 
+			if not all_possible_recipes then return end -- This is a toolrepair, and for some reason it has nothing registered
 			if #all_possible_recipes == 1 then
 				our_recipe = all_possible_recipes[1]
 			end
