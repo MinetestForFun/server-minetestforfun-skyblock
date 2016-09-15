@@ -43,6 +43,11 @@ minetest.register_on_dieplayer(function(player)
 
 end)
 
+-- "group:xxxx" should always be a
+function compare_items(a, b)
+	return a == b or minetest.get_item_group(b, a:split(':')[2]) > 0
+end
+
 -- player receive fields
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	-- restart
@@ -91,7 +96,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local all_possible_recipes = minetest.get_all_craft_recipes(outstack.name)
 			local our_recipe
 
-			if not all_possible_recipes then return end -- This is a toolrepair, and for some reason it has nothing registered
+			if not all_possible_recipes then
+				minetest.log("Error 0")
+				return
+			end -- This is a toolrepair, and for some reason it has nothing registered
 			if #all_possible_recipes == 1 then
 				our_recipe = all_possible_recipes[1]
 			end
@@ -157,7 +165,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 					-- Step 4.1.2.2.2 : Recipe with one of width
 					elseif recipe.width == 1 then
-						minetest.log(dump(recipe))
 						-- Step 4.1.2.2.2.1 : Vertical analysis of the items
 						local recheight = #recipe.items
 						local reclock = (recheight == 3)
@@ -190,7 +197,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 									iterdelay = iterdelay + 1
 								end
 								if iterlock then -- We start to check from here
-									valid = valid and ((stack or {name=nil}).name == recipe.items[y - iterdelay])
+									valid = valid and compare_items(recipe.items[y - iterdelay], (stack or {name=nil}).name)
 								end
 							end
 							if valid then
@@ -228,7 +235,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 								end
 								if iterlock then -- We've gotta check from here
 									valid = valid and
-									(stack or {name = nil}).name == recipe.items[(x-iterdelay-1)*2+({[3]=y,[1]=y-1})[emptycol]]
+									compare_items(recipe.items[(x-iterdelay-1)*2+({[3]=y,[1]=y-1})[emptycol]], (stack or {name = nil}).name)
 								end
 							end
 							if not valid then break end
@@ -242,12 +249,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 					-- Step 4.1.2.2.4
 					elseif recipe.width == 3 then
 						-- Easier since we can just check one by one
-						minetest.log(dump(recipe))
 						local valid = true
 						for y=1,3 do
 							for x = 1,3 do
 								local stack = craftgrid[x][y]
-								valid = valid and (stack or {name = nil}).name == recipe.items[(y-1)*3+x]
+								valid = valid and compare_items(recipe.items[(y-1)*3+x], (stack or {name = nil}).name)
 							end
 							if not valid then minetest.log(y) break end
 						end
