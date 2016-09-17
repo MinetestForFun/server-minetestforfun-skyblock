@@ -65,6 +65,7 @@ function enchanting.fields(pos, _, fields, sender)
 	local mese = inv:get_stack("mese", 1)
 	local orig_wear = tool:get_wear()
 	local mod, name = tool:get_name():match("(.*):(.*)")
+	if not mod or not name then return end
 	local enchanted_tool = (mod or "")..":enchanted_"..(name or "").."_"..next(fields)
 
 	if mese:get_count() >= mese_cost and minetest.registered_tools[enchanted_tool] then
