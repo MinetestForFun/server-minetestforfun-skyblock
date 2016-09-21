@@ -45,7 +45,7 @@ end)
 
 -- "group:xxxx" should always be a
 function compare_items(a, b)
-	return a == b or minetest.get_item_group(b, a:split(':')[2]) > 0
+	return a == b or (a and minetest.get_item_group(b, a:split(':')[2]) > 0)
 end
 
 -- player receive fields
