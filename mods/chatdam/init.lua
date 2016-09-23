@@ -24,7 +24,7 @@ function chatdam.floodcontrol(name, message)
 
 	-- Kick for message length
 	if message:len() > chatdam.conf.MAXIMUM_CHARACTERS_PER_MESSAGE then
-		violation = ("Your sent a message with more characters than allowed (%s)"):format(chatdam.conf.MAXIMUM_CHARACTERS_PER_MESSAGE)
+		violation = ("Your sent a message with more characters\nthan allowed (%s maximum)"):format(chatdam.conf.MAXIMUM_CHARACTERS_PER_MESSAGE)
 	end
 
 	-- Kick for message frequency
@@ -36,7 +36,7 @@ function chatdam.floodcontrol(name, message)
 	else
 		chatdam.data[name].msgs = chatdam.data[name].msgs + 1
 		if chatdam.data[name].msgs > chatdam.conf.MAXIMUM_MESSAGES_PER_INTERVAL then
-			violation = ("You sent too many messages in a short amount of time (maximum allowed is %s for %s seconds)"):format(chatdam.conf.MAXIMUM_MESSAGES_PER_INTERVAL, chatdam.conf.FLOOD_INTERVAL)
+			violation = ("You sent too many messages in a short\namount of time (maximum allowed is %s for %s seconds)"):format(chatdam.conf.MAXIMUM_MESSAGES_PER_INTERVAL, chatdam.conf.FLOOD_INTERVAL)
 		end
 	end
 
