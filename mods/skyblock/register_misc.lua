@@ -38,7 +38,7 @@ local function spawn_tick()
 	for _,player in ipairs(minetest.get_connected_players()) do
 		local pos = player:getpos()
 		-- hit the bottom
-		if pos.y < skyblock.world_bottom then
+		if pos.y < skyblock.world_bottom and player:get_hp() > 0 then
 			local spawn = skyblock.get_spawn(player:get_player_name())
 			if spawn and minetest.get_node(spawn).name == 'skyblock:quest' then
 				player:set_hp(0)
