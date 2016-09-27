@@ -50,18 +50,18 @@ local round_down_radius = 5
 function destroy_nature(pos)
 	-- Remove nearby flora
 	local owner = minetest.get_meta(pos):get_string("owner") or ""
-	local player_name = skyblock.get_spawn_player(pos)
+	--local player_name = skyblock.get_spawn_player(pos)
 	for x=-round_down_radius,round_down_radius do
 		for y=-round_down_radius,round_down_radius do
 			for z=-round_down_radius,round_down_radius do
-				if not minetest.is_protected(pos, owner) then
+				--if not minetest.is_protected(pos, owner) then -- MFF (crabman 27/09/2016) disabled, useless and cause lag due to protector mod?
 					local pos = { x=pos.x+x, y=pos.y+y, z=pos.z+z }
 					local node = minetest.get_node_or_nil(pos)
 					if node and (minetest.get_item_group(node.name, 'flora') > 0
 					   or minetest.get_item_group(node.name, 'plant') > 0) then
 						minetest.remove_node(pos)
 					end
-				end
+				--end
 			end
 		end
 	end
