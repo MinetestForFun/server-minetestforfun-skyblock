@@ -79,7 +79,7 @@ end
 -- dump_pos
 function skyblock.dump_pos(pos)
 	if pos==nil then return 'nil' end
-	return '{x='..pos.x..',y='..pos.x..',z='..pos.z..'}'
+	return '{x='..pos.x..',y='..pos.y..',z='..pos.z..'}'
 end
 
 -- get players spawn position
