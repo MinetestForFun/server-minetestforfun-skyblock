@@ -12,6 +12,11 @@ end
 
 
 function report.send(name, param)
+	-- Check that the string is long enough
+	if string.len(param) < 25 then
+		return false, "The report you made is too short. Please add details to ensure your report is clearly understandable."
+	end
+
 	-- Send to online moderators / admins
 	-- Get comma separated list of online moderators and admins
 	local always_send_to = minetest.setting_get("report_moderator")
@@ -96,7 +101,8 @@ if minetest.get_modpath("unified_inventory") then
 				"\nat the spawn area! Don't report griefing, it's allowed on"..
 				"\nour server! You can ask questions to moderators and report"..
 				"\nflooding/spam, cheating, etc. Don't abuse/spam Report messages"..
-				"\nor you will be punished. LIMIT: One report per 5 minutes.]"..
+				"\nor you will be punished. LIMIT: One report per 5 minutes, and 25" ..
+				"\ncharacters at least.]"..
 				"field[2,5;5,1;text;Type report here:;]" ..
 				"button[3,6;2,0.5;report;Send]"
 			return {formspec = form, draw_inventory = false}
@@ -113,6 +119,10 @@ if minetest.get_modpath("unified_inventory") then
 			return
 		end
 		local name = player:get_player_name()
+		if string.len(fields.text) < 25 then -- We have to do it here for formspec, because action_timers cannot handle error return values
+			minetest.chat_send_player(name, "Your report is too short. Please add details to ensure your report is complete and understandable.")
+			return
+		end
 		local has_privs, missing_privs = core.check_player_privs(name, {interact = true})
 
 		if has_privs then
