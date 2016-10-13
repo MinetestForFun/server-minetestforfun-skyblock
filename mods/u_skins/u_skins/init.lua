@@ -150,7 +150,7 @@ end)
 -- set defaults
 minetest.register_on_joinplayer(function(player)
 	if not u_skins.u_skins[player:get_player_name()] then
-		u_skins.u_skins[player:get_player_name()] = "character_1"
+		u_skins.u_skins[player:get_player_name()] = "character"
 	end
 	u_skins.update_player_skin(player)
 end)
