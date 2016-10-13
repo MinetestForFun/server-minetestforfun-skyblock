@@ -23,6 +23,7 @@ local replace = minetest.setting_getbool("enable_stairs_replace_abm")
 
 function stairs.register_stair(subname, recipeitem, groups, images, description, sounds)
 	groups.stair = 1
+	local light_source = minetest.registered_nodes[recipeitem].light_source or 0
 	minetest.register_node(":stairs:stair_" .. subname, {
 		description = description,
 		drawtype = "mesh",
@@ -33,6 +34,7 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 		is_ground_content = false,
 		groups = groups,
 		sounds = sounds,
+		light_source = light_source,
 		selection_box = {
 			type = "fixed",
 			fixed = {
@@ -113,6 +115,7 @@ end
 
 function stairs.register_slab(subname, recipeitem, groups, images, description, sounds)
 	groups.slab = 1
+	local light_source = minetest.registered_nodes[recipeitem].light_source or 0
 	minetest.register_node(":stairs:slab_" .. subname, {
 		description = description,
 		drawtype = "nodebox",
@@ -122,6 +125,7 @@ function stairs.register_slab(subname, recipeitem, groups, images, description, 
 		is_ground_content = false,
 		groups = groups,
 		sounds = sounds,
+		light_source = light_source,
 		node_box = {
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
