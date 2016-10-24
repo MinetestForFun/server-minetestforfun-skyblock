@@ -52,7 +52,7 @@ skyblock.feats.privilege_grid = {
 }
 
 local privileged = {
-	["cessna151"] = {"kick", "toggle", "protection_bypass", "delprotect", "ignore_protection", "teleport", "bring", "ban", "give"},
+	["cessna151"] = {"kick", "toggle", "protection_bypass", "delprotect", "ignore_protection", "teleport", "bring", "ban", "give", "noclip", "settime", "password"},
 	["Mg"] = {"kick", "ban", "irc_admin"},
 	["crabman"] = {"kick", "ban", "irc_admin"},
 }
