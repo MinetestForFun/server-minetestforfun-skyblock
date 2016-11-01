@@ -59,13 +59,14 @@ function enchanting.on_put(pos, listname, _, stack)
 end
 
 function enchanting.fields(pos, _, fields, sender)
-	if fields.quit then return end
+	if not next(fields) or fields.quit then
+		return
+	end
 	local inv = minetest.get_meta(pos):get_inventory()
 	local tool = inv:get_stack("tool", 1)
 	local mese = inv:get_stack("mese", 1)
 	local orig_wear = tool:get_wear()
 	local mod, name = tool:get_name():match("(.*):(.*)")
-	if not mod or not name then return end
 	local enchanted_tool = (mod or "")..":enchanted_"..(name or "").."_"..next(fields)
 
 	if mese:get_count() >= mese_cost and minetest.registered_tools[enchanted_tool] then
@@ -84,6 +85,9 @@ function enchanting.dig(pos)
 end
 
 local function allowed(tool)
+	if not tool then
+		return false
+	end
 	for item in pairs(minetest.registered_tools) do
 		if tool and item:find("enchanted_"..tool) then return true end
 	end

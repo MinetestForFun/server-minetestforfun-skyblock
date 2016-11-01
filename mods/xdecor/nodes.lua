@@ -141,9 +141,10 @@ xdecor.register("chair", {
 		{11, 0,  3,   2,  6, 2}, {3,  6,  3, 10, 2, 8}
 	}),
 	can_dig = xdecor.sit_dig,
-	on_rightclick = function(pos, node, clicker, _, pointed_thing)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		pos.y = pos.y + 0  -- Sitting position.
 		xdecor.sit(pos, node, clicker, pointed_thing)
+		return itemstack
 	end
 })
 
@@ -175,8 +176,9 @@ for _, c in pairs({"red"}) do  -- Add more curtains colors simply here.
 		paramtype2 = "wallmounted",
 		groups = {dig_immediate=3, flammable=3},
 		selection_box = {type="wallmounted"},
-		on_rightclick = function(pos, node)
+		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 			minetest.set_node(pos, {name="xdecor:curtain_open_"..c, param2=node.param2})
+			return itemstack
 		end
 	})
 
@@ -188,8 +190,9 @@ for _, c in pairs({"red"}) do  -- Add more curtains colors simply here.
 		groups = {dig_immediate=3, flammable=3, not_in_creative_inventory=1},
 		selection_box = {type="wallmounted"},
 		drop = "xdecor:curtain_"..c,
-		on_rightclick = function(pos, node)
+		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 			minetest.set_node(pos, {name="xdecor:curtain_"..c, param2=node.param2})
+			return itemstack
 		end
 	})
 
@@ -207,9 +210,10 @@ xdecor.register("cushion", {
 	on_place = minetest.rotate_node,
 	node_box = xdecor.nodebox.slab_y(0.5),
 	can_dig = xdecor.sit_dig,
-	on_rightclick = function(pos, node, clicker, _, pointed_thing)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		pos.y = pos.y + 0  -- Sitting position.
 		xdecor.sit(pos, node, clicker, pointed_thing)
+		return itemstack
 	end
 })
 
@@ -354,27 +358,18 @@ xdecor.register("painting_1", {
 	inventory_image = "xdecor_painting_empty.png",
 	wield_image = "xdecor_painting_empty.png",
 	paramtype2 = "wallmounted",
-	wield_image = "xdecor_painting_empty.png",
 	sunlight_propagates = true,
 	groups = {choppy=3, oddly_breakable_by_hand=2, flammable=2, attached_node=1},
 	sounds = default.node_sound_wood_defaults(),
 	node_box = painting_box,
 	node_placement_prediction = "",
 	on_place = function(itemstack, placer, pointed_thing)
-		local player_name = placer:get_player_name()
-		local pos = pointed_thing.above
-
-		if not minetest.is_protected(pos, player_name) then
-			local num = math.random(4)
-			local dir = minetest.dir_to_wallmounted(placer:get_look_dir())
-			minetest.set_node(pos, {name="xdecor:painting_"..num, param2=dir})
-		else
-			minetest.chat_send_player(player_name, "This area is protected")
-		end
-		if not minetest.setting_getbool("creative_mode") then
+		local num = math.random(4)
+		local leftover = minetest.item_place_node(ItemStack("xdecor:painting_"..num), placer, pointed_thing)
+		if leftover:get_count() == 0 and not minetest.setting_getbool("creative_mode") then
 			itemstack:take_item()
-			return itemstack
 		end
+		return itemstack
 	end
 })
 

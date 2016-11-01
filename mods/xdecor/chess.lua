@@ -504,9 +504,9 @@ function realchess.move(pos, from_list, from_index, to_list, to_index, _, player
 
 	meta:set_string("playerWhite", playerWhite)
 	meta:set_string("playerBlack", playerBlack)
-	meta:set_string("lastMove", thisMove)
+	lastMove = thisMove
+	meta:set_string("lastMove", lastMove)
 	meta:set_int("lastMoveTime", minetest.get_gametime())
-	local lastMove = meta:get_string("lastMove")
 
 	if lastMove == "black" then
 		minetest.chat_send_player(playerWhite, "["..os.date("%H:%M:%S").."] "..
@@ -556,6 +556,9 @@ function realchess.fields(pos, _, fields, sender)
 end
 
 function realchess.dig(pos, player)
+	if not player then
+		return false
+	end
 	local meta = minetest.get_meta(pos)
 	local playerName = player:get_player_name()
 	local timeout_limit = meta:get_int("lastMoveTime") + 300
