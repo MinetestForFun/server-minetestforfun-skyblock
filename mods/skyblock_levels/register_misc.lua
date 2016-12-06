@@ -321,13 +321,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 
--- Custom recipe for testing
-minetest.register_craft({
-	output = "default:cobble 2",
-	recipe = {
-		{"default:dirt", "default:dirt"},
-	}
-})
 
 -- unified inventory skyblock button
 if minetest.get_modpath('unified_inventory') then
