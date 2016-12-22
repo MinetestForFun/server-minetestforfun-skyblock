@@ -204,6 +204,7 @@ minetest.register_on_dignode(skyblock.feats.on_dignode)
 function skyblock.feats.on_placenode(pos, newnode, placer, oldnode)
 	--if not placer then return end -- needed to prevent server crash when player leaves
 	local player_name = placer:get_player_name()
+	if player_name == "" then return end --fix crash when place entity (snowball)
 	local level = skyblock.feats.get_level(player_name)
 	if skyblock.levels[level].on_placenode then
 		skyblock.levels[level].on_placenode(pos, newnode, placer, oldnode)
