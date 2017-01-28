@@ -17,7 +17,9 @@ function place_cocoa(itemstack, placer, pointed_thing, plantname)
 	if not minetest.registered_nodes[under.name] then
 		return
 	end
-
+	if minetest.registered_nodes[under.name].on_rightclick and not placer:get_player_control().sneak then
+		return minetest.registered_nodes[under.name].on_rightclick(pt.under, under, placer, itemstack, pointed_thing)
+	end
 	-- check if pointing at jungletree
 	if under.name ~= "default:jungletree"
 	or minetest.get_node(pt.above).name ~= "air" then

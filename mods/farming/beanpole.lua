@@ -28,6 +28,8 @@ minetest.register_craftitem("farming:beans", {
 			minetest.set_node(pointed_thing.under, {name = "farming:beanpole_1"})
 
 			minetest.sound_play("default_place_node", {pos = pointed_thing.above, gain = 1.0})
+		elseif minetest.registered_nodes[nodename] and minetest.registered_nodes[nodename].on_rightclick and not placer:get_player_control().sneak then
+			return minetest.registered_nodes[nodename].on_rightclick(pointed_thing.under, minetest.get_node(pointed_thing.under), placer, itemstack, pointed_thing)
 		else
 			return
 		end
@@ -77,22 +79,26 @@ minetest.register_node("farming:beanpole", {
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_place = function(itemstack, placer, pointed_thing)
-
-		if minetest.is_protected(pointed_thing.under, placer:get_player_name()) then
-			return
-		end
-
-		local nodename = minetest.get_node(pointed_thing.under).name
-
-		if minetest.get_item_group(nodename, "soil") < 2 then
-			return
-		end
-
 		local top = {
 			x = pointed_thing.above.x,
 			y = pointed_thing.above.y + 1,
 			z = pointed_thing.above.z
 		}
+
+		if minetest.is_protected(pointed_thing.above, placer:get_player_name())
+		or minetest.is_protected(top, placer:get_player_name()) then -- MFF crabman(18/06/2015)
+			return
+		end
+
+		local nodename = minetest.get_node(pointed_thing.under).name
+
+		if minetest.registered_nodes[nodename] and minetest.registered_nodes[nodename].on_rightclick and not placer:get_player_control().sneak then
+			return minetest.registered_nodes[nodename].on_rightclick(pointed_thing.under, minetest.get_node(pointed_thing.under), placer, itemstack, pointed_thing)
+		end
+
+		if minetest.get_item_group(nodename, "soil") < 2 then
+			return
+		end
 
 		nodename = minetest.get_node(top).name
 
