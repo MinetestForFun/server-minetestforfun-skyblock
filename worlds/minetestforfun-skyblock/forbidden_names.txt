@@ -3,6 +3,9 @@ MinetestForFun
 Minetest4Fun
 Darcidride
 D4rcidride
+MFF-Bot
+MFFC-Bot
+MFFHG-Bot
 Siphano
 AyPierre
 Fukano
