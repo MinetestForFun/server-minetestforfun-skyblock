@@ -411,10 +411,10 @@ local function bucket_lava_on_use(itemstack, user, pointed_thing)
 	end
 
 	local n = minetest.get_node_or_nil(pointed_thing.under)
-	local ndef
-	if n then
-		ndef = minetest.registered_items[n.name]
+	if not n then
+		return
 	end
+	local ndef = minetest.registered_items[n.name]
 	-- Call on_rightclick if the pointed node defines it
 	if ndef and ndef.on_rightclick and
 	   user and not user:get_player_control().sneak then
