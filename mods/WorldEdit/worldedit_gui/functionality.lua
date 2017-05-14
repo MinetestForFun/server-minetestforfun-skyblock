@@ -734,7 +734,7 @@ worldedit.register_gui_handler("worldedit_gui_save_load", function(name, fields)
 end)
 
 worldedit.register_gui_function("worldedit_gui_lua", {
-	name = "Run Lua",
+	name = "Run Lua", privs = minetest.chatcommands["/clearobjects"].privs,
 	privs = we_privs("lua"),
 	get_formspec = function(name)
 		local code = gui_code[name]
