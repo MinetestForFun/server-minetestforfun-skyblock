@@ -35,6 +35,9 @@
 [submodule "mods/xban2"]
 	path = mods/xban2
 	url = https://github.com/MinetestForFun/xban2.git
+[submodule "mods/mysql_base"]
+	path = mods/mysql_base
+	url = https://github.com/MinetestForFun/mysql_base.git
 [submodule "mods/mysql_auth"]
 	path = mods/mysql_auth
 	url = https://github.com/MinetestForFun/mysql_auth.git
