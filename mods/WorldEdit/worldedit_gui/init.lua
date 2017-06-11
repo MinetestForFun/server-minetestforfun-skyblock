@@ -80,6 +80,8 @@ if rawget(_G, "unified_inventory") then --unified inventory installed
 	unified_inventory.register_button("worldedit_gui", {
 		type = "image",
 		image = "inventory_plus_worldedit_gui.png",
+		tooltip = "Worldedit GUI",
+		show_with = "worldedit", --Modiff MFF (Crabman 30/06/2015)
 	})
 
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
