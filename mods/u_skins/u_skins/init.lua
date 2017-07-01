@@ -88,7 +88,7 @@ unified_inventory.register_button("u_skins", {
 	type = "image",
 	show_with = "skin_choice",
 	image = "u_skins_button.png",
-	tooltip = S("Choose Skin")
+	tooltip = "Choose Skin"
 })
 
 -- Create all of the skin-picker pages.
