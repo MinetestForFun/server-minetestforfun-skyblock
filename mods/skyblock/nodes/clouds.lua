@@ -20,6 +20,8 @@ minetest.register_node('skyblock:cloud', {
 	groups = {oddly_breakable_by_hand = 2}
 })
 
+-- Dense cloud isn't needed at this time
+--[[
 minetest.register_node('skyblock:cloud_dense', {
 	description ='Dense cloud',
 	tiles = {'skyblock_cloud_dense.png'},
@@ -27,6 +29,7 @@ minetest.register_node('skyblock:cloud_dense', {
 	sunlight_propagates = false,
 	groups = {oddly_breakable_by_hand = 1}
 })
+--]]
 
 minetest.register_node('skyblock:cloud_rainy', {
 	description ='Rainy cloud',
@@ -35,3 +38,5 @@ minetest.register_node('skyblock:cloud_rainy', {
 	sunlight_propagates = false,
 	groups = {snappy = 3}
 })
+
+
