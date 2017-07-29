@@ -487,7 +487,7 @@ local can_refill_plant = {
 	["farming:blueberry_1"] = "farming:blueberries",
 	["farming:carrot_1"] = "farming:carrot",
 	["farming:coffee_1"] = "farming:coffee_beans",
-	["farming:corn_1"] =  "farming:corn",
+	["farming:corn_1"] = "farming:corn",
 	["farming:cotton_1"] = "farming:seed_cotton",
 	["farming:cucumber_1"] = "farming:cucumber",
 	["farming:melon_1"] = "farming:melon_slice",
@@ -499,7 +499,6 @@ local can_refill_plant = {
 	["farming:wheat_1"] = "farming:seed_wheat",
 	["farming:grapes_1"] = "farming:grapes",
 	["farming:beans_1"] = "farming:beans",
-	["farming:rhubarb_1"] = "farming:rhubarb",
 	["farming:cocoa_1"] = "farming:cocoa_beans",
 	["farming:barley_1"] = "farming:seed_barley",
 }
@@ -702,7 +701,9 @@ dofile(farming.path.."/blueberry.lua")
 dofile(farming.path.."/rhubarb.lua")
 dofile(farming.path.."/beanpole.lua")
 dofile(farming.path.."/grapes.lua")
-dofile(farming.path.."/barley.lua")
+--The craft guide shows barley is used to craft dough (needed for the bread quest).
+--This causes confusion because barley is not available on skyblock.
+--dofile(farming.path.."/barley.lua")
 dofile(farming.path.."/donut.lua")
 dofile(farming.path.."/mapgen.lua")
 dofile(farming.path.."/compatibility.lua") -- Farming Plus compatibility
