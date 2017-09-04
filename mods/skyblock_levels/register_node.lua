@@ -106,7 +106,7 @@ minetest.register_tool(':skyblock:round_down_sprayer', {
 })
 
 -- trees
-local trees = {'default:tree','default:jungletree','default:pinetree'}
+local trees = {'default:tree','default:jungletree','default:pinetree','default:acacia_tree','default:aspen_tree','skyblock:aerbratus_trunk'}
 for k,node in ipairs(trees) do
 	local groups = minetest.registered_nodes[node].groups
 	groups.oddly_breakable_by_hand = 0
@@ -114,7 +114,7 @@ for k,node in ipairs(trees) do
 end
 
 -- leaves
-local leaves = {'default:leaves','default:jungleleaves','default:pine_needles'}
+local leaves = {'default:leaves','default:jungleleaves','default:pine_needles','default:acacia_leaves','default:aspen_leaves','skyblock:aerbratus_leaves'}
 for k,node in ipairs(leaves) do
 	minetest.override_item(node, {climbable = true,	walkable = false})
 end
@@ -186,5 +186,77 @@ minetest.override_item('default:pine_sapling', {
 		end
 		-- add the tree
 		default.grow_pine_tree(pos)
+	end
+})
+
+-- Acacia
+minetest.override_item('default:acacia_sapling', {
+	after_place_node = function(pos)
+		-- check if node under belongs to the soil group
+		pos.y = pos.y - 1
+		local node_under = minetest.get_node(pos)
+		pos.y = pos.y + 1
+		if minetest.get_item_group(node_under.name, "soil") == 0 then
+			return
+		end
+
+		-- check if we have space to make a tree
+		for dy=1,9 do
+			pos.y = pos.y+dy
+			if minetest.get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+				return
+			end
+			pos.y = pos.y-dy
+		end
+		-- add the tree
+		default.grow_new_acacia_tree(pos)
+	end
+})
+
+-- Aspen
+minetest.override_item('default:aspen_sapling', {
+	after_place_node = function(pos)
+		-- check if node under belongs to the soil group
+		pos.y = pos.y - 1
+		local node_under = minetest.get_node(pos)
+		pos.y = pos.y + 1
+		if minetest.get_item_group(node_under.name, "soil") == 0 then
+			return
+		end
+
+		-- check if we have space to make a tree
+		for dy=1,9 do
+			pos.y = pos.y+dy
+			if minetest.get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+				return
+			end
+			pos.y = pos.y-dy
+		end
+		-- add the tree
+		default.grow_new_aspen_tree(pos)
+	end
+})
+
+-- Aerbratus
+minetest.override_item('skyblock:aerbratus_sapling', {
+	after_place_node = function(pos)
+		-- check if node under belongs to the soil group
+		pos.y = pos.y - 1
+		local node_under = minetest.get_node(pos)
+		pos.y = pos.y + 1
+		if minetest.get_item_group(node_under.name, "soil") == 0 then
+			return
+		end
+
+		-- check if we have space to make a tree
+		for dy=1,9 do
+			pos.y = pos.y+dy
+			if minetest.get_node(pos).name ~= 'air' and minetest.get_item_group(minetest.env:get_node(pos).name, 'leaves') == 0 then
+				return
+			end
+			pos.y = pos.y-dy
+		end
+		-- add the tree
+		skyblock.grow_aerbratus(pos)
 	end
 })

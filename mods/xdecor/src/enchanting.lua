@@ -1,4 +1,5 @@
 local enchanting = {}
+local on_enchanteds = {}
 screwdriver = screwdriver or {}
 local ceil, abs, random = math.ceil, math.abs, math.random
 
@@ -110,6 +111,9 @@ function enchanting.fields(pos, _, fields, sender)
 	if mese:get_count() >= mese_cost and minetest.registered_tools[enchanted_tool] then
 		minetest.sound_play("xdecor_enchanting", {
 			to_player=sender:get_player_name(), gain=0.8})
+		for _, func in pairs(on_enchanteds) do
+		   func(sender, tool, enchanted_tool, orig_wear, mese)
+		end
 		tool:replace(enchanted_tool)
 		tool:add_wear(orig_wear)
 		mese:take_item(mese_cost)
@@ -303,6 +307,11 @@ function enchanting:register_tools(mod, def)
 	end
 	end
 	end
+end
+
+-- MFF : Add callback for enchanting items
+function xdecor.register_on_enchanted(func)
+   table.insert(on_enchanteds, 1, func)
 end
 
 enchanting:register_tools("default", {

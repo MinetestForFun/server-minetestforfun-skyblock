@@ -10,7 +10,7 @@ License: GPLv3
 
 local modpath = minetest.get_modpath('skyblock_levels')
 
-skyblock.max_level = 5
+skyblock.max_level = 6
 
 dofile(modpath..'/skyblock.craft_guide.lua')
 

@@ -459,6 +459,36 @@ minetest.override_item('bucket:bucket_lava', {
 	on_use = bucket_lava_on_use,
 })
 
+
+local old_round_use = function() end
+
+function rounddown_on_use(itemstack, user, pointed_thing)
+   local pname = user:get_player_name()
+   local level = skyblock.feats.get_level(pname)
+
+   if skyblock.levels[level].on_round_down_use then
+      skyblock.levels[level].on_round_down_use(itemstack, user, pointed_thing)
+   end
+
+   return old_round_use(itemstack, user, pointed_thing)
+end
+
+minetest.after(0, function()
+		  old_round_use = minetest.registered_items["skyblock:round_down_sprayer"].on_place
+		  minetest.override_item("skyblock:round_down_sprayer", {
+					    on_place = rounddown_on_use
+		  })
+end)
+
+function skyblock.feats.on_chat_message(name, message)
+   local level = skyblocks.feats.get_level(name)
+   if skyblock.levels[level].on_chat then
+      skyblocks.levels[level].on_chat(name, message)
+   end
+end
+
+minetest.register_on_chat_message(skyblock.feats.on_chat_message)
+
 -- add protection to hoes, and also a callback
 for _, material in pairs({"wood", "stone", "steel", "bronze", "mese", "diamond"}) do
 	local old_use = minetest.registered_items["farming:hoe_" .. material].on_use
@@ -496,6 +526,16 @@ function skyblock.feats.save(data,player_name)
 	file:write(minetest.serialize(data))
 	file:close()
 end
+
+function skyblock.feats.on_enchanted(player, old_stack, new_item, wear, mese_stack)
+   local player_name = player:get_player_name()
+   local level = skyblock.feats.get_level(player_name)
+   if skyblock.levels[level].on_enchanted then
+      skyblock.levels[level].on_enchanted(player, old_stack, new_item, wear, mese_stack)
+   end
+end
+
+xdecor.register_on_enchanted(skyblock.feats.on_enchanted)
 
 -- load data
 function skyblock.feats.load(player_name)
