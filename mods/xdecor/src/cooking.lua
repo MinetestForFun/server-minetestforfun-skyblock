@@ -77,7 +77,7 @@ function cauldron.idle_timer(pos)
 	return true
 end
 
--- Ugly hack to determine if an item has `minetest.item_eat` in its definition.
+-- Ugly hack to determine if an item has the function `minetest.item_eat` in its definition.
 local function eatable(itemstring)
 	local item = itemstring:match("[%w_:]+")
 	local on_use_def = minetest.registered_items[item].on_use
@@ -88,7 +88,7 @@ end
 function cauldron.boiling_timer(pos)
 	local node = minetest.get_node(pos)
 	local objs = minetest.get_objects_inside_radius(pos, 0.5)
-	if objs == {} then return true end
+	if not next(objs) then return true end
 
 	local ingredients = {}
 	for _, obj in pairs(objs) do

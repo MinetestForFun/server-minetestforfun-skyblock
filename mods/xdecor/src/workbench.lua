@@ -1,10 +1,13 @@
 local workbench = {}
+WB = {}
 screwdriver = screwdriver or {}
+local min, ceil = math.min, math.ceil
+local registered_nodes = minetest.registered_nodes
 
--- Nodes allowed to be cut.
--- Only the regular, solid blocks without metas or explosivity can be cut.
+-- Nodes allowed to be cut
+-- Only the regular, solid blocks without metas or explosivity can be cut
 local nodes = {}
-for node, def in pairs(minetest.registered_nodes) do
+for node, def in pairs(registered_nodes) do
 	if def.name:find("default:mese") or ((def.drawtype == "normal" or def.drawtype:sub(1,5) == "glass") and
 	   (def.groups.cracky or def.groups.choppy) and
 	   not def.on_construct and
@@ -13,8 +16,11 @@ for node, def in pairs(minetest.registered_nodes) do
 	   not def.on_blast and
 	   not def.allow_metadata_inventory_take and
 	   not (def.groups.not_in_creative_inventory == 1) and
+	   not (def.groups.not_cuttable == 1) and
 	   not def.groups.wool and
-	   not def.description:find("Ore") and
+	   (def.tiles and type(def.tiles[1]) == "string" and not
+		def.tiles[1]:find("default_mineral")) and
+	   not def.mesecons and
 	   def.description and
 	   def.description ~= "" and
 	   def.light_source == 0)
@@ -23,7 +29,23 @@ for node, def in pairs(minetest.registered_nodes) do
 	end
 end
 
--- Nodeboxes definitions.
+-- Optionally, you can register custom cuttable nodes in the workbench
+WB.custom_nodes_register = {
+	-- "default:leaves",
+}
+
+setmetatable(nodes, {
+	__concat = function(t1, t2)
+		for i=1, #t2 do
+			t1[#t1+1] = t2[i]
+		end
+		return t1
+	end
+})
+
+nodes = nodes..WB.custom_nodes_register
+
+-- Nodeboxes definitions
 workbench.defs = {
 	-- Name       Yield   X  Y   Z  W   H  L
 	{"nanoslab",	16, { 0, 0,  0, 8,  1, 8  }},
@@ -46,7 +68,7 @@ workbench.defs = {
 			    { 0, 8,  0, 8,  8, 8  }}
 }
 
--- Tools allowed to be repaired.
+-- Tools allowed to be repaired
 function workbench:repairable(stack)
 	local tools = {"pick", "axe", "shovel", "sword", "hoe", "armor", "shield"}
 	for _, t in pairs(tools) do
@@ -56,22 +78,19 @@ function workbench:repairable(stack)
 end
 
 function workbench:get_output(inv, input, name)
-	if inv:is_empty("input") then
-		inv:set_list("forms", {}) return
-	end
-
 	local output = {}
-	for _, n in pairs(self.defs) do
-		local count = math.min(n[2] * input:get_count(), input:get_stack_max())
-		local item = name.."_"..n[1]
-		if not n[3] then item = "stairs:"..n[1].."_"..name:match(":(.*)") end
+	for i=1, #self.defs do
+		local nbox = self.defs[i]
+		local count = min(nbox[2] * input:get_count(), input:get_stack_max())
+		local item = name.."_"..nbox[1]
+		item = nbox[3] and item or "stairs:"..nbox[1].."_"..name:match(":(.*)")
 		output[#output+1] = item.." "..count
 	end
 	inv:set_list("forms", output)
 end
 
 local formspecs = {
-	-- Main formspec.
+	-- Main formspec
 	[[ label[0.9,1.23;Cut]
 	   label[0.9,2.23;Repair]
 	   box[-0.05,1;2.05,0.9;#555555]
@@ -85,15 +104,23 @@ local formspecs = {
 	   list[context;input;2,1;1,1;]
 	   list[context;tool;2,2;1,1;]
 	   list[context;hammer;3,2;1,1;]
-	   list[context;forms;4,0;4,3;] ]],
-	-- Crafting formspec.
+	   list[context;forms;4,0;4,3;]
+	   listring[current_player;main]
+	   listring[context;tool]
+	   listring[current_player;main]
+	   listring[context;hammer]
+	   listring[current_player;main]
+	   listring[context;forms]
+	   listring[current_player;main]
+	   listring[context;input] ]],
+	-- Crafting formspec
 	[[ image[5,1;1,1;gui_furnace_arrow_bg.png^[transformR270]
 	   button[0,0;1.5,1;back;< Back]
 	   list[current_player;craft;2,0;3,3;]
 	   list[current_player;craftpreview;6,1;1,1;]
 	   listring[current_player;main]
 	   listring[current_player;craft] ]],
-	-- Storage formspec.
+	-- Storage formspec
 	[[ list[context;storage;0,1;8,2;]
 	   button[0,0;1.5,1;back;< Back]
 	   listring[context;storage]
@@ -101,7 +128,8 @@ local formspecs = {
 }
 
 function workbench:set_formspec(meta, id)
-	meta:set_string("formspec", "size[8,7;]list[current_player;main;0,3.25;8,4;]"..
+	meta:set_string("formspec",
+			"size[8,7;]list[current_player;main;0,3.25;8,4;]"..
 			formspecs[id]..xbg..default.get_hotbar_bg(0,3.25))
 end
 
@@ -120,16 +148,17 @@ function workbench.construct(pos)
 end
 
 function workbench.fields(pos, _, fields)
+	if fields.quit then return end
 	local meta = minetest.get_meta(pos)
-	if     fields.back    then workbench:set_formspec(meta, 1)
-	elseif fields.craft   then workbench:set_formspec(meta, 2)
-	elseif fields.storage then workbench:set_formspec(meta, 3) end
+	workbench:set_formspec(meta, fields.back    and 1 or
+				     fields.craft   and 2 or
+				     fields.storage and 3)
 end
 
 function workbench.dig(pos)
 	local inv = minetest.get_meta(pos):get_inventory()
 	return inv:is_empty("input") and inv:is_empty("hammer") and
-		inv:is_empty("tool") and inv:is_empty("storage")
+	       inv:is_empty("tool") and inv:is_empty("storage")
 end
 
 function workbench.timer(pos)
@@ -139,10 +168,11 @@ function workbench.timer(pos)
 	local hammer = inv:get_stack("hammer", 1)
 
 	if tool:is_empty() or hammer:is_empty() or tool:get_wear() == 0 then
-		timer:stop() return
+		timer:stop()
+		return
 	end
 
-	-- Tool's wearing range: 0-65535 | 0 = new condition.
+	-- Tool's wearing range: 0-65535 | 0 = new condition
 	tool:add_wear(-500)
 	hammer:add_wear(700)
 
@@ -153,8 +183,9 @@ end
 
 function workbench.put(_, listname, _, stack)
 	local stackname = stack:get_name()
-	if (listname == "tool" and stack:get_wear() > 0 and workbench:repairable(stackname)) or
-	   (listname == "input" and minetest.registered_nodes[stackname.."_cube"]) or
+	if (listname == "tool" and stack:get_wear() > 0 and
+	    workbench:repairable(stackname)) or
+	   (listname == "input" and registered_nodes[stackname.."_cube"]) or
 	   (listname == "hammer" and stackname == "xdecor:hammer") or
 	    listname == "storage" then
 		return stack:get_count()
@@ -162,18 +193,8 @@ function workbench.put(_, listname, _, stack)
 	return 0
 end
 
-function workbench.take(_, listname, _, stack, player)
-	if listname == "forms" then
-		local inv = player:get_inventory()
-		if inv:room_for_item("main", stack:get_name()) then return -1 end
-		return 0
-	end
-	return stack:get_count()
-end
-
 function workbench.move(_, from_list, _, to_list, _, count)
-	if to_list == "storage" and from_list ~= "forms" then return count end
-	return 0
+	return (to_list == "storage" and from_list ~= "forms") and count or 0
 end
 
 function workbench.on_put(pos, listname, _, stack)
@@ -187,20 +208,30 @@ function workbench.on_put(pos, listname, _, stack)
 	end
 end
 
-function workbench.on_take(pos, listname, index, stack)
+function workbench.on_take(pos, listname, index, stack, player)
 	local inv = minetest.get_meta(pos):get_inventory()
 	local input = inv:get_stack("input", 1)
+	local inputname = input:get_name()
+	local stackname = stack:get_name()
 
 	if listname == "input" then
-		if stack:get_name() == input:get_name() then
-			workbench:get_output(inv, input, stack:get_name())
+		if stackname == inputname then
+			workbench:get_output(inv, input, stackname)
 		else
 			inv:set_list("forms", {})
 		end
 	elseif listname == "forms" then
-		input:take_item(math.ceil(stack:get_count() / workbench.defs[index][2]))
+		local fromstack = inv:get_stack(listname, index)
+		if not fromstack:is_empty() and fromstack:get_name() ~= stackname then
+			local player_inv = player:get_inventory()
+			if player_inv:room_for_item("main", fromstack) then
+				player_inv:add_item("main", fromstack)
+			end
+		end
+
+		input:take_item(ceil(stack:get_count() / workbench.defs[index][2]))
 		inv:set_stack("input", 1, input)
-		workbench:get_output(inv, input, input:get_name())
+		workbench:get_output(inv, input, inputname)
 	end
 end
 
@@ -219,14 +250,13 @@ xdecor.register("workbench", {
 	on_metadata_inventory_put = workbench.on_put,
 	on_metadata_inventory_take = workbench.on_take,
 	allow_metadata_inventory_put = workbench.put,
-	allow_metadata_inventory_take = workbench.take,
 	allow_metadata_inventory_move = workbench.move
 })
 
 for _, d in pairs(workbench.defs) do
-for i = 1, #nodes do
+for i=1, #nodes do
 	local node = nodes[i]
-	local def = minetest.registered_nodes[node]
+	local def = registered_nodes[node]
 
 	if d[3] then
 		local groups = {}
@@ -240,7 +270,7 @@ for i = 1, #nodes do
 		end
 
 		if def.tiles then
-			if #def.tiles > 1 and not (def.drawtype:sub(1,5) == "glass") then
+			if #def.tiles > 1 and (def.drawtype:sub(1,5) ~= "glass") then
 				tiles = def.tiles
 			else
 				tiles = {def.tiles[1]}
@@ -249,9 +279,10 @@ for i = 1, #nodes do
 			tiles = {def.tile_images[1]}
 		end
 
-		if not minetest.registered_nodes["stairs:slab_"..node:match(":(.*)")] then
-			stairs.register_stair_and_slab(node:match(":(.*)"), node, groups, tiles,
-				def.description.." Stair", def.description.." Slab", def.sounds)
+		if not registered_nodes["stairs:slab_"..node:match(":(.*)")] then
+			stairs.register_stair_and_slab(node:match(":(.*)"), node,
+				groups, tiles, def.description.." Stair",
+				def.description.." Slab", def.sounds)
 		end
 
 		local light_source = minetest.registered_nodes[node].light_source or 0
@@ -264,7 +295,7 @@ for i = 1, #nodes do
 			sounds = def.sounds,
 			tiles = tiles,
 			groups = groups,
-			-- `unpack` has been changed to `table.unpack` in newest Lua versions.
+			-- `unpack` has been changed to `table.unpack` in newest Lua versions
 			node_box = xdecor.pixelbox(16, {unpack(d, 3)}),
 			sunlight_propagates = true,
 			on_place = minetest.rotate_node,
@@ -273,4 +304,3 @@ for i = 1, #nodes do
 	end
 end
 end
-
