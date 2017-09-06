@@ -29,4 +29,5 @@ minetest.register_node('skyblock:quest', {
 local modpath = minetest.get_modpath('skyblock')
 dofile(modpath..'/nodes/aerbratus.lua')
 dofile(modpath..'/nodes/clouds.lua')
+dofile(modpath..'/nodes/tools.lua')
 dofile(modpath..'/trees/aerbratus.lua')
