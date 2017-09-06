@@ -12,19 +12,16 @@ License: GPLv3
 Level 5 mostly revolving around farming and dying
 level 5 feats and rewards:
 
-* place_meselamp x4       xdecor:enderchest
-
+* place_meselamp x4        xdecor:enderchest
 * craft_enchanttable       xdecor:trampoline
 * craft_sword              default:acacia_sapling
 * enchant_sword            default:aspen_sapling
 * craft_shield             skyblock:round_down_sprayer
 * use_rounddown            xdecor:mailbox
-
-* dig_geranium x5        flowers:mushroom_brown x2
-
-* place_travelnet x2       flowers:mushroom_red x2
-* craft_workbench          farming:corn x50
-* dig_aerbratus_leaves x50 default:meselamp x5
+* collect_honey x2         travelnet:travelnet x2
+* place_travelnet x2       travelnet:elevator x2
+* craft_workbench          skyblock:aerbratus_sapling
+* dig_aerbratus_leaves x50 skyblock:pick_aerbratus
 
 ]]--
 
@@ -97,12 +94,12 @@ skyblock.levels[level].feats = {
       use = {"skyblock:round_down_sprayer"},
    },
    {
-      name = "Dig 10 Acacia Trunk pieces",
-      hint = "default:acacia_tree",
-      feat = "dig_acacia_tree",
-      count = 10,
+      name = "Collect honey from a hive, twice",
+      hint = "xdecor:hive",
+      feat = "collect_honey",
+      count = 2,
       reward = "travelnet:travelnet 2",
-      dignode = {"default:acacia_tree"},
+      --placenode = {"xdecor:hive"},
    },
    {
       name = "Place 2 Travelnet Boxes",
@@ -224,3 +221,20 @@ end
 
 skyblock.levels[level].on_chat = function(name, message)
 end
+
+-- Beehive overwriting
+minetest.after(0, function()
+	local old_hive_function = minetest.registered_items["xdecor:hive"].on_metadata_inventory_take
+
+	minetest.override_item("xdecor:hive", {
+		on_metadata_inventory_take = function(pos, listname, index, stack, player)
+			old_hive_function(pos, listname, index, stack, player)
+
+			local pname = player:get_player_name()
+			local level = skyblock.feats.get_level(pname)
+			if level == 5 then
+				skyblock.feats.add(5, pname, "collect_honey")
+			end
+		end
+	})
+end)
