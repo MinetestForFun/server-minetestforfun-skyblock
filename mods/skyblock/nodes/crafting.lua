@@ -1,5 +1,3 @@
--- Disabled until level 5 quests are ready.
---[[
 minetest.register_craft({
 	output = 'skyblock:aerbratus_sapling',
 	recipe = {
@@ -33,25 +31,19 @@ minetest.register_craft({
 minetest.register_craft({
 	type = "shapeless",
 	output = "skyblock:cloud_light",
-	recipe = {
-		{"skyblock:aerbratus_leaves", "skyblock:aerbratus_leaves"},
-	}
+	recipe = {"skyblock:aerbratus_leaves", "skyblock:aerbratus_leaves"},
 })
 
 minetest.register_craft({
 	type = "shapeless",
 	output = "skyblock:cloud",
-	recipe = {
-		{"skyblock:cloud_light","skyblock:cloud_light"},
-	}
+	recipe = {"skyblock:cloud_light","skyblock:cloud_light"},
 })
 
 minetest.register_craft({
 	type = "shapeless",
 	output = "skyblock:cloud_rainy",
-	recipe = {
-		{"skyblock:cloud","skyblock:cloud"},
-	}
+	recipe = {"skyblock:cloud","skyblock:cloud"},
 })
 
 minetest.register_craft({
@@ -80,4 +72,3 @@ minetest.register_craft({
 		{'', 'group:stick'},
 	}
 })
---]]

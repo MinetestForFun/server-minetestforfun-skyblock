@@ -1,6 +1,6 @@
 minetest.register_tool("skyblock:pick_aerbratus", {
 	description = "Aerbratus Pickaxe",
-	inventory_image = "skyblock_pick_aerbratus.png",
+	inventory_image = "aerbratus_pick.png",
 	tool_capabilities = {
 		full_punch_interval = .8,
 		max_drop_level=3,
@@ -13,7 +13,7 @@ minetest.register_tool("skyblock:pick_aerbratus", {
 
 minetest.register_tool("skyblock:shovel_aerbratus", {
 	description = "Aerbratus Shovel",
-	inventory_image = "skyblock_shovel_aerbratus.png",
+	inventory_image = "aerbratus_shovel.png",
 	tool_capabilities = {
 		full_punch_interval = .8,
 		max_drop_level=3,
@@ -26,7 +26,7 @@ minetest.register_tool("skyblock:shovel_aerbratus", {
 
 minetest.register_tool("skyblock:axe_aerbratus", {
 	description = "Aerbratus Axe",
-	inventory_image = "skyblock_axe_aerbratus.png",
+	inventory_image = "aerbratus_axe.png",
 	tool_capabilities = {
 		full_punch_interval = .8,
 		max_drop_level=3,

@@ -26,8 +26,15 @@ minetest.register_node('skyblock:quest', {
 	end,
 })
 
+minetest.register_node('skyblock:trigger', {
+	description = 'Trigger',
+	tiles = {'trigger.png'},
+	light_source = 15,
+	groups = {cracky = 2},
+})
 local modpath = minetest.get_modpath('skyblock')
 dofile(modpath..'/nodes/aerbratus.lua')
 dofile(modpath..'/nodes/clouds.lua')
 dofile(modpath..'/nodes/tools.lua')
+dofile(modpath..'/nodes/crafting.lua')
 dofile(modpath..'/trees/aerbratus.lua')
