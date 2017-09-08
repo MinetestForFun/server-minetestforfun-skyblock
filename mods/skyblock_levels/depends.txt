@@ -10,3 +10,4 @@ protector
 farming
 unified_inventory?
 irc?
+xdecor
