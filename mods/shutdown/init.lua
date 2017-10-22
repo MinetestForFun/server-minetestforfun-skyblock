@@ -56,8 +56,8 @@ local function tick()
 			send("Reminder : Daily reboot of the server in 5 minutes - Prepare to log out!", "#ff0000")
 			sound_play_all("shutdown_shutdown")
 		elseif minute == "29" then
-			send("=== ARRET DU SERVEUR - DE NOUVEAU EN LIGNE DANS 30 MIN ===", "#ff0000")
-			send("=== SERVER SHUTTING DOWN - ONLINE AGAIN IN 30 MIN ===", "#ff0000")
+			send("=== ARRET DU SERVEUR - DE NOUVEAU EN LIGNE DANS 5 MIN ===", "#ff0000")
+			send("=== SERVER SHUTTING DOWN - ONLINE AGAIN IN 5 MIN ===", "#ff0000")
 			sound_play_all("shutdown_shutdown")
 	--		minetest.request_shutdown()
 		end
