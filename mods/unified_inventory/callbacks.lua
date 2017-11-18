@@ -151,7 +151,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		end
 	end
 
-	if fields.searchbutton then
+	if fields.searchbutton or fields.key_enter_field == "searchbox" then
 		unified_inventory.apply_filter(player, unified_inventory.current_searchbox[player_name], "nochange")
 		unified_inventory.current_searchbox[player_name] = ""
 		unified_inventory.set_inventory_formspec(player,
