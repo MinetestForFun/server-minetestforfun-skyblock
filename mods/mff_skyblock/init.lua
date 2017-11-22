@@ -1,3 +1,6 @@
+local modpath = minetest.get_modpath('mff_skyblock')
+dofile(modpath .. '/furnace_locked.lua')
+
 -- farming_plus integration
 
 local flora = {
@@ -273,5 +276,77 @@ minetest.register_craft({
 	output = "fire:flint_and_steel",
 	recipe = {
 		{"default:flint", "default:steel_ingot"}
+	}
+})
+
+-- Stick 1000 stacking
+minetest.override_item("default:stick", {
+	stack_max = 1000,
+})
+
+-- Sandstone with group:sand
+minetest.register_craft({
+	output = 'default:sandstone',
+	recipe = {
+		{'group:sand', 'group:sand'},
+		{'group:sand', 'group:sand'},
+	}
+})
+
+-- Coal 99 stacking
+minetest.override_item("default:coal_lump", {
+	stack_max = 99,
+})
+
+-- Clay 200 stacking
+minetest.override_item("default:clay", {
+	stack_max = 200,
+})
+minetest.override_item("default:clay_lump", {
+	stack_max = 200,
+})
+
+-- Ingot group
+for _, item in ipairs({
+		"default:steel_ingot",
+		"default:copper_ingot",
+		"default:tin_ingot",
+		"default:bronze_ingot",
+		"default:gold_ingot",
+	}) do
+	minetest.override_item(item, {
+		groups = {ingot = 1},
+	})
+end
+
+-- Obsidian ladder
+minetest.register_node(":default:ladder_obsidian", {
+	description = "Obsidian Ladder",
+	drawtype = "signlike",
+	tiles = {"default_ladder_obsidian.png"},
+	inventory_image = "default_ladder_obsidian.png",
+	wield_image = "default_ladder_obsidian.png",
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	sunlight_propagates = true,
+	walkable = false,
+	climbable = true,
+	is_ground_content = false,
+	selection_box = {
+		type = "wallmounted",
+		--wall_top = = <default>
+		--wall_bottom = = <default>
+		--wall_side = = <default>
+	},
+	groups = {cracky = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craft({
+	output = "default:ladder_obsidian 4",
+	recipe = {
+		{"default:obsidianbrick", "", "default:obsidianbrick"},
+		{"default:obsidianbrick", "default:obsidianbrick", "default:obsidianbrick"},
+		{"default:obsidianbrick", "", "default:obsidianbrick"}
 	}
 })

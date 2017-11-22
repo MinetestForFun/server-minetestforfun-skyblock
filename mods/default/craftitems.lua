@@ -2,7 +2,6 @@
 
 minetest.register_craftitem("default:stick", {
 	description = "Stick",
-	stack_max = 1000,
 	inventory_image = "default_stick.png",
 	groups = {stick = 1, flammable = 2},
 })
@@ -104,15 +103,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		end
 
 		if not data then data = {} end
-		data.title = fields.title:sub(1, max_title_size)
+		data.title = fields.title
 		data.owner = player:get_player_name()
-		local short_title = data.title
-		-- Don't bother triming the title if the trailing dots would make it longer
-		if #short_title > short_title_size + 3 then
-			short_title = short_title:sub(1, short_title_size) .. "..."
-		end
-		data.description = "\""..short_title.."\" by "..data.owner
-		data.text = fields.text:sub(1, max_text_size)
+		data.description = "\""..fields.title.."\" by "..data.owner
+		data.text = fields.text
+		data.text_len = #data.text
 		data.page = 1
 		data.page_max = math.ceil((#data.text:gsub("[^\n]", "") + 1) / lpp)
 
@@ -259,8 +254,7 @@ minetest.register_craftitem("default:skeleton_key", {
 minetest.register_craftitem("default:coal_lump", {
 	description = "Coal Lump",
 	inventory_image = "default_coal_lump.png",
-	groups = {coal = 1},
-	stack_max = 99, --/MFF(17/09/2015)
+	groups = {coal = 1, flammable = 1}
 })
 
 minetest.register_craftitem("default:iron_lump", {
@@ -295,20 +289,22 @@ minetest.register_craftitem("default:diamond", {
 
 minetest.register_craftitem("default:clay_lump", {
 	description = "Clay Lump",
-	stack_max = 200,
 	inventory_image = "default_clay_lump.png",
 })
 
 minetest.register_craftitem("default:steel_ingot", {
 	description = "Steel Ingot",
 	inventory_image = "default_steel_ingot.png",
-	groups = {ingot = 1},
 })
 
 minetest.register_craftitem("default:copper_ingot", {
 	description = "Copper Ingot",
 	inventory_image = "default_copper_ingot.png",
-	groups = {ingot = 1},
+})
+
+minetest.register_craftitem("default:tin_ingot", {
+	description = "Tin Ingot",
+	inventory_image = "default_tin_ingot.png",
 })
 
 minetest.register_craftitem("default:tin_ingot", {
@@ -320,12 +316,10 @@ minetest.register_craftitem("default:tin_ingot", {
 minetest.register_craftitem("default:bronze_ingot", {
 	description = "Bronze Ingot",
 	inventory_image = "default_bronze_ingot.png",
-	groups = {ingot = 1},
 })
 
 minetest.register_craftitem("default:gold_ingot", {
 	description = "Gold Ingot",
-	groups = {ingot = 1},
 	inventory_image = "default_gold_ingot.png"
 })
 
