@@ -41,3 +41,6 @@
 [submodule "mods/mysql_auth"]
 	path = mods/mysql_auth
 	url = https://github.com/MinetestForFun/mysql_auth.git
+[submodule "mods/mysql_whoison"]
+	path = mods/mysql_whoison
+	url = https://github.com/MinetestForFun/mysql_whoison.git
