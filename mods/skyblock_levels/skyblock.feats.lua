@@ -545,3 +545,10 @@ function skyblock.feats.load(player_name)
 	file:close()
 	return minetest.deserialize(data)
 end
+
+-- clean up data when players leave
+minetest.register_on_leaveplayer(function(player)
+	-- The data's already saved like every 10 seconds
+	-- There's no need to try and save it here too, let's just wipe it
+	players_feat[player:get_player_name()] = nil
+end)
